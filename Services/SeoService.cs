@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Orchard.ContentManagement;
+using Onestop.Seo.Models;
+
+namespace Onestop.Seo.Services {
+    public class SeoService : ISeoService {
+        private readonly IContentManager _contentManager;
+
+        public SeoService(IContentManager contentManager) {
+            _contentManager = contentManager;
+        }
+
+        public IContent GetGlobalSettings() {
+            var settings = _contentManager.Query(VersionOptions.Latest, "SeoSettings").Join<SeoGlobalSettingsPartRecord>().Slice(0, 1).FirstOrDefault();
+            if (settings != null) return settings;
+            settings = _contentManager.New("SeoSettings");
+            _contentManager.Create(settings);
+            return settings;
+        }
+
+        public dynamic UpdateSettings(IUpdateModel updater) {
+            var settings = _contentManager.Get<SeoGlobalSettingsPart>(GetGlobalSettings().ContentItem.Id, VersionOptions.DraftRequired);
+            var editor = _contentManager.UpdateEditor(settings, updater);
+            _contentManager.Publish(settings.ContentItem);
+            return editor;
+        }
+    }
+}

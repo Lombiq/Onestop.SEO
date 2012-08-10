@@ -1,0 +1,12 @@
+﻿Name: Onestop SEO
+AntiForgery: enabled
+Author: Onestop
+Website: http://www.onestop.com
+Version: 1.0
+OrchardVersion: 1.5.1
+Description: Onestop SEO suite
+Features:
+    Onestop.Seo:
+		Name: Onestop SEO
+        Description: Onestop SEO suite
+		Dependencies: Orchard.Tokens
