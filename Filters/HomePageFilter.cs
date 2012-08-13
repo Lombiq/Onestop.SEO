@@ -28,7 +28,7 @@ namespace Onestop.Seo.Filters {
         }
 
         public void OnResultExecuted(ResultExecutedContext filterContext) {
-            
+
         }
 
         public void OnResultExecuting(ResultExecutingContext filterContext) {
@@ -43,14 +43,12 @@ namespace Onestop.Seo.Filters {
 
             var resourceManager = _resourceManagerWork.Value;
 
-            resourceManager.SetMeta(new MetaEntry
-            {
+            resourceManager.SetMeta(new MetaEntry {
                 Name = "description",
                 Content = globalSettings.HomeDescription
             });
 
-            resourceManager.SetMeta(new MetaEntry
-            {
+            resourceManager.SetMeta(new MetaEntry {
                 Name = "keywords",
                 Content = globalSettings.HomeKeywords
             });
