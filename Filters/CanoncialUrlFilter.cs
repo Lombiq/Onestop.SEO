@@ -12,14 +12,17 @@ using Onestop.Seo.Services;
 
 namespace Onestop.Seo.Filters {
     public class CanoncialUrlFilter : FilterProvider, IResultFilter {
+        private readonly Work<ISeoService> _seoServiceWork;
         private readonly Work<ICurrentContentService> _currentContentServiceWork;
         private readonly Work<IContentManager> _contentManagerWork;
         private readonly Work<IResourceManager> _resourceManagerWork;
 
         public CanoncialUrlFilter(
+            Work<ISeoService> seoServiceWork,
             Work<ICurrentContentService> currentContentServiceWork,
             Work<IContentManager> contentManagerWork,
             Work<IResourceManager> resourceManagerWork) {
+            _seoServiceWork = seoServiceWork;
             _currentContentServiceWork = currentContentServiceWork;
             _contentManagerWork = contentManagerWork;
             _resourceManagerWork = resourceManagerWork;
@@ -31,6 +34,8 @@ namespace Onestop.Seo.Filters {
         public void OnResultExecuting(ResultExecutingContext filterContext) {
             // Don't run on admin
             if (Orchard.UI.Admin.AdminFilter.IsApplied(filterContext.RequestContext)) return;
+
+            if (!_seoServiceWork.Value.GetGlobalSettings().EnableCanonicalUrls) return;
 
             // If the page we're currently on is a content item, produce a canonical url for it
             var item = _currentContentServiceWork.Value.GetContentForRequest();
