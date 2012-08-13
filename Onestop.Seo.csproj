@@ -96,6 +96,7 @@
     <Compile Include="Drivers\SeoGlobalSettingsPartDriver.cs" />
     <Compile Include="Filters\CanoncialUrlFilter.cs" />
     <Compile Include="Filters\CategoriesKeywordsFilter.cs" />
+    <Compile Include="Filters\DescriptionsFilter.cs" />
     <Compile Include="Filters\HomePageFilter.cs" />
     <Compile Include="Handlers\SeoGlobalSettingsPartHandler.cs" />
     <Compile Include="ISeoPageTitleBuilder.cs" />
