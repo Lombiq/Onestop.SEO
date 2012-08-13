@@ -38,20 +38,26 @@ namespace Onestop.Seo.Filters {
             var globalSettings = _seoServiceWork.Value.GetGlobalSettings();
 
 
-            _pageTitleBuilderWork.Value.OverrideTitle(globalSettings.HomeTitle);
+            if (!String.IsNullOrEmpty(globalSettings.HomeTitle)) {
+                _pageTitleBuilderWork.Value.OverrideTitle(globalSettings.HomeTitle); 
+            }
 
 
             var resourceManager = _resourceManagerWork.Value;
 
-            resourceManager.SetMeta(new MetaEntry {
-                Name = "description",
-                Content = globalSettings.HomeDescription
-            });
+            if (!String.IsNullOrEmpty(globalSettings.HomeDescription)) {
+                resourceManager.SetMeta(new MetaEntry {
+                    Name = "description",
+                    Content = globalSettings.HomeDescription
+                }); 
+            }
 
-            resourceManager.SetMeta(new MetaEntry {
-                Name = "keywords",
-                Content = globalSettings.HomeKeywords
-            });
+            if (!String.IsNullOrEmpty(globalSettings.HomeKeywords)) {
+                resourceManager.SetMeta(new MetaEntry {
+                    Name = "keywords",
+                    Content = globalSettings.HomeKeywords
+                }); 
+            }
         }
     }
 }
