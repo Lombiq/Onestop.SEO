@@ -9,17 +9,22 @@ using Onestop.Seo.Services;
 using Orchard.Mvc;
 using Orchard.ContentManagement;
 using Onestop.Seo.Models;
+using Orchard.Environment;
+using Orchard.UI.Resources;
 
 namespace Onestop.Seo.Filters {
     public class HomePageFilter : FilterProvider, IResultFilter {
-        private readonly ISeoService _seoService;
-        private readonly ISeoPageTitleBuilder _pageTitleBuilder;
+        private readonly Work<ISeoService> _seoServiceWork;
+        private readonly Work<ISeoPageTitleBuilder> _pageTitleBuilderWork;
+        private readonly Work<IResourceManager> _resourceManagerWork;
 
         public HomePageFilter(
-            ISeoService seoService,
-            ISeoPageTitleBuilder pageTitleBuilder) {
-            _seoService = seoService;
-            _pageTitleBuilder = pageTitleBuilder;
+            Work<ISeoService> seoServiceWork,
+            Work<ISeoPageTitleBuilder> pageTitleBuilderWork,
+            Work<IResourceManager> resourceManagerWork) {
+            _seoServiceWork = seoServiceWork;
+            _pageTitleBuilderWork = pageTitleBuilderWork;
+            _resourceManagerWork = resourceManagerWork;
         }
 
         public void OnResultExecuted(ResultExecutedContext filterContext) {
@@ -30,7 +35,25 @@ namespace Onestop.Seo.Filters {
             // Only run on home page
             if (filterContext.HttpContext.Request.Path != "/") return;
 
-            _pageTitleBuilder.OverrideTitle(_seoService.GetGlobalSettings().As<SeoGlobalSettingsPart>().HomeTitle);
+            var globalSettings = _seoServiceWork.Value.GetGlobalSettings().As<SeoGlobalSettingsPart>();
+
+
+            _pageTitleBuilderWork.Value.OverrideTitle(globalSettings.HomeTitle);
+
+
+            var resourceManager = _resourceManagerWork.Value;
+
+            resourceManager.SetMeta(new MetaEntry
+            {
+                Name = "description",
+                Content = globalSettings.HomeDescription
+            });
+
+            resourceManager.SetMeta(new MetaEntry
+            {
+                Name = "keywords",
+                Content = globalSettings.HomeKeywords
+            });
         }
     }
 }
