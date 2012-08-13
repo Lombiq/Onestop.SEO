@@ -98,6 +98,8 @@
     <Compile Include="Models\SeoGlobalSettingsPart.cs" />
     <Compile Include="SeoPageTitleBuilder.cs" />
     <Compile Include="Permissions.cs" />
+    <Compile Include="Services\CurrentContentService.cs" />
+    <Compile Include="Services\ICurrentContentService.cs" />
     <Compile Include="Services\ISeoService.cs" />
     <Compile Include="Services\SeoService.cs" />
   </ItemGroup>
