@@ -35,7 +35,7 @@ namespace Onestop.Seo.Filters {
             // Only run on home page
             if (filterContext.HttpContext.Request.Path != "/") return;
 
-            var globalSettings = _seoServiceWork.Value.GetGlobalSettings().As<SeoGlobalSettingsPart>();
+            var globalSettings = _seoServiceWork.Value.GetGlobalSettings();
 
 
             _pageTitleBuilderWork.Value.OverrideTitle(globalSettings.HomeTitle);

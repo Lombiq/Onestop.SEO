@@ -95,6 +95,7 @@
     <Compile Include="Handlers\SeoGlobalSettingsPartHandler.cs" />
     <Compile Include="ISeoPageTitleBuilder.cs" />
     <Compile Include="Migrations.cs" />
+    <Compile Include="Models\ISeoGlobalSettings.cs" />
     <Compile Include="Models\SeoGlobalSettingsPart.cs" />
     <Compile Include="SeoPageTitleBuilder.cs" />
     <Compile Include="Permissions.cs" />

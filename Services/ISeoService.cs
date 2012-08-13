@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using Orchard;
 using Orchard.ContentManagement;
+using Onestop.Seo.Models;
 
 namespace Onestop.Seo.Services {
     public interface ISeoService : IDependency {
-        IContent GetGlobalSettings();
+        ISeoGlobalSettings GetGlobalSettings();
         dynamic UpdateSettings(IUpdateModel updater);
     }
 }

@@ -8,7 +8,7 @@ using Orchard.ContentManagement;
 using Orchard.Data.Conventions;
 
 namespace Onestop.Seo.Models {
-    public class SeoGlobalSettingsPart : ContentPart<SeoGlobalSettingsPartRecord> {
+    public class SeoGlobalSettingsPart : ContentPart<SeoGlobalSettingsPartRecord>, ISeoGlobalSettings {
         [Required]
         public string HomeTitle {
             get { return Record.HomeTitle; }
