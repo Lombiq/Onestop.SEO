@@ -76,6 +76,10 @@
       <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
       <Name>Orchard.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Contrib.Taxonomies\Contrib.Taxonomies.csproj">
+      <Project>{E649EA64-D213-461B-87F7-D67035801443}</Project>
+      <Name>Contrib.Taxonomies</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orchard.Alias\Orchard.Alias.csproj">
       <Project>{475B6C45-B27C-438B-8966-908B9D6D1077}</Project>
       <Name>Orchard.Alias</Name>
@@ -91,6 +95,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Drivers\SeoGlobalSettingsPartDriver.cs" />
     <Compile Include="Filters\CanoncialUrlFilter.cs" />
+    <Compile Include="Filters\CategoriesKeywordsFilter.cs" />
     <Compile Include="Filters\HomePageFilter.cs" />
     <Compile Include="Handlers\SeoGlobalSettingsPartHandler.cs" />
     <Compile Include="ISeoPageTitleBuilder.cs" />
