@@ -9,4 +9,4 @@ Features:
     Onestop.Seo:
 		Name: Onestop SEO
         Description: Onestop SEO suite
-		Dependencies: Orchard.Tokens
+		Dependencies: Orchard.Tokens, Orchard.Alias
