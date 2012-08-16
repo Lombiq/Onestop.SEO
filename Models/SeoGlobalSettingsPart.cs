@@ -108,6 +108,16 @@ namespace Onestop.Seo.Models {
             set { Record.SearchTitlePattern = value; }
         }
 
+        public string ProductTitlePattern {
+            get { return Record.ProductTitlePattern; }
+            set { Record.ProductTitlePattern = value; }
+        }
+
+        public string ProductCategoryTitlePattern {
+            get { return Record.ProductCategoryTitlePattern; }
+            set { Record.ProductCategoryTitlePattern = value; }
+        }
+
         public bool EnableCanonicalUrls {
             get { return Record.EnableCanonicalUrls; }
             set { Record.EnableCanonicalUrls = value; }
@@ -139,6 +149,12 @@ namespace Onestop.Seo.Models {
 
         [StringLength(1024)]
         public virtual string SearchTitlePattern { get; set; }
+
+        [StringLength(1024)]
+        public virtual string ProductTitlePattern { get; set; }
+
+        [StringLength(1024)]
+        public virtual string ProductCategoryTitlePattern { get; set; }
 
         public virtual bool EnableCanonicalUrls { get; set; }
 
