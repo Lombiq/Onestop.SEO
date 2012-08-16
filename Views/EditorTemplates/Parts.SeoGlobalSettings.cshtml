@@ -25,16 +25,15 @@
 <fieldset>
     <legend>@T("Title Formats")</legend>
     <ol>
+    @{ var i = 0; }
+    @foreach (var type in Model.SeoContentTypes) {
         <li>
-            @Html.LabelFor(m => m.ContentCategoriesTitlePattern, T("Content Categories Title Format"))
-            @Html.TextBoxFor(m => m.ContentCategoriesTitlePattern, new { @class = "text large tokenized" })
-            @Html.ValidationMessageFor(m => m.ContentCategoriesTitlePattern)
+            @Html.Label("TitlePatternsViewDictionary[" + i + "].Value", type.DisplayName)
+            @Html.Hidden("TitlePatternsViewDictionary[" + i + "].Key", type.Name)
+            @Html.TextBox("TitlePatternsViewDictionary[" + i + "].Value", Model.TitlePatternsViewDictionary[type.Name], new { @class = "text large tokenized" })
         </li>
-        <li>
-            @Html.LabelFor(m => m.ContentPagesTitlePattern, T("Content Pages Title Format"))
-            @Html.TextBoxFor(m => m.ContentPagesTitlePattern, new { @class = "text large tokenized" })
-            @Html.ValidationMessageFor(m => m.ContentPagesTitlePattern)
-        </li>
+        i++;
+    }
     </ol>
 </fieldset>
 

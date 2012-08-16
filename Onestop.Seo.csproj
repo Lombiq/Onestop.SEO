@@ -47,6 +47,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\aspnetmvc\System.Web.Mvc.dll</HintPath>
@@ -94,15 +95,19 @@
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Drivers\SeoGlobalSettingsPartDriver.cs" />
+    <Compile Include="Drivers\SeoOverridesPartDriver.cs" />
     <Compile Include="Filters\CanoncialUrlFilter.cs" />
     <Compile Include="Filters\CategoriesKeywordsFilter.cs" />
     <Compile Include="Filters\DescriptionsFilter.cs" />
     <Compile Include="Filters\HomePageFilter.cs" />
+    <Compile Include="Filters\TitleFilter.cs" />
     <Compile Include="Handlers\SeoGlobalSettingsPartHandler.cs" />
+    <Compile Include="Handlers\SeoOverridesPartHandler.cs" />
     <Compile Include="ISeoPageTitleBuilder.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ISeoGlobalSettings.cs" />
     <Compile Include="Models\SeoGlobalSettingsPart.cs" />
+    <Compile Include="Models\SeoOverridesPart.cs" />
     <Compile Include="SeoPageTitleBuilder.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Services\CurrentContentService.cs" />
@@ -114,6 +119,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\EditorTemplates\Parts.SeoOverrides.SummaryAdmin.cshtml" />
     <None Include="Views\EditorTemplates\Parts.SeoGlobalSettings.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
