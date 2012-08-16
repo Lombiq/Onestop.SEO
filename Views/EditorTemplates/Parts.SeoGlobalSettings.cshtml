@@ -34,6 +34,11 @@
         </li>
         i++;
     }
+        <li>
+            @Html.LabelFor(m => m.SearchTitlePattern, T("Search"))
+            @Html.TextBoxFor(m => m.SearchTitlePattern, new { @class = "text large tokenized" })
+            @Html.ValidationMessageFor(m => m.SearchTitlePattern)
+        </li>
     </ol>
 </fieldset>
 

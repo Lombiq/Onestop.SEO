@@ -43,14 +43,14 @@ namespace Onestop.Seo.Filters {
 
             var globalSettings = _seoServiceWork.Value.GetGlobalSettings();
             var titlePattern = globalSettings.GetTitlePattern(item.ContentItem.ContentType);
-            if (!String.IsNullOrEmpty(titlePattern)) {
-                var title = _tokenizerWork.Value.Replace(
-                            titlePattern,
-                            new Dictionary<string, object> { { "Content", item } },
-                            new ReplaceOptions { Encoding = ReplaceOptions.NoEncode });
+            if (String.IsNullOrEmpty(titlePattern)) return;
 
-                _pageTitleBuilderWork.Value.OverrideTitle(title);
-            }
+            var title = _tokenizerWork.Value.Replace(
+                        titlePattern,
+                        new Dictionary<string, object> { { "Content", item } },
+                        new ReplaceOptions { Encoding = ReplaceOptions.NoEncode });
+
+            _pageTitleBuilderWork.Value.OverrideTitle(title);
         }
     }
 }

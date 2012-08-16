@@ -34,7 +34,7 @@ namespace Onestop.Seo.Models {
             get { return _seoContentTypes.Value; }
         }
 
-        #region Title patterns
+        #region Content title patterns
         private IDictionary<string, string> _titlePatternsViewDictionary;
         /// <summary>
         /// Only for model binding
@@ -104,6 +104,11 @@ namespace Onestop.Seo.Models {
         }
         #endregion
 
+        public string SearchTitlePattern {
+            get { return Record.SearchTitlePattern; }
+            set { Record.SearchTitlePattern = value; }
+        }
+
         public bool EnableCanonicalUrls {
             get { return Record.EnableCanonicalUrls; }
             set { Record.EnableCanonicalUrls = value; }
@@ -132,6 +137,9 @@ namespace Onestop.Seo.Models {
 
         [StringLengthMax]
         public virtual string ContentTitlePatternsDefinition { get; set; }
+
+        [StringLength(1024)]
+        public virtual string SearchTitlePattern { get; set; }
 
         public virtual bool EnableCanonicalUrls { get; set; }
 
