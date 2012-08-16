@@ -12,7 +12,6 @@ using Orchard.ContentManagement.MetaData.Models;
 
 namespace Onestop.Seo.Models {
     public class SeoGlobalSettingsPart : ContentPart<SeoGlobalSettingsPartRecord>, ISeoGlobalSettings {
-        [Required]
         public string HomeTitle {
             get { return Record.HomeTitle; }
             set { Record.HomeTitle = value; }
