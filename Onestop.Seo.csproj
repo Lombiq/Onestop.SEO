@@ -96,6 +96,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Drivers\SeoGlobalSettingsPartDriver.cs" />
     <Compile Include="Drivers\SeoOverridesPartDriver.cs" />
+    <Compile Include="EventHandlers\ProductsSeoHandler.cs" />
     <Compile Include="Filters\CanoncialUrlFilter.cs" />
     <Compile Include="Filters\CategoriesKeywordsFilter.cs" />
     <Compile Include="Filters\DescriptionsFilter.cs" />
