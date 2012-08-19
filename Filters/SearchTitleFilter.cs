@@ -25,7 +25,9 @@ namespace Onestop.Seo.Filters {
 
         public void OnActionExecuted(ActionExecutedContext filterContext) {
             var routeValues = filterContext.HttpContext.Request.RequestContext.RouteData.Values;
-            if (routeValues["area"] != "Orchard.Search" || routeValues["controller"] != "search" || routeValues["action"] != "index") return;
+            if ((string)routeValues["area"] != "Orchard.Search" 
+                || (string)routeValues["controller"] != "search" 
+                || (string)routeValues["action"] != "index") return;
 
             var titlePattern = _seoServiceWork.Value.GetGlobalSettings().SearchTitlePattern;
             if (String.IsNullOrEmpty(titlePattern)) return;
