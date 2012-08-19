@@ -12,12 +12,12 @@ using Orchard.Core.Common.Models;
 using Orchard.Utility.Extensions;
 
 namespace Onestop.Seo.Filters {
-    public class DescriptionsFilter : FilterProvider, IResultFilter {
+    public class DescriptionFilter : FilterProvider, IResultFilter {
         private readonly Work<ISeoService> _seoServiceWork;
         private readonly Work<ICurrentContentService> _currentContentServiceWork;
         private readonly Work<IResourceManager> _resourceManagerWork;
 
-        public DescriptionsFilter(
+        public DescriptionFilter(
             Work<ISeoService> seoServiceWork,
             Work<ICurrentContentService> currentContentServiceWork,
             Work<IResourceManager> resourceManagerWork) {

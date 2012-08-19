@@ -99,7 +99,7 @@
     <Compile Include="EventHandlers\ProductsSeoHandler.cs" />
     <Compile Include="Filters\CanoncialUrlFilter.cs" />
     <Compile Include="Filters\CategoriesKeywordsFilter.cs" />
-    <Compile Include="Filters\DescriptionsFilter.cs" />
+    <Compile Include="Filters\DescriptionFilter.cs" />
     <Compile Include="Filters\HomePageFilter.cs" />
     <Compile Include="Filters\SearchTitleFilter.cs" />
     <Compile Include="Filters\TitleFilter.cs" />
