@@ -95,7 +95,7 @@
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Drivers\SeoGlobalSettingsPartDriver.cs" />
-    <Compile Include="Drivers\SeoOverridesPartDriver.cs" />
+    <Compile Include="Drivers\SeoPartDriver.cs" />
     <Compile Include="EventHandlers\ProductsSeoHandler.cs" />
     <Compile Include="Filters\CanoncialUrlFilter.cs" />
     <Compile Include="Filters\CategoriesKeywordsFilter.cs" />
@@ -104,12 +104,12 @@
     <Compile Include="Filters\SearchTitleFilter.cs" />
     <Compile Include="Filters\TitleFilter.cs" />
     <Compile Include="Handlers\SeoGlobalSettingsPartHandler.cs" />
-    <Compile Include="Handlers\SeoOverridesPartHandler.cs" />
+    <Compile Include="Handlers\SeoPartHandler.cs" />
     <Compile Include="ISeoPageTitleBuilder.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ISeoGlobalSettings.cs" />
     <Compile Include="Models\SeoGlobalSettingsPart.cs" />
-    <Compile Include="Models\SeoOverridesPart.cs" />
+    <Compile Include="Models\SeoPart.cs" />
     <Compile Include="SeoPageTitleBuilder.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Services\CurrentContentService.cs" />
@@ -121,8 +121,8 @@
     <Content Include="Views\Admin\GlobalSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\EditorTemplates\Parts.SeoOverrides.Title.SeoSummaryAdmin.cshtml" />
-    <Content Include="Views\EditorTemplates\Parts.SeoOverrides.Description.SeoSummaryAdmin.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts.Seo.TitleOverride.SeoSummaryAdmin.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts.Seo.DescriptionOverride.SeoSummaryAdmin.cshtml" />
     <Content Include="Views\Admin\TitleRewriter.cshtml" />
     <Content Include="Views\Admin\DescriptionRewriter.cshtml" />
     <None Include="Views\EditorTemplates\Parts.SeoGlobalSettings.cshtml" />

@@ -88,7 +88,7 @@ namespace Onestop.Seo.Controllers {
 
             Pager pager = new Pager(_siteService.GetSiteSettings(), pagerParameters);
 
-            var seoContentTypes = _contentManager.GetContentTypeDefinitions().Where(t => t.Parts.Any(p => p.PartDefinition.Name == typeof(SeoOverridesPart).Name));
+            var seoContentTypes = _contentManager.GetContentTypeDefinitions().Where(t => t.Parts.Any(p => p.PartDefinition.Name == typeof(SeoPart).Name));
             var query = _contentManager.Query(VersionOptions.Latest, seoContentTypes.Select(type => type.Name).ToArray());
 
             var pagerShape = _shapeFactory.Pager(pager).TotalItemCount(query.Count());

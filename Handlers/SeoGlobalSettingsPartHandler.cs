@@ -21,7 +21,7 @@ namespace Onestop.Seo.Handlers {
             OnActivated<SeoGlobalSettingsPart>((context, part) => {
                 part.SeoContentTypesField.Loader(
                     () => 
-                        contentDefinitionManagerWork.Value.ListTypeDefinitions().Where(t => t.Parts.Any(p => p.PartDefinition.Name == typeof(SeoOverridesPart).Name)));
+                        contentDefinitionManagerWork.Value.ListTypeDefinitions().Where(t => t.Parts.Any(p => p.PartDefinition.Name == typeof(SeoPart).Name)));
             });
         }
     }

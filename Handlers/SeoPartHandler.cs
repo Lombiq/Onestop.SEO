@@ -9,8 +9,8 @@ using Onestop.Seo.Models;
 
 namespace Onestop.Seo.Handlers {
     [UsedImplicitly]
-    public class SeoOverridesPartHandler : ContentHandler {
-        public SeoOverridesPartHandler(IRepository<SeoOverridesPartRecord> repository) {
+    public class SeoPartHandler : ContentHandler {
+        public SeoPartHandler(IRepository<SeoPartRecord> repository) {
             Filters.Add(StorageFilter.For(repository));
         }
     }

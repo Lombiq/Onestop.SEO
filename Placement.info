@@ -1,7 +1,7 @@
 ﻿<Placement>
   <Place Parts_SeoGlobalSettings_Edit="Content:1"/>
   <Match DisplayType="SeoSummaryAdmin">
-    <Place Parts_SeoOverrides_Title_SeoSummaryAdmin_Edit="Content:1"/>
-    <Place Parts_SeoOverrides_Description_SeoSummaryAdmin_Edit="Content:1"/>
+    <Place Parts_Seo_TitleOverride_SeoSummaryAdmin_Edit="Content:1"/>
+    <Place Parts_Seo_DescriptionOverride_SeoSummaryAdmin_Edit="Content:1"/>
   </Match>
 </Placement>

@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using Orchard.Data.Conventions;
 
 namespace Onestop.Seo.Models {
-    public class SeoOverridesPart : ContentPart<SeoOverridesPartRecord> {
+    public class SeoPart : ContentPart<SeoPartRecord> {
         public string TitleOverride {
             get { return Record.TitleOverride; }
             set { Record.TitleOverride = value; }
@@ -20,7 +20,7 @@ namespace Onestop.Seo.Models {
         }
     }
 
-    public class SeoOverridesPartRecord : ContentPartVersionRecord {
+    public class SeoPartRecord : ContentPartVersionRecord {
         [StringLength(1024)]
         public virtual string TitleOverride { get; set; }
 
