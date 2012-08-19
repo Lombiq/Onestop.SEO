@@ -7,7 +7,7 @@ using Orchard.UI.PageTitle;
 using Onestop.Seo.Services;
 using Orchard.Settings;
 
-namespace Onestop.Seo {
+namespace Onestop.Seo.Services {
     [OrchardSuppressDependency("Orchard.UI.PageTitle.PageTitleBuilder")]
     public class SeoPageTitleBuilder : ISeoPageTitleBuilder {
         private readonly ISeoService _seoService;

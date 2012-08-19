@@ -105,12 +105,12 @@
     <Compile Include="Filters\TitleFilter.cs" />
     <Compile Include="Handlers\SeoGlobalSettingsPartHandler.cs" />
     <Compile Include="Handlers\SeoPartHandler.cs" />
-    <Compile Include="ISeoPageTitleBuilder.cs" />
+    <Compile Include="Services\ISeoPageTitleBuilder.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ISeoGlobalSettings.cs" />
     <Compile Include="Models\SeoGlobalSettingsPart.cs" />
     <Compile Include="Models\SeoPart.cs" />
-    <Compile Include="SeoPageTitleBuilder.cs" />
+    <Compile Include="Services\SeoPageTitleBuilder.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Services\CurrentContentService.cs" />
     <Compile Include="Services\ICurrentContentService.cs" />
