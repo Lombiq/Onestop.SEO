@@ -14,11 +14,21 @@ namespace Onestop.Seo.Drivers {
         }
 
         protected override DriverResult Display(SeoOverridesPart part, string displayType, dynamic shapeHelper) {
-            return ContentShape("Parts_SeoOverrides_SummaryAdmin_Edit",
-                () => shapeHelper.EditorTemplate(
-                        TemplateName: "Parts.SeoOverrides.SummaryAdmin",
-                        Model: part,
-                        Prefix: Prefix));
+            return Editor(part, shapeHelper);
+        }
+
+        protected override DriverResult Editor(SeoOverridesPart part, dynamic shapeHelper) {
+            return Combined(
+                ContentShape("Parts_SeoOverrides_Title_SeoSummaryAdmin_Edit",
+                    () => shapeHelper.EditorTemplate(
+                            TemplateName: "Parts.SeoOverrides.Title.SeoSummaryAdmin",
+                            Model: part,
+                            Prefix: Prefix)).OnGroup("TitleRewriter"),
+                ContentShape("Parts_SeoOverrides_Description_SeoSummaryAdmin_Edit",
+                    () => shapeHelper.EditorTemplate(
+                            TemplateName: "Parts.SeoOverrides.Description.SeoSummaryAdmin",
+                            Model: part,
+                            Prefix: Prefix)).OnGroup("DescriptionRewriter"));
         }
 
         protected override DriverResult Editor(SeoOverridesPart part, IUpdateModel updater, dynamic shapeHelper) {

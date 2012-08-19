@@ -20,7 +20,12 @@ namespace Onestop.Seo {
 
         private void BuildMenu(NavigationItemBuilder menu) {
             menu.LinkToFirstChild(false); // See: http://orchard.codeplex.com/workitem/18807
-            menu.Action("Index", "Admin", new { area = "Onestop.Seo" }).Permission(Permissions.ManageSeo);
+            menu.Action("GlobalSettings", "Admin", new { area = "Onestop.Seo" }).Permission(Permissions.ManageSeo);
+
+            menu.Add(T("Title Rewriter"), "1",
+                item => item.Action("TitleRewriter", "Admin", new { area = "Onestop.Seo" }).Permission(Permissions.ManageSeo));
+            menu.Add(T("Descrption Rewriter"), "2",
+                item => item.Action("DescriptionRewriter", "Admin", new { area = "Onestop.Seo" }).Permission(Permissions.ManageSeo));
         }
     }
 }

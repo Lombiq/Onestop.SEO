@@ -1,0 +1,8 @@
+﻿<h1>@Html.TitleForPage(T("SEO Title Rewriter").Text)</h1>
+
+@using (Html.BeginFormAntiForgeryPost()) {
+    <fieldset class="contentItems bulk-items">
+        @Display(Model.ContentItems)
+    </fieldset>
+    @Display(Model.Pager)
+}
