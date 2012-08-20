@@ -15,21 +15,21 @@ namespace Onestop.Seo.EventHandlers {
     }
 
     public class ProductsSeoHandler : IAnalyticsEvents {
-        private readonly ISeoService _seoService;
+        private readonly ISeoSettingsManager _seoSettingsManager;
         private readonly ITokenizer _tokenizer;
         private readonly ISeoPageTitleBuilder _pageTitleBuilder;
 
         public ProductsSeoHandler(
-            ISeoService seoService,
+            ISeoSettingsManager seoSettingsManager,
             ITokenizer tokenizer,
             ISeoPageTitleBuilder pageTitleBuilder) {
-            _seoService = seoService;
+            _seoSettingsManager = seoSettingsManager;
             _tokenizer = tokenizer;
             _pageTitleBuilder = pageTitleBuilder;
         }
 
         public void Category(dynamic category, string sort) {
-            var titlePattern = _seoService.GetGlobalSettings().ProductCategoryTitlePattern;
+            var titlePattern = _seoSettingsManager.GetGlobalSettings().ProductCategoryTitlePattern;
             if (String.IsNullOrEmpty(titlePattern)) return;
 
             var title = _tokenizer.Replace(
@@ -41,7 +41,7 @@ namespace Onestop.Seo.EventHandlers {
         }
 
         public void Product(dynamic product) {
-            var titlePattern = _seoService.GetGlobalSettings().ProductTitlePattern;
+            var titlePattern = _seoSettingsManager.GetGlobalSettings().ProductTitlePattern;
             if (String.IsNullOrEmpty(titlePattern)) return;
 
             var title = _tokenizer.Replace(

@@ -14,15 +14,15 @@ using Orchard.UI.Resources;
 
 namespace Onestop.Seo.Filters {
     public class HomePageFilter : FilterProvider, IResultFilter {
-        private readonly Work<ISeoService> _seoServiceWork;
+        private readonly Work<ISeoSettingsManager> _seoSettingsManagerWork;
         private readonly Work<ISeoPageTitleBuilder> _pageTitleBuilderWork;
         private readonly Work<IResourceManager> _resourceManagerWork;
 
         public HomePageFilter(
-            Work<ISeoService> seoServiceWork,
+            Work<ISeoSettingsManager> seoSettingsManagerWork,
             Work<ISeoPageTitleBuilder> pageTitleBuilderWork,
             Work<IResourceManager> resourceManagerWork) {
-            _seoServiceWork = seoServiceWork;
+            _seoSettingsManagerWork = seoSettingsManagerWork;
             _pageTitleBuilderWork = pageTitleBuilderWork;
             _resourceManagerWork = resourceManagerWork;
         }
@@ -35,7 +35,7 @@ namespace Onestop.Seo.Filters {
             // Only run on home page
             if (filterContext.HttpContext.Request.Path != "/") return;
 
-            var globalSettings = _seoServiceWork.Value.GetGlobalSettings();
+            var globalSettings = _seoSettingsManagerWork.Value.GetGlobalSettings();
 
 
             if (!String.IsNullOrEmpty(globalSettings.HomeTitle)) {

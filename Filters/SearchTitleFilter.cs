@@ -10,15 +10,15 @@ using Orchard.Tokens;
 
 namespace Onestop.Seo.Filters {
     public class SearchTitleFilter : FilterProvider, IActionFilter {
-        private readonly Work<ISeoService> _seoServiceWork;
+        private readonly Work<ISeoSettingsManager> _seoSettingsManagerWork;
         private readonly Work<ITokenizer> _tokenizerWork;
         private readonly Work<ISeoPageTitleBuilder> _pageTitleBuilderWork;
 
         public SearchTitleFilter(
-            Work<ISeoService> seoServiceWork,
+            Work<ISeoSettingsManager> seoSettingsManagerWork,
             Work<ITokenizer> tokenizerWork,
             Work<ISeoPageTitleBuilder> pageTitleBuilderWork) {
-            _seoServiceWork = seoServiceWork;
+            _seoSettingsManagerWork = seoSettingsManagerWork;
             _tokenizerWork = tokenizerWork;
             _pageTitleBuilderWork = pageTitleBuilderWork;
         }
@@ -29,7 +29,7 @@ namespace Onestop.Seo.Filters {
                 || (string)routeValues["controller"] != "search" 
                 || (string)routeValues["action"] != "index") return;
 
-            var titlePattern = _seoServiceWork.Value.GetGlobalSettings().SearchTitlePattern;
+            var titlePattern = _seoSettingsManagerWork.Value.GetGlobalSettings().SearchTitlePattern;
             if (String.IsNullOrEmpty(titlePattern)) return;
 
             var title = _tokenizerWork.Value.Replace(

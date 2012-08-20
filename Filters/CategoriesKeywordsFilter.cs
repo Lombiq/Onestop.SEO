@@ -15,17 +15,17 @@ using Contrib.Taxonomies.Services;
 
 namespace Onestop.Seo.Filters {
     public class CategoriesKeywordsFilter : FilterProvider, IResultFilter {
-        private readonly Work<ISeoService> _seoServiceWork;
+        private readonly Work<ISeoSettingsManager> _seoSettingsManagerWork;
         private readonly Work<ICurrentContentService> _currentContentServiceWork;
         private readonly Work<ITaxonomyService> _taxonomyServiceWork;
         private readonly Work<IResourceManager> _resourceManagerWork;
 
         public CategoriesKeywordsFilter(
-            Work<ISeoService> seoServiceWork,
+            Work<ISeoSettingsManager> seoSettingsManagerWork,
             Work<ICurrentContentService> currentContentServiceWork,
             Work<ITaxonomyService> taxonomyServiceWork,
             Work<IResourceManager> resourceManagerWork) {
-            _seoServiceWork = seoServiceWork;
+            _seoSettingsManagerWork = seoSettingsManagerWork;
             _currentContentServiceWork = currentContentServiceWork;
             _taxonomyServiceWork = taxonomyServiceWork;
             _resourceManagerWork = resourceManagerWork;
@@ -38,7 +38,7 @@ namespace Onestop.Seo.Filters {
             // Don't run on admin
             if (Orchard.UI.Admin.AdminFilter.IsApplied(filterContext.RequestContext)) return;
 
-            if (!_seoServiceWork.Value.GetGlobalSettings().UseCategoriesForKeywords) return;
+            if (!_seoSettingsManagerWork.Value.GetGlobalSettings().UseCategoriesForKeywords) return;
 
             var item = _currentContentServiceWork.Value.GetContentForRequest();
             if (item == null) return;

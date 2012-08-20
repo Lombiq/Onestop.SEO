@@ -23,21 +23,21 @@ namespace Onestop.Seo.Controllers {
         private readonly IContentManager _contentManager;
         private readonly dynamic _shapeFactory;
         private readonly ISiteService _siteService;
-        private readonly ISeoService _seoService;
+        private readonly ISeoSettingsManager _seoSettingsManager;
 
         public Localizer T { get; set; }
 
         public AdminController(
             IOrchardServices orchardServices,
             ISiteService siteService,
-            ISeoService seoService) {
+            ISeoSettingsManager seoSettingsManager) {
             _orchardServices = orchardServices;
             _authorizer = orchardServices.Authorizer;
             _contentManager = orchardServices.ContentManager;
             _shapeFactory = _orchardServices.New;
 
             _siteService = siteService;
-            _seoService = seoService;
+            _seoSettingsManager = seoSettingsManager;
 
             T = NullLocalizer.Instance;
         }
@@ -50,7 +50,7 @@ namespace Onestop.Seo.Controllers {
 
             // Casting to avoid invalid (under medium trust) reflection over the protected View method and force a static invocation, despite
             // being it highly unlikely with Onestop, just in case...
-            return View((object)_contentManager.BuildEditor(_seoService.GetGlobalSettings()));
+            return View((object)_contentManager.BuildEditor(_seoSettingsManager.GetGlobalSettings()));
         }
 
         [HttpPost, ActionName("GlobalSettings")]
@@ -58,7 +58,7 @@ namespace Onestop.Seo.Controllers {
             if (!_authorizer.Authorize(Permissions.ManageSeo, T("You're not allowed to manage SEO settings.")))
                 return new HttpUnauthorizedResult();
 
-            var editor = _seoService.UpdateSettings(this);
+            var editor = _seoSettingsManager.UpdateSettings(this);
 
             if (!ModelState.IsValid) {
                 _orchardServices.TransactionManager.Cancel();

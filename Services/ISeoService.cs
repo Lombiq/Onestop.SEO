@@ -8,7 +8,7 @@ using Onestop.Seo.Models;
 
 namespace Onestop.Seo.Services {
     public interface ISeoService : IDependency {
-        ISeoGlobalSettings GetGlobalSettings();
-        dynamic UpdateSettings(IUpdateModel updater);
+        string GenerateTitle(IContent content);
+        string GenerateDescription(IContent content);
     }
 }
