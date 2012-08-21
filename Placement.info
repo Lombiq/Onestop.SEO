@@ -1,7 +1,14 @@
 ﻿<Placement>
   <Place Parts_SeoGlobalSettings_Edit="Content:1"/>
-  <Match DisplayType="SeoSummaryAdmin">
-    <Place Parts_Seo_TitleOverride_SeoSummaryAdmin_Edit="Content:1"/>
-    <Place Parts_Seo_DescriptionOverride_SeoSummaryAdmin_Edit="Content:1"/>
+  <Place Parts_Seo_SeoSummaryAdmin_Edit="Content:1"/>
+  <Match DisplayType="SeoSummaryAdmin-TitleRewriter">
+    <Place Parts_Seo_TitleOverride_SeoSummaryAdmin_Edit="Content:1"
+           Parts_Common_Body_Summary="-"
+           Parts_Title_SummaryAdmin="Header:5" />
+  </Match>
+  <Match DisplayType="SeoSummaryAdmin-DescriptionRewriter">
+    <Place Parts_Seo_DescriptionOverride_SeoSummaryAdmin_Edit="Content:1"
+           Parts_Common_Body_Summary="-"
+           Parts_Title_SummaryAdmin="Header:5" />
   </Match>
 </Placement>

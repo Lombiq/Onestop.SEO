@@ -19,16 +19,21 @@ namespace Onestop.Seo.Drivers {
 
         protected override DriverResult Editor(SeoPart part, dynamic shapeHelper) {
             return Combined(
+                ContentShape("Parts_Seo_SeoSummaryAdmin_Edit",
+                    () => shapeHelper.EditorTemplate(
+                            TemplateName: "Parts.Seo.SeoSummaryAdmin",
+                            Model: part,
+                            Prefix: Prefix)),
                 ContentShape("Parts_Seo_TitleOverride_SeoSummaryAdmin_Edit",
                     () => shapeHelper.EditorTemplate(
                             TemplateName: "Parts.Seo.TitleOverride.SeoSummaryAdmin",
                             Model: part,
-                            Prefix: Prefix)).OnGroup("TitleRewriter"),
+                            Prefix: Prefix)),
                 ContentShape("Parts_Seo_DescriptionOverride_SeoSummaryAdmin_Edit",
                     () => shapeHelper.EditorTemplate(
                             TemplateName: "Parts.Seo.DescriptionOverride.SeoSummaryAdmin",
                             Model: part,
-                            Prefix: Prefix)).OnGroup("DescriptionRewriter"));
+                            Prefix: Prefix)));
         }
 
         protected override DriverResult Editor(SeoPart part, IUpdateModel updater, dynamic shapeHelper) {

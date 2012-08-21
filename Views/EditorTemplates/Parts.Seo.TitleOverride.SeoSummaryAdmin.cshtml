@@ -1,1 +1,12 @@
 ﻿@model Onestop.Seo.Models.SeoPart
+
+@{
+    var title = Model.TitleOverride;
+    var htmlAttributes = new { @class = "text large" };
+
+    if (String.IsNullOrEmpty(title)) {
+        title = Model.GeneratedTitle;
+        htmlAttributes = new { @class = "text large onestop-seo-generated-default" };
+    }
+}
+@Html.TextBox("TitleOverride", title, htmlAttributes )

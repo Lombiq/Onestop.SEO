@@ -14,8 +14,21 @@ using Orchard.UI.Navigation;
 using Orchard.Settings;
 using Onestop.Seo.Models;
 using Orchard.DisplayManagement;
+using Orchard.Core.Contents.ViewModels;
+using Orchard.Core.Common.Models;
+using Orchard.Core.Contents.Controllers;
+using Orchard.DisplayManagement.Descriptors;
 
 namespace Onestop.Seo.Controllers {
+    public class CartShapeTableProvider : IShapeTableProvider {
+        public void Discover(ShapeTableBuilder builder) {
+            builder.Describe("Parts.Seo.DescriptionOverride.SeoSummaryAdmin")
+                .OnCreated(created => {
+                    created.Shape.Metadata.Prefix = "kkk";
+                });
+        }
+    }
+
     [Admin]
     public class AdminController : Controller, IUpdateModel {
         private readonly IOrchardServices _orchardServices;
@@ -24,13 +37,15 @@ namespace Onestop.Seo.Controllers {
         private readonly dynamic _shapeFactory;
         private readonly ISiteService _siteService;
         private readonly ISeoSettingsManager _seoSettingsManager;
+        private readonly ISeoService _seoService;
 
         public Localizer T { get; set; }
 
         public AdminController(
             IOrchardServices orchardServices,
             ISiteService siteService,
-            ISeoSettingsManager seoSettingsManager) {
+            ISeoSettingsManager seoSettingsManager,
+            ISeoService seoService) {
             _orchardServices = orchardServices;
             _authorizer = orchardServices.Authorizer;
             _contentManager = orchardServices.ContentManager;
@@ -38,6 +53,7 @@ namespace Onestop.Seo.Controllers {
 
             _siteService = siteService;
             _seoSettingsManager = seoSettingsManager;
+            _seoService = seoService;
 
             T = NullLocalizer.Instance;
         }
@@ -73,37 +89,106 @@ namespace Onestop.Seo.Controllers {
             return RedirectToAction("GlobalSettings");
         }
 
-        public ActionResult TitleRewriter(PagerParameters pagerParameters) {
-            return Rewriter(pagerParameters, "TitleRewriter");
-        }
-
-        public ActionResult DescriptionRewriter(PagerParameters pagerParameters) {
-            return Rewriter(pagerParameters, "DescriptionRewriter");
-        }
-
-        private ActionResult Rewriter(PagerParameters pagerParameters, string group) {
+        [HttpGet]
+        public ActionResult Rewriter(string rewriterType, ListContentsViewModel listViewModel, PagerParameters pagerParameters) {
             // These Authorize() calls are mainly placeholders for future permissions, that's why they're copy-pasted around.
             if (!_authorizer.Authorize(Permissions.ManageSeo, T("You're not allowed to manage SEO settings.")))
                 return new HttpUnauthorizedResult();
 
+            string title;
+            switch (rewriterType) {
+                case "TitleRewriter":
+                    title = T("SEO Title Rewriter").Text;
+                    break;
+                case "DescriptionRewriter":
+                    title = T("SEO Description Rewriter").Text;
+                    break;
+                default:
+                    return new HttpNotFoundResult();
+            }
+            _orchardServices.WorkContext.Layout.Title = title;
+
             Pager pager = new Pager(_siteService.GetSiteSettings(), pagerParameters);
 
-            var seoContentTypes = _contentManager.GetContentTypeDefinitions().Where(t => t.Parts.Any(p => p.PartDefinition.Name == typeof(SeoPart).Name));
+            var seoContentTypes = _seoService.ListSeoContentTypes();
             var query = _contentManager.Query(VersionOptions.Latest, seoContentTypes.Select(type => type.Name).ToArray());
+
+            if (!string.IsNullOrEmpty(listViewModel.TypeName)) {
+                var typeDefinition = seoContentTypes.Where(t => t.Name == listViewModel.TypeName).SingleOrDefault();
+                if (typeDefinition == null) return HttpNotFound();
+
+                listViewModel.TypeDisplayName = typeDefinition.DisplayName;
+                query = query.ForType(listViewModel.TypeName);
+            }
+
+            switch (listViewModel.Options.OrderBy) {
+                case ContentsOrder.Modified:
+                    //query = query.OrderByDescending<ContentPartRecord, int>(ci => ci.ContentItemRecord.Versions.Single(civr => civr.Latest).Id);
+                    query = query.OrderByDescending<CommonPartRecord, DateTime?>(cr => cr.ModifiedUtc);
+                    break;
+                case ContentsOrder.Published:
+                    query = query.OrderByDescending<CommonPartRecord, DateTime?>(cr => cr.PublishedUtc);
+                    break;
+                case ContentsOrder.Created:
+                    //query = query.OrderByDescending<ContentPartRecord, int>(ci => ci.Id);
+                    query = query.OrderByDescending<CommonPartRecord, DateTime?>(cr => cr.CreatedUtc);
+                    break;
+            }
+
+            listViewModel.Options.SelectedFilter = listViewModel.TypeName;
+            listViewModel.Options.FilterOptions = seoContentTypes
+                .Select(ctd => new KeyValuePair<string, string>(ctd.Name, ctd.DisplayName))
+                .ToList().OrderBy(kvp => kvp.Value);
 
             var pagerShape = _shapeFactory.Pager(pager).TotalItemCount(query.Count());
             var pageOfContentItems = query.Slice(pager.GetStartIndex(), pager.PageSize).ToList();
 
             var list = _shapeFactory.List();
-            list.AddRange(pageOfContentItems.Select(item => _contentManager.BuildDisplay(item, "SeoSummaryAdmin", group)));
+            foreach (var item in pageOfContentItems) {
+                var shape = _contentManager.BuildDisplay(item, "SeoSummaryAdmin-" + rewriterType);
+                list.Add(shape);
+            }
+            //list.AddRange(pageOfContentItems.Select(item => _contentManager.BuildDisplay(item, "SeoSummaryAdmin-" + rewriterType)));
 
             dynamic viewModel = _shapeFactory.ViewModel()
                 .ContentItems(list)
+                .Options(listViewModel.Options)
                 .Pager(pagerShape);
 
             // Casting to avoid invalid (under medium trust) reflection over the protected View method and force a static invocation, despite
             // being it highly unlikely with Onestop, just in case...
             return View((object)viewModel);
+        }
+
+        [HttpPost, ActionName("Rewriter")]
+        [FormValueRequired("submit.Filter")]
+        public ActionResult RewriterFilterPost(string rewriterType, ContentOptions options) {
+            var routeValues = ControllerContext.RouteData.Values;
+            routeValues["rewriterType"] = rewriterType;
+            if (options != null) {
+                routeValues["Options.OrderBy"] = options.OrderBy; //todo: don't hard-code the key
+                if (_seoService.ListSeoContentTypes().Any(t => t.Name.Equals(options.SelectedFilter, StringComparison.OrdinalIgnoreCase))) {
+                    routeValues["id"] = options.SelectedFilter;
+                }
+                else {
+                    routeValues.Remove("id");
+                }
+            }
+
+            return RedirectToAction("Rewriter", routeValues);
+        }
+
+        [HttpPost, ActionName("Rewriter")]
+        [FormValueRequired("submit.SaveAll")]
+        public ActionResult RewriterSaveAllPost(string rewriterType, IEnumerable<int> itemIds) {
+            var routeValues = ControllerContext.RouteData.Values;
+            routeValues["rewriterType"] = rewriterType;
+
+            foreach (var item in _contentManager.GetMany<IContent>(itemIds, VersionOptions.Latest, QueryHints.Empty)) {
+                _contentManager.UpdateEditor(item, this);
+            }
+
+            return RedirectToAction("Rewriter", routeValues);
         }
 
         bool IUpdateModel.TryUpdateModel<TModel>(TModel model, string prefix, string[] includeProperties, string[] excludeProperties) {

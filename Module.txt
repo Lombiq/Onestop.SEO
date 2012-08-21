@@ -8,5 +8,6 @@ Description: Onestop SEO suite
 Features:
     Onestop.Seo:
 		Name: Onestop SEO
+		Category: SEO
         Description: Onestop SEO suite
-		Dependencies: Orchard.Tokens, Orchard.Alias, Contrib.Taxonomies
+		Dependencies: Orchard.Tokens, Orchard.Alias, Orchard.jQuery, Contrib.Taxonomies, Title

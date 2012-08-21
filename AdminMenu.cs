@@ -23,9 +23,9 @@ namespace Onestop.Seo {
             menu.Action("GlobalSettings", "Admin", new { area = "Onestop.Seo" }).Permission(Permissions.ManageSeo);
 
             menu.Add(T("Title Rewriter"), "1",
-                item => item.Action("TitleRewriter", "Admin", new { area = "Onestop.Seo" }).Permission(Permissions.ManageSeo));
-            menu.Add(T("Descrption Rewriter"), "2",
-                item => item.Action("DescriptionRewriter", "Admin", new { area = "Onestop.Seo" }).Permission(Permissions.ManageSeo));
+                item => item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "TitleRewriter" }).Permission(Permissions.ManageSeo));
+            menu.Add(T("Description Rewriter"), "2",
+                item => item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "DescriptionRewriter" }).Permission(Permissions.ManageSeo));
         }
     }
 }

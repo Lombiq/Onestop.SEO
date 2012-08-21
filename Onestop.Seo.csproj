@@ -66,7 +66,11 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Placement.info" />
+    <Content Include="Placement.info">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Scripts\SeoAdmin.js" />
+    <Content Include="Styles\onestop-seo-admin.css" />
     <Content Include="Web.config" />
     <Content Include="Views\Web.config" />
     <Content Include="Scripts\Web.config" />
@@ -110,6 +114,7 @@
     <Compile Include="Filters\SeoContentFilter.cs" />
     <Compile Include="Handlers\SeoGlobalSettingsPartHandler.cs" />
     <Compile Include="Handlers\SeoPartHandler.cs" />
+    <Compile Include="ResourceManifest.cs" />
     <Compile Include="Services\ICurrentContentService.cs" />
     <Compile Include="Services\ISeoPageTitleBuilder.cs" />
     <Compile Include="Migrations.cs" />
@@ -130,8 +135,8 @@
   <ItemGroup>
     <Content Include="Views\EditorTemplates\Parts.Seo.TitleOverride.SeoSummaryAdmin.cshtml" />
     <Content Include="Views\EditorTemplates\Parts.Seo.DescriptionOverride.SeoSummaryAdmin.cshtml" />
-    <Content Include="Views\Admin\TitleRewriter.cshtml" />
-    <Content Include="Views\Admin\DescriptionRewriter.cshtml" />
+    <Content Include="Views\Admin\Rewriter.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts.Seo.SeoSummaryAdmin.cshtml" />
     <None Include="Views\EditorTemplates\Parts.SeoGlobalSettings.cshtml" />
   </ItemGroup>
   <PropertyGroup>
