@@ -21,6 +21,10 @@
     </UpgradeBackupLocation>
     <TargetFrameworkProfile />
     <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -101,10 +105,9 @@
     <Compile Include="EventHandlers\ProductsSeoHandler.cs" />
     <Compile Include="Filters\CanoncialUrlFilter.cs" />
     <Compile Include="Filters\CategoriesKeywordsFilter.cs" />
-    <Compile Include="Filters\DescriptionFilter.cs" />
     <Compile Include="Filters\HomePageFilter.cs" />
     <Compile Include="Filters\SearchTitleFilter.cs" />
-    <Compile Include="Filters\TitleFilter.cs" />
+    <Compile Include="Filters\SeoContentFilter.cs" />
     <Compile Include="Handlers\SeoGlobalSettingsPartHandler.cs" />
     <Compile Include="Handlers\SeoPartHandler.cs" />
     <Compile Include="Services\ICurrentContentService.cs" />
