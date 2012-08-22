@@ -1,12 +1,7 @@
 ﻿@model Onestop.Seo.Models.SeoPart
 
 @{
-    var title = Model.TitleOverride;
-    var htmlAttributes = new { @class = "text large" };
-
-    if (String.IsNullOrEmpty(title)) {
-        title = Model.GeneratedTitle;
-        htmlAttributes = new { @class = "text large onestop-seo-generated-default" };
-    }
+    var title = !String.IsNullOrEmpty(Model.TitleOverride) ? Model.TitleOverride : Model.GeneratedTitle;
 }
-@Html.TextBox("TitleOverride", title, htmlAttributes )
+
+@Html.TextBox("TitleOverride", title, new { @class = "text large onestop-seo-rewrite-value", data_generated_default = Model.GeneratedTitle })
