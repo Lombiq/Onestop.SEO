@@ -4,4 +4,7 @@
     var title = !String.IsNullOrEmpty(Model.TitleOverride) ? Model.TitleOverride : Model.GeneratedTitle;
 }
 
-@Html.TextBox("TitleOverride", title, new { @class = "text large onestop-seo-rewrite-value", data_generated_default = Model.GeneratedTitle })
+@Html.TextBox("TitleOverride", title, 
+    new { @class = "text onestop-seo-rewrite-value", data_generated_default = Model.GeneratedTitle, data_max_length = "70" })
+
+<input type="text" class="text onestop-seo-character-counter" />

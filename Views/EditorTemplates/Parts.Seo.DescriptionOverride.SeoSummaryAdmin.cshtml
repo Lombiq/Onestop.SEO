@@ -4,4 +4,7 @@
     var description = !String.IsNullOrEmpty(Model.DescriptionOverride) ? Model.TitleOverride : Model.GeneratedDescription;
 }
 
-@Html.TextBox("DescriptionOverride", description, new { @class = "text large onestop-seo-rewrite-value", data_generated_default = Model.GeneratedDescription })
+@Html.TextBox("DescriptionOverride", description,
+    new { @class = "text onestop-seo-rewrite-value", data_generated_default = Model.GeneratedDescription, data_max_length = "150" })
+
+<input type="text" class="text onestop-seo-character-counter" />

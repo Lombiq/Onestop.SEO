@@ -1,4 +1,19 @@
-﻿.onestop-seo-generated-default
+﻿.onestop-seo-rewrite-value
+{
+    width: 80%;
+}
+
+.onestop-seo-generated-default
 {
     color: #BDBCBC;
+}
+
+.onestop-seo-too-long
+{
+    color: #E68585;
+}
+
+.onestop-seo-character-counter
+{
+    width: 3em;
 }
