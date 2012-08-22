@@ -138,6 +138,7 @@
     <Content Include="Views\Admin\Rewriter.cshtml" />
     <Content Include="Views\EditorTemplates\Parts.Seo.SeoSummaryAdmin.cshtml" />
     <None Include="Views\EditorTemplates\Parts.SeoGlobalSettings.cshtml" />
+    <Content Include="Views\Parts.Title.SeoSummaryAdmin.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
