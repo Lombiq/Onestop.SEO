@@ -89,10 +89,10 @@ namespace Onestop.Seo.Controllers {
             string title;
             switch (rewriterType) {
                 case "TitleRewriter":
-                    title = T("SEO Title Rewriter").Text;
+                    title = T("SEO Title Tag Rewriter").Text;
                     break;
                 case "DescriptionRewriter":
-                    title = T("SEO Description Rewriter").Text;
+                    title = T("SEO Description Tag Rewriter").Text;
                     break;
                 default:
                     return new HttpNotFoundResult();

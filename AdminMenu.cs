@@ -22,9 +22,9 @@ namespace Onestop.Seo {
             menu.LinkToFirstChild(false); // See: http://orchard.codeplex.com/workitem/18807
             menu.Action("GlobalSettings", "Admin", new { area = "Onestop.Seo" }).Permission(Permissions.ManageSeo);
 
-            menu.Add(T("Title Rewriter"), "1",
+            menu.Add(T("Title Tag Rewriter"), "1",
                 item => item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "TitleRewriter" }).Permission(Permissions.ManageSeo));
-            menu.Add(T("Description Rewriter"), "2",
+            menu.Add(T("Description Tag Rewriter"), "2",
                 item => item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "DescriptionRewriter" }).Permission(Permissions.ManageSeo));
         }
     }
