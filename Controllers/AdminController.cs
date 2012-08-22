@@ -20,15 +20,6 @@ using Orchard.Core.Contents.Controllers;
 using Orchard.DisplayManagement.Descriptors;
 
 namespace Onestop.Seo.Controllers {
-    public class CartShapeTableProvider : IShapeTableProvider {
-        public void Discover(ShapeTableBuilder builder) {
-            builder.Describe("Parts.Seo.DescriptionOverride.SeoSummaryAdmin")
-                .OnCreated(created => {
-                    created.Shape.Metadata.Prefix = "kkk";
-                });
-        }
-    }
-
     [Admin]
     public class AdminController : Controller, IUpdateModel {
         private readonly IOrchardServices _orchardServices;
