@@ -183,9 +183,17 @@ namespace Onestop.Seo.Controllers {
             var routeValues = ControllerContext.RouteData.Values;
             routeValues["rewriterType"] = rewriterType;
 
-            foreach (var item in _contentManager.GetMany<IContent>(itemIds, VersionOptions.Latest, QueryHints.Empty)) {
+            foreach (var id in itemIds) {
+                var item = _contentManager.Get(id, VersionOptions.DraftRequired);
                 _prefixedEditorManager.UpdateEditor(item, this);
+                _contentManager.Publish(item);
             }
+
+            // This would be better, but: http://orchard.codeplex.com/workitem/18979
+            //foreach (var item in _contentManager.GetMany<IContent>(itemIds, VersionOptions.DraftRequired, QueryHints.Empty)) {
+            //    _prefixedEditorManager.UpdateEditor(item, this);
+            //    _contentManager.Publish(item.ContentItem);
+            //}
 
             return RedirectToAction("Rewriter", routeValues);
         }
@@ -196,25 +204,52 @@ namespace Onestop.Seo.Controllers {
             var routeValues = ControllerContext.RouteData.Values;
             routeValues["rewriterType"] = rewriterType;
 
-            var items = _contentManager
-                            .Query(VersionOptions.Latest, _seoService.ListSeoContentTypes().Select(type => type.Name).ToArray())
-                            .Join<SeoPartRecord>()
-                            .List<SeoPart>();
+            var itemIds = _contentManager
+                .Query(_seoService.ListSeoContentTypes().Select(type => type.Name).ToArray())
+                .List()
+                .Select(item => item.Id);
 
             switch (rewriterType) {
                 case "TitleRewriter":
-                    foreach (var item in items) {
+                    foreach (var id in itemIds) {
+                        var item = _contentManager.Get<SeoPart>(id, VersionOptions.DraftRequired);
                         item.TitleOverride = null;
+                        _contentManager.Publish(item.ContentItem);
                     }
                     break;
                 case "DescriptionRewriter":
-                    foreach (var item in items) {
+                    foreach (var id in itemIds) {
+                        var item = _contentManager.Get<SeoPart>(id, VersionOptions.DraftRequired);
                         item.DescriptionOverride = null;
+                        _contentManager.Publish(item.ContentItem);
                     }
                     break;
                 default:
                     return new HttpNotFoundResult();
             }
+
+            // This would be better, but: http://orchard.codeplex.com/workitem/18979
+            //var items = _contentManager
+            //                .Query(VersionOptions.DraftRequired, _seoService.ListSeoContentTypes().Select(type => type.Name).ToArray())
+            //                .Join<SeoPartRecord>()
+            //                .List<SeoPart>();
+
+            //switch (rewriterType) {
+            //    case "TitleRewriter":
+            //        foreach (var item in items) {
+            //            item.TitleOverride = null;
+            //            _contentManager.Publish(item.ContentItem);
+            //        }
+            //        break;
+            //    case "DescriptionRewriter":
+            //        foreach (var item in items) {
+            //            item.DescriptionOverride = null;
+            //            _contentManager.Publish(item.ContentItem);
+            //        }
+            //        break;
+            //    default:
+            //        return new HttpNotFoundResult();
+            //}
 
             return RedirectToAction("Rewriter", routeValues);
         }
