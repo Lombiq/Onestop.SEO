@@ -38,6 +38,10 @@ namespace Onestop.Seo.Drivers {
 
         protected override DriverResult Editor(SeoPart part, IUpdateModel updater, dynamic shapeHelper) {
             updater.TryUpdateModel(part, Prefix, null, null);
+
+            if (part.TitleOverride == part.GeneratedTitle) part.TitleOverride = null;
+            if (part.DescriptionOverride == part.GeneratedDescription) part.DescriptionOverride = null;
+
             return Editor(part, shapeHelper);
         }
 
