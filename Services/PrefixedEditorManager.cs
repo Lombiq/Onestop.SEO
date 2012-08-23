@@ -9,16 +9,18 @@ using System.Web;
 namespace Onestop.Seo.Services {
     public class PrefixedEditorManager : IPrefixedEditorManager {
         private readonly IContentManager _contentManager;
+        private readonly HashSet<int> _itemIds = new HashSet<int>();
 
-        public HashSet<int> ItemIds { get; private set; }
+        IEnumerable<int> IPrefixedEditorManager.ItemIds {
+            get { return _itemIds; }
+        }
 
         public PrefixedEditorManager(IContentManager contentManager) {
             _contentManager = contentManager;
-            ItemIds = new HashSet<int>();
         }
 
         public dynamic BuildShape(IContent content, Func<IContent, dynamic> shapeFactory) {
-            ItemIds.Add(content.ContentItem.Id);
+            _itemIds.Add(content.ContentItem.Id);
             return shapeFactory(content);
         }
 
@@ -27,7 +29,7 @@ namespace Onestop.Seo.Services {
         }
 
         public static string AttachPrefixToPrefix(int itemId, string currentPrefix) {
-            return itemId + "_" + currentPrefix;
+            return "id-" + itemId + "_" + currentPrefix;
         }
 
         private class PrefixedUpdater : IUpdateModel {
