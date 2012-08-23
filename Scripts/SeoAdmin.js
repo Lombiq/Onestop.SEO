@@ -14,7 +14,7 @@
                             if (length > maxLength) textBox.addClass("onestop-seo-too-long");
                             else textBox.removeClass("onestop-seo-too-long");
 
-                            textBox.next(".onestop-seo-character-counter").text(length);
+                            textBox.parents("li").first().find(".onestop-seo-character-counter").text(length);
                         };
 
                         refreshCounter();
