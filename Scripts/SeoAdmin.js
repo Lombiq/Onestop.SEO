@@ -24,6 +24,7 @@
                             if (textBox.val() != "" && textBox.val() != defaultValue) return;
                             textBox.addClass("onestop-seo-generated-default");
                             textBox.val(defaultValue);
+                            characterCounter.val(defaultValue.length);
                         });
 
                         textBox.keyup(function (e) {
