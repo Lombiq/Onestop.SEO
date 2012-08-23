@@ -254,6 +254,22 @@ namespace Onestop.Seo.Controllers {
             return RedirectToAction("Rewriter", routeValues);
         }
 
+        [HttpPost, ActionName("Rewriter")]
+        [FormValueRequired("submit.SaveIndividual")]
+        public ActionResult RewriterSaveIndividual(string rewriterType, [Bind(Prefix="submit.SaveIndividual")]int id) {
+            var routeValues = ControllerContext.RouteData.Values;
+            routeValues["rewriterType"] = rewriterType;
+
+            var item = _contentManager.Get(id, VersionOptions.DraftRequired);
+
+            if (item == null) return new HttpNotFoundResult();
+
+            _prefixedEditorManager.UpdateEditor(item, this);
+            _contentManager.Publish(item);
+
+            return RedirectToAction("Rewriter", routeValues);
+        }
+
         bool IUpdateModel.TryUpdateModel<TModel>(TModel model, string prefix, string[] includeProperties, string[] excludeProperties) {
             return TryUpdateModel(model, prefix, includeProperties, excludeProperties);
         }
