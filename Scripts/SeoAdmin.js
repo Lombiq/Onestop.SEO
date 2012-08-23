@@ -6,9 +6,18 @@
                     $(".onestop-seo-rewrite-value").each(function (index) {
                         var textBox = $(this);
                         var defaultValue = textBox.attr("data-generated-default");
-                        var characterCounter = textBox.next(".onestop-seo-character-counter");
+                        var maxLength = textBox.attr("data-max-length");
 
-                        characterCounter.val(textBox.val().length);
+                        var refreshCounter = function () {
+                            var length = textBox.val().length;
+
+                            if (length > maxLength) textBox.addClass("onestop-seo-too-long");
+                            else textBox.removeClass("onestop-seo-too-long");
+
+                            textBox.next(".onestop-seo-character-counter").text(length);
+                        };
+
+                        refreshCounter();
 
                         if (textBox.val() == defaultValue) {
                             textBox.addClass("onestop-seo-generated-default");
@@ -18,23 +27,19 @@
                             if (textBox.val() != defaultValue) return;
                             textBox.removeClass("onestop-seo-generated-default");
                             textBox.val("");
+                            refreshCounter();
                         });
 
                         textBox.blur(function (e) {
                             if (textBox.val() != "" && textBox.val() != defaultValue) return;
+
                             textBox.addClass("onestop-seo-generated-default");
                             textBox.val(defaultValue);
-                            characterCounter.val(defaultValue.length);
+                            refreshCounter();
                         });
 
                         textBox.keyup(function (e) {
-                            var length = textBox.val().length;
-                            var maxLength = textBox.attr("data-max-length");
-
-                            if (length > maxLength) textBox.addClass("onestop-seo-too-long");
-                            else textBox.removeClass("onestop-seo-too-long");
-
-                            characterCounter.val(length);
+                            refreshCounter();
                         });
                     });
                 }
