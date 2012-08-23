@@ -23,7 +23,8 @@
         <button type="submit" name="submit.Filter" value="yes please">@T("Apply")</button>
     </fieldset>
     <fieldset class="bulk-actions">
-        <button type="submit" name="submit.SaveAll" class="button" value="yes please">@T("Save All")</button>
+        <button type="submit" name="submit.SaveAll" class="button" value="yes please">@T("Save all on this page")</button>
+        <button type="submit" name="submit.ClearAll" class="button" value="yes please">@T("Clear all")</button>
     </fieldset>
     <fieldset class="contentItems bulk-items">
         @Display(Model.ContentItems)
@@ -33,6 +34,12 @@
 
 @using (Script.Foot()) {
     <script type="text/javascript">
+        // Including here for easy localization
+        $("button[name='submit.ClearAll']").click(function (e) {
+            if (confirm("@T("Do you really want to clear all overrides?")")) return;
+            e.preventDefault();
+        });
+
         $(document).ready(function () {
             $.onestopSeo.admin.init();
         });

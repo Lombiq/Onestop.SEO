@@ -190,6 +190,35 @@ namespace Onestop.Seo.Controllers {
             return RedirectToAction("Rewriter", routeValues);
         }
 
+        [HttpPost, ActionName("Rewriter")]
+        [FormValueRequired("submit.ClearAll")]
+        public ActionResult RewriterClearAllPost(string rewriterType) {
+            var routeValues = ControllerContext.RouteData.Values;
+            routeValues["rewriterType"] = rewriterType;
+
+            var items = _contentManager
+                            .Query(VersionOptions.Latest, _seoService.ListSeoContentTypes().Select(type => type.Name).ToArray())
+                            .Join<SeoPartRecord>()
+                            .List<SeoPart>();
+
+            switch (rewriterType) {
+                case "TitleRewriter":
+                    foreach (var item in items) {
+                        item.TitleOverride = null;
+                    }
+                    break;
+                case "DescriptionRewriter":
+                    foreach (var item in items) {
+                        item.DescriptionOverride = null;
+                    }
+                    break;
+                default:
+                    return new HttpNotFoundResult();
+            }
+
+            return RedirectToAction("Rewriter", routeValues);
+        }
+
         bool IUpdateModel.TryUpdateModel<TModel>(TModel model, string prefix, string[] includeProperties, string[] excludeProperties) {
             return TryUpdateModel(model, prefix, includeProperties, excludeProperties);
         }
