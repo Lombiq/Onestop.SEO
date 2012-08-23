@@ -26,6 +26,8 @@ namespace Onestop.Seo.Controllers {
         private readonly IAuthorizer _authorizer;
         private readonly IContentManager _contentManager;
         private readonly dynamic _shapeFactory;
+
+        private readonly IPrefixedEditorManager _prefixedEditorManager;
         private readonly ISiteService _siteService;
         private readonly ISeoSettingsManager _seoSettingsManager;
         private readonly ISeoService _seoService;
@@ -35,6 +37,7 @@ namespace Onestop.Seo.Controllers {
         public AdminController(
             IOrchardServices orchardServices,
             ISiteService siteService,
+            IPrefixedEditorManager prefixedEditorManager,
             ISeoSettingsManager seoSettingsManager,
             ISeoService seoService) {
             _orchardServices = orchardServices;
@@ -42,6 +45,7 @@ namespace Onestop.Seo.Controllers {
             _contentManager = orchardServices.ContentManager;
             _shapeFactory = _orchardServices.New;
 
+            _prefixedEditorManager = prefixedEditorManager;
             _siteService = siteService;
             _seoSettingsManager = seoSettingsManager;
             _seoService = seoService;
@@ -135,11 +139,15 @@ namespace Onestop.Seo.Controllers {
             var pageOfContentItems = query.Slice(pager.GetStartIndex(), pager.PageSize).ToList();
 
             var list = _shapeFactory.List();
-            foreach (var item in pageOfContentItems) {
-                var shape = _contentManager.BuildDisplay(item, "SeoSummaryAdmin-" + rewriterType);
-                list.Add(shape);
-            }
-            //list.AddRange(pageOfContentItems.Select(item => _contentManager.BuildDisplay(item, "SeoSummaryAdmin-" + rewriterType)));
+            //foreach (var item in pageOfContentItems) {
+            //    var shape = _contentManager.BuildDisplay(item, "SeoSummaryAdmin-" + rewriterType);
+            //    list.Add(shape);
+            //}
+            list.AddRange(
+                pageOfContentItems.Select(
+                    item => _prefixedEditorManager.BuildShape(item, (content => _contentManager.BuildDisplay(content, "SeoSummaryAdmin-" + rewriterType)))
+                    )
+                );
 
             dynamic viewModel = _shapeFactory.ViewModel()
                 .ContentItems(list)
@@ -176,7 +184,7 @@ namespace Onestop.Seo.Controllers {
             routeValues["rewriterType"] = rewriterType;
 
             foreach (var item in _contentManager.GetMany<IContent>(itemIds, VersionOptions.Latest, QueryHints.Empty)) {
-                _contentManager.UpdateEditor(item, this);
+                _prefixedEditorManager.UpdateEditor(item, this);
             }
 
             return RedirectToAction("Rewriter", routeValues);

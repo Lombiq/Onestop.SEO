@@ -116,12 +116,15 @@
     <Compile Include="Handlers\SeoPartHandler.cs" />
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Services\ICurrentContentService.cs" />
+    <Compile Include="Services\IPrefixedEditorManager.cs" />
     <Compile Include="Services\ISeoPageTitleBuilder.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ISeoGlobalSettings.cs" />
     <Compile Include="Models\SeoGlobalSettingsPart.cs" />
     <Compile Include="Models\SeoPart.cs" />
     <Compile Include="Services\ISeoSettingsManager.cs" />
+    <Compile Include="Services\PrefixedEditorManager.cs" />
+    <Compile Include="Services\PrefixedEditorShapeTable.cs" />
     <Compile Include="Services\SeoPageTitleBuilder.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Services\CurrentContentService.cs" />
