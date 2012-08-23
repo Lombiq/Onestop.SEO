@@ -1,7 +1,7 @@
 ﻿@model Onestop.Seo.Models.SeoPart
 
 @{
-    var description = !String.IsNullOrEmpty(Model.DescriptionOverride) ? Model.TitleOverride : Model.GeneratedDescription;
+    var description = !String.IsNullOrEmpty(Model.DescriptionOverride) ? Model.DescriptionOverride : Model.GeneratedDescription;
 }
 
 @Html.TextBox("DescriptionOverride", description,
