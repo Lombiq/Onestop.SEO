@@ -139,10 +139,6 @@ namespace Onestop.Seo.Controllers {
             var pageOfContentItems = query.Slice(pager.GetStartIndex(), pager.PageSize).ToList();
 
             var list = _shapeFactory.List();
-            //foreach (var item in pageOfContentItems) {
-            //    var shape = _contentManager.BuildDisplay(item, "SeoSummaryAdmin-" + rewriterType);
-            //    list.Add(shape);
-            //}
             list.AddRange(
                 pageOfContentItems.Select(
                     item => _prefixedEditorManager.BuildShape(item, (content => _contentManager.BuildDisplay(content, "SeoSummaryAdmin-" + rewriterType)))
