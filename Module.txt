@@ -1,13 +1,16 @@
 ﻿Name: Onestop SEO
 AntiForgery: enabled
-Author: Onestop
+Author: Zoltán Lehóczky / Onestop Internet
 Website: http://www.onestop.com
 Version: 1.0
 OrchardVersion: 1.5.1
-Description: Onestop SEO suite
+Description: Search Engine Optimization for Orchard content
+FeatureDescription: Search Engine Optimization for Orchard content
+Category: SEO
+Dependencies: Orchard.Tokens, Orchard.Alias, Orchard.jQuery, Contrib.Taxonomies, Title
 Features:
     Onestop.Seo:
 		Name: Onestop SEO
+        Description: Search Engine Optimization for Orchard content
 		Category: SEO
-        Description: Onestop SEO suite
 		Dependencies: Orchard.Tokens, Orchard.Alias, Orchard.jQuery, Contrib.Taxonomies, Title
