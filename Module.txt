@@ -1,7 +1,7 @@
 ﻿Name: Onestop SEO
 AntiForgery: enabled
 Author: Zoltán Lehóczky / Onestop Internet
-Website: http://www.onestop.com
+Website: http://onestopseo.codeplex.com
 Version: 1.0
 OrchardVersion: 1.5.1
 Description: Search Engine Optimization for Orchard content
