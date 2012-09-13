@@ -38,8 +38,7 @@ namespace Onestop.Seo.Filters {
             // Don't run on admin
             if (Orchard.UI.Admin.AdminFilter.IsApplied(filterContext.RequestContext)) return;
 
-            // Don't run on home page
-            if (filterContext.HttpContext.Request.Path == "/") return;
+            if (filterContext.HttpContext.Request.IsHomePage()) return;
 
 
             var item = _currentContentServiceWork.Value.GetContentForRequest();

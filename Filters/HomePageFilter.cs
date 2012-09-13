@@ -39,8 +39,7 @@ namespace Onestop.Seo.Filters {
         }
 
         public void OnResultExecuting(ResultExecutingContext filterContext) {
-            // Only run on home page
-            if (filterContext.HttpContext.Request.Path != "/") return;
+            if (!filterContext.HttpContext.Request.IsHomePage()) return;
 
             var globalSettings = _seoSettingsManagerWork.Value.GetGlobalSettings();
 
