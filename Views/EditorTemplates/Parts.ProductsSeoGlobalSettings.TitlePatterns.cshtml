@@ -1,0 +1,19 @@
+﻿@model Onestop.Seo.Models.ProductsSeoGlobalSettingsPart
+
+<fieldset>
+    <legend>@T("Product Title Patterns")</legend>
+    <ol>
+        <li>
+            @Html.LabelFor(m => m.ProductTitlePattern, T("Product"))
+            @Html.TextBoxFor(m => m.ProductTitlePattern, new { @class = "text large tokenized" })
+            @Html.ValidationMessageFor(m => m.ProductTitlePattern)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.ProductCategoryTitlePattern , T("Product Category"))
+            @Html.TextBoxFor(m => m.ProductCategoryTitlePattern, new { @class = "text large tokenized" })
+            @Html.ValidationMessageFor(m => m.ProductCategoryTitlePattern)
+        </li>
+    </ol>
+</fieldset>
+
+@Display.TokenHint()

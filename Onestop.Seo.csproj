@@ -100,10 +100,13 @@
       <Name>Orchard.Tokens</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\EditorTemplates\Parts.ProductsSeoGlobalSettings.TitlePatterns.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Drivers\ProductsSeoGlobalSettingsPartDriver.cs" />
     <Compile Include="Drivers\SeoGlobalSettingsPartDriver.cs" />
     <Compile Include="Drivers\SeoPartDriver.cs" />
     <Compile Include="EventHandlers\ProductsSeoHandler.cs" />
@@ -112,8 +115,10 @@
     <Compile Include="Filters\HomePageFilter.cs" />
     <Compile Include="Filters\SearchTitleFilter.cs" />
     <Compile Include="Filters\SeoContentFilter.cs" />
+    <Compile Include="Handlers\ProductsSeoGlobalSettingsPartHandler.cs" />
     <Compile Include="Handlers\SeoGlobalSettingsPartHandler.cs" />
     <Compile Include="Handlers\SeoPartHandler.cs" />
+    <Compile Include="Models\ProductsSeoGlobalSettingsPart.cs" />
     <Compile Include="RequestExtensions.cs" />
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Services\ICurrentContentService.cs" />
@@ -141,8 +146,14 @@
     <Content Include="Views\EditorTemplates\Parts.Seo.DescriptionOverride.SeoSummaryAdmin.cshtml" />
     <Content Include="Views\Admin\Rewriter.cshtml" />
     <Content Include="Views\EditorTemplates\Parts.Seo.SeoSummaryAdmin.cshtml" />
-    <Content Include="Views\EditorTemplates\Parts.SeoGlobalSettings.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts.SeoGlobalSettings.OtherSettings.cshtml" />
     <Content Include="Views\Parts.Title.SeoSummaryAdmin.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EditorTemplates\Parts.SeoGlobalSettings.Homepage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EditorTemplates\Parts.SeoGlobalSettings.TitlePatterns.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

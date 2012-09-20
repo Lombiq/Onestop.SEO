@@ -1,5 +1,8 @@
 ﻿<Placement>
-  <Place Parts_SeoGlobalSettings_Edit="Content:1"/>
+  <Place Parts_SeoGlobalSettings_Homepage_Edit="Content:1"
+         Parts_SeoGlobalSettings_TitlePatterns_Edit="Content:2"
+         Parts_SeoGlobalSettings_OtherSettings_Edit="Content:3"/>
+  <Place Parts_ProductsSeoGlobalSettings_TitlePatterns_Edit="Content:2.1"/>
   <Match DisplayType="SeoSummaryAdmin-TitleRewriter">
     <Place Parts_Seo_SeoSummaryAdmin_Edit="Content:9"
            Parts_Seo_TitleOverride_SeoSummaryAdmin_Edit="Content:1"

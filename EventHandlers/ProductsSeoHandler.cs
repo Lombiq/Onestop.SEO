@@ -5,6 +5,8 @@ using System.Web;
 using Orchard.Events;
 using Onestop.Seo.Services;
 using Orchard.Tokens;
+using Orchard.ContentManagement;
+using Onestop.Seo.Models;
 
 namespace Onestop.Seo.EventHandlers {
     public interface IAnalyticsEvents : IEventHandler {
@@ -29,7 +31,7 @@ namespace Onestop.Seo.EventHandlers {
         }
 
         public void Category(dynamic category, string sort) {
-            var titlePattern = _seoSettingsManager.GetGlobalSettings().ProductCategoryTitlePattern;
+            var titlePattern = _seoSettingsManager.GetGlobalSettings().As<ProductsSeoGlobalSettingsPart>().ProductCategoryTitlePattern;
             if (String.IsNullOrEmpty(titlePattern)) return;
 
             var title = _tokenizer.Replace(
@@ -41,7 +43,7 @@ namespace Onestop.Seo.EventHandlers {
         }
 
         public void Product(dynamic product) {
-            var titlePattern = _seoSettingsManager.GetGlobalSettings().ProductTitlePattern;
+            var titlePattern = _seoSettingsManager.GetGlobalSettings().As<ProductsSeoGlobalSettingsPart>().ProductTitlePattern;
             if (String.IsNullOrEmpty(titlePattern)) return;
 
             var title = _tokenizer.Replace(
