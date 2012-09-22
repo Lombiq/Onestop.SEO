@@ -33,14 +33,6 @@ namespace Onestop.Seo {
             ContentDefinitionManager.AlterPartDefinition(typeof(SeoPart).Name, builder => builder.Attachable());
 
 
-            SchemaBuilder.CreateTable(typeof(ProductsSeoGlobalSettingsPartRecord).Name,
-                table => table
-                    .ContentPartVersionRecord()
-                    .Column<string>("ProductTitlePattern", column => column.WithLength(1024))
-                    .Column<string>("ProductCategoryTitlePattern", column => column.WithLength(1024))
-                );
-
-
             return 1;
         }
     }
