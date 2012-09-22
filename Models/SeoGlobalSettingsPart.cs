@@ -33,73 +33,105 @@ namespace Onestop.Seo.Models {
             get { return _seoContentTypes.Value; }
         }
 
-        #region Content title patterns
-        private IDictionary<string, string> _titlePatternsViewDictionary;
+        #region SEO patterns
+        public IDictionary<string, string> TitlePatternsViewDictionary {
+            get { return GetSeoPatternsViewDictionary(SeoParameterType.Title); }
+
+            set { SetSeoPatternsViewDictionary(SeoParameterType.Title, value); }
+        }
+
+        public IDictionary<string, string> DescriptionPatternsViewDictionary {
+            get { return GetSeoPatternsViewDictionary(SeoParameterType.Description); }
+
+            set { SetSeoPatternsViewDictionary(SeoParameterType.Description, value); }
+        }
+
+        public IDictionary<string, string> KeywordsPatternsViewDictionary {
+            get { return GetSeoPatternsViewDictionary(SeoParameterType.Keywords); }
+
+            set { SetSeoPatternsViewDictionary(SeoParameterType.Keywords, value); }
+        }
+
         /// <summary>
         /// Only for model binding
         /// </summary>
-        public IDictionary<string, string> TitlePatternsViewDictionary { // Better name?
+        private IDictionary<SeoParameterType, IDictionary<string, string>> _seoPatternsViewDictionary;
+        private IDictionary<SeoParameterType, IDictionary<string, string>> SeoPatternsViewDictionary {
             get {
-                if (_titlePatternsViewDictionary == null) {
-                    _titlePatternsViewDictionary = SeoContentTypes.ToDictionary(definition => definition.Name, definition => "");
+                return _seoPatternsViewDictionary ??
+                       (_seoPatternsViewDictionary = new Dictionary<SeoParameterType, IDictionary<string, string>>());
+            }
+            set { _seoPatternsViewDictionary = value; }
+        }
 
-                    if (TitlePatternsDictionary.Count != 0) {
-                        foreach (var pattern in TitlePatternsDictionary) {
-                            _titlePatternsViewDictionary[pattern.Key] = pattern.Value;
-                        }
+        private IDictionary<string, string> GetSeoPatternsViewDictionary(SeoParameterType type) {
+            if (!SeoPatternsViewDictionary.ContainsKey(type)) {
+                var viewDictionary = SeoPatternsViewDictionary[type] = SeoContentTypes.ToDictionary(definition => definition.Name, definition => "");
+
+                if (SeoPatternsDictionary.Count != 0 && SeoPatternsDictionary.ContainsKey(type)) {
+                    foreach (var pattern in SeoPatternsDictionary[type]) {
+                        viewDictionary[pattern.Key] = pattern.Value;
                     }
                 }
-
-                return _titlePatternsViewDictionary;
             }
 
-            set {
-                _titlePatternsViewDictionary = value;
-                TitlePatternsDictionary = value;
-            }
+            return SeoPatternsViewDictionary[type];
         }
 
-        public void SetTitlePattern(string contentType, string pattern) {
-            TitlePatternsDictionary[contentType] = pattern;
-            SaveTitlePatternsDictionary();
+        private void SetSeoPatternsViewDictionary(SeoParameterType type, IDictionary<string, string> dictionary) {
+            SeoPatternsViewDictionary[type] = dictionary;
+            SeoPatternsDictionary[type] = dictionary;
+            SaveSeoPatternsDictionary();
         }
 
-        public string GetTitlePattern(string contentType) {
-            if (!TitlePatternsDictionary.ContainsKey(contentType)) return null;
-            return TitlePatternsDictionary[contentType];
+
+        public void SetSeoPattern(SeoParameterType type, string contentType, string pattern) {
+            if (!SeoPatternsDictionary.ContainsKey(type)) SeoPatternsDictionary[type] = new Dictionary<string, string>();
+            SeoPatternsDictionary[type][contentType] = pattern;
+            SaveSeoPatternsDictionary();
         }
 
-        private IDictionary<string, string> _titlePatternsDictionary;
-        private IDictionary<string, string> TitlePatternsDictionary {
+        public string GetSeoPattern(SeoParameterType type, string contentType) {
+            if (!SeoPatternsDictionary.ContainsKey(type) || !SeoPatternsDictionary[type].ContainsKey(contentType)) return null;
+            return SeoPatternsDictionary[type][contentType];
+        }
+
+        private IDictionary<SeoParameterType, IDictionary<string, string>> _seoPatternsDictionary;
+        private IDictionary<SeoParameterType, IDictionary<string, string>> SeoPatternsDictionary {
             get {
-                if (_titlePatternsDictionary == null) {
-                    if (String.IsNullOrEmpty(ContentTitlePatternsDefinition)) {
-                        _titlePatternsDictionary = new Dictionary<string, string>();
+                if (_seoPatternsDictionary == null) {
+                    if (String.IsNullOrEmpty(SeoPatternsDefinition)) {
+                        _seoPatternsDictionary = new Dictionary<SeoParameterType, IDictionary<string, string>>();
                     }
                     else {
-                        _titlePatternsDictionary = new JavaScriptSerializer().Deserialize<IDictionary<string, string>>(ContentTitlePatternsDefinition);
+                        var serializer = new JavaScriptSerializer();
+                        var tempDictionary = serializer.Deserialize<Dictionary<string, IDictionary<string, string>>>(SeoPatternsDefinition);
+                        _seoPatternsDictionary = tempDictionary.ToDictionary(entry => serializer.ConvertToType<SeoParameterType>(entry.Key), entry => entry.Value);
                     }
                 }
 
-                return _titlePatternsDictionary;
+                return _seoPatternsDictionary;
             }
 
             set {
-                _titlePatternsDictionary = value;
-                SaveTitlePatternsDictionary();
+                _seoPatternsDictionary = value;
+                SaveSeoPatternsDictionary();
             }
         }
 
-        private void SaveTitlePatternsDictionary() {
-            ContentTitlePatternsDefinition = new JavaScriptSerializer().Serialize(TitlePatternsDictionary);
+        private void SaveSeoPatternsDictionary() {
+            // This converting from enum-keyed to string-keyed dictionary is necessary for JavaScriptSerializer.
+            // See: http://stackoverflow.com/questions/2892910/problems-with-json-serialize-dictionaryenum-int32
+            var tempDictionary = SeoPatternsDictionary.Keys.ToDictionary(key => key.ToString(), key => SeoPatternsDictionary[key]);
+            SeoPatternsDefinition = new JavaScriptSerializer().Serialize(tempDictionary);
         }
 
         /// <summary>
         /// Serialized title patterns
         /// </summary>
-        public string ContentTitlePatternsDefinition {
-            get { return Record.ContentTitlePatternsDefinition; }
-            set { Record.ContentTitlePatternsDefinition = value; }
+        public string SeoPatternsDefinition {
+            get { return Record.SeoPatternsDefinition; }
+            set { Record.SeoPatternsDefinition = value; }
         }
         #endregion
 
@@ -111,16 +143,6 @@ namespace Onestop.Seo.Models {
         public bool EnableCanonicalUrls {
             get { return Record.EnableCanonicalUrls; }
             set { Record.EnableCanonicalUrls = value; }
-        }
-
-        public bool UseCategoriesForKeywords {
-            get { return Record.UseCategoriesForKeywords; }
-            set { Record.UseCategoriesForKeywords = value; }
-        }
-
-        public bool AutogenerateDescriptions {
-            get { return Record.AutogenerateDescriptions; }
-            set { Record.AutogenerateDescriptions = value; }
         }
     }
 
@@ -135,15 +157,11 @@ namespace Onestop.Seo.Models {
         public virtual string HomeKeywords { get; set; }
 
         [StringLengthMax]
-        public virtual string ContentTitlePatternsDefinition { get; set; }
+        public virtual string SeoPatternsDefinition { get; set; }
 
         [StringLength(1024)]
         public virtual string SearchTitlePattern { get; set; }
 
         public virtual bool EnableCanonicalUrls { get; set; }
-
-        public virtual bool UseCategoriesForKeywords { get; set; }
-
-        public virtual bool AutogenerateDescriptions { get; set; }
     }
 }

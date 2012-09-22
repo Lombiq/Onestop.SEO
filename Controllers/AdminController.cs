@@ -98,18 +98,21 @@ namespace Onestop.Seo.Controllers {
                 case "DescriptionRewriter":
                     title = T("SEO Description Tag Rewriter").Text;
                     break;
+                case "KeywordsRewriter":
+                    title = T("SEO Keywords Tag Rewriter").Text;
+                    break;
                 default:
                     return new HttpNotFoundResult();
             }
             _orchardServices.WorkContext.Layout.Title = title;
 
-            Pager pager = new Pager(_siteService.GetSiteSettings(), pagerParameters);
+            var pager = new Pager(_siteService.GetSiteSettings(), pagerParameters);
 
             var seoContentTypes = _seoService.ListSeoContentTypes();
             var query = _contentManager.Query(VersionOptions.Latest, seoContentTypes.Select(type => type.Name).ToArray());
 
             if (!string.IsNullOrEmpty(listViewModel.TypeName)) {
-                var typeDefinition = seoContentTypes.Where(t => t.Name == listViewModel.TypeName).SingleOrDefault();
+                var typeDefinition = seoContentTypes.SingleOrDefault(t => t.Name == listViewModel.TypeName);
                 if (typeDefinition == null) return HttpNotFound();
 
                 listViewModel.TypeDisplayName = typeDefinition.DisplayName;
@@ -220,6 +223,13 @@ namespace Onestop.Seo.Controllers {
                         _contentManager.Publish(item.ContentItem);
                     }
                     break;
+                case "KeywordsRewriter":
+                    foreach (var id in itemIds) {
+                        var item = _contentManager.Get<SeoPart>(id, VersionOptions.DraftRequired);
+                        item.KeywordsOverride = null;
+                        _contentManager.Publish(item.ContentItem);
+                    }
+                    break;
                 default:
                     return new HttpNotFoundResult();
             }
@@ -240,6 +250,12 @@ namespace Onestop.Seo.Controllers {
             //    case "DescriptionRewriter":
             //        foreach (var item in items) {
             //            item.DescriptionOverride = null;
+            //            _contentManager.Publish(item.ContentItem);
+            //        }
+            //        break;
+            //    case "KeywordsRewriter":
+            //        foreach (var item in items) {
+            //            item.KeywordsOverride = null;
             //            _contentManager.Publish(item.ContentItem);
             //        }
             //        break;

@@ -2,17 +2,22 @@
            
 <fieldset>
     <legend>@T("SEO Content Type Title Patterns")</legend>
-    <ol>
-        @{ var i = 0; }
-        @foreach (var type in Model.SeoContentTypes) {
-            <li>
-                @Html.Label("TitlePatternsViewDictionary[" + i + "].Value", type.DisplayName)
-                @Html.Hidden("TitlePatternsViewDictionary[" + i + "].Key", type.Name)
-                @Html.TextBox("TitlePatternsViewDictionary[" + i + "].Value", Model.TitlePatternsViewDictionary[type.Name], new { @class = "text large tokenized" })
-            </li>
-            i++;
-        }
-    </ol>
+    @if (!Model.SeoContentTypes.Any()) {
+        @T("No content type has SeoPart attached, therefore type-specific title patterns can't be set.");
+    }
+    else {
+        <ol>
+            @{ var i = 0; }
+            @foreach (var type in Model.SeoContentTypes) {
+                <li>
+                    @Html.Label("TitlePatternsViewDictionary[" + i + "].Value", type.DisplayName)
+                    @Html.Hidden("TitlePatternsViewDictionary[" + i + "].Key", type.Name)
+                    @Html.TextBox("TitlePatternsViewDictionary[" + i + "].Value", Model.TitlePatternsViewDictionary[type.Name], new { @class = "text large tokenized" })
+                </li>
+                i++;
+            }
+        </ol>
+    }
 </fieldset>
 
 <fieldset>

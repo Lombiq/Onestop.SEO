@@ -29,32 +29,15 @@ namespace Onestop.Seo.Services {
             return _contentDefinitionManager.ListTypeDefinitions().Where(t => t.Parts.Any(p => p.PartDefinition.Name == typeof(SeoPart).Name));
         }
 
-        public string GenerateTitle(IContent content) {
+        public string GenerateSeoParameter(SeoParameterType type, IContent content) {
             var globalSettings = _seoSettingsManager.GetGlobalSettings();
-            var titlePattern = globalSettings.GetTitlePattern(content.ContentItem.ContentType);
-            if (String.IsNullOrEmpty(titlePattern)) return null;
+            var pattern = globalSettings.GetSeoPattern(type, content.ContentItem.ContentType);
+            if (String.IsNullOrEmpty(pattern)) return null;
 
             return _tokenizer.Replace(
-                        titlePattern,
+                        pattern,
                         new Dictionary<string, object> { { "Content", content } },
                         new ReplaceOptions { Encoding = ReplaceOptions.NoEncode });
-        }
-
-        public string GenerateDescription(IContent content) {
-            if (!content.Has<BodyPart>()) return null;
-
-            var text = content.As<BodyPart>().Text.RemoveTags().Trim();
-            if (String.IsNullOrEmpty(text)) return null;
-
-            var description = text;
-
-            var maxLength = 150;
-            if (text.Length > maxLength) {
-                var spacePosition = text.IndexOf(" ", maxLength);
-                if (spacePosition > -1) description = text.Substring(0, spacePosition);
-            }
-
-            return description;
         }
     }
 }

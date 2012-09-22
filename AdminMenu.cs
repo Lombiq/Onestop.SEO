@@ -26,6 +26,8 @@ namespace Onestop.Seo {
                 item => item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "TitleRewriter" }).Permission(Permissions.ManageSeo));
             menu.Add(T("Description Tag Rewriter"), "2",
                 item => item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "DescriptionRewriter" }).Permission(Permissions.ManageSeo));
+            menu.Add(T("Keywords Tag Rewriter"), "2",
+                item => item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "KeywordsRewriter" }).Permission(Permissions.ManageSeo));
         }
     }
 }

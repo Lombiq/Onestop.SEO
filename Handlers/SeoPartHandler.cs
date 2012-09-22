@@ -18,11 +18,15 @@ namespace Onestop.Seo.Handlers {
             Filters.Add(StorageFilter.For(repository));
 
             OnActivated<SeoPart>((context, part) => {
-                part.GeneratedTitleField.Loader(() => seoServiceWork.Value.GenerateTitle(part.ContentItem));
+                part.GeneratedTitleField.Loader(() => seoServiceWork.Value.GenerateSeoParameter(SeoParameterType.Title, part.ContentItem));
             });
 
             OnActivated<SeoPart>((context, part) => {
-                part.GeneratedDescriptionField.Loader(() => seoServiceWork.Value.GenerateDescription(part.ContentItem));
+                part.GeneratedDescriptionField.Loader(() => seoServiceWork.Value.GenerateSeoParameter(SeoParameterType.Description, part.ContentItem));
+            });
+
+            OnActivated<SeoPart>((context, part) => {
+                part.GeneratedKeywordsField.Loader(() => seoServiceWork.Value.GenerateSeoParameter(SeoParameterType.Keywords, part.ContentItem));
             });
         }
     }

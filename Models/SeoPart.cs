@@ -22,6 +22,12 @@ namespace Onestop.Seo.Models {
             get { return _generatedDescription.Value; }
         }
 
+        private readonly LazyField<string> _generatedKeywords = new LazyField<string>();
+        public LazyField<string> GeneratedKeywordsField { get { return _generatedKeywords; } }
+        public string GeneratedKeywords {
+            get { return _generatedKeywords.Value; }
+        }
+
         public string TitleOverride {
             get { return Record.TitleOverride; }
             set { Record.TitleOverride = value; }
@@ -31,6 +37,11 @@ namespace Onestop.Seo.Models {
             get { return Record.DescriptionOverride; }
             set { Record.DescriptionOverride = value; }
         }
+
+        public string KeywordsOverride {
+            get { return Record.KeywordsOverride; }
+            set { Record.KeywordsOverride = value; }
+        }
     }
 
     public class SeoPartRecord : ContentPartVersionRecord {
@@ -39,5 +50,8 @@ namespace Onestop.Seo.Models {
 
         [StringLengthMax]
         public virtual string DescriptionOverride { get; set; }
+
+        [StringLengthMax]
+        public virtual string KeywordsOverride { get; set; }
     }
 }

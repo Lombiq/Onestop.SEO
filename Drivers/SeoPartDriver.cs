@@ -33,6 +33,11 @@ namespace Onestop.Seo.Drivers {
                     () => shapeHelper.EditorTemplate(
                             TemplateName: "Parts.Seo.DescriptionOverride.SeoSummaryAdmin",
                             Model: part,
+                            Prefix: Prefix)),
+                ContentShape("Parts_Seo_KeywordsOverride_SeoSummaryAdmin_Edit",
+                    () => shapeHelper.EditorTemplate(
+                            TemplateName: "Parts.Seo.KeywordsOverride.SeoSummaryAdmin",
+                            Model: part,
                             Prefix: Prefix)));
         }
 
