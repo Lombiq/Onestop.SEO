@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Orchard.Mvc.Filters;
-using Orchard.Alias;
+﻿using Onestop.Seo.Services;
 using Orchard.ContentManagement;
 using Orchard.Environment;
+using Orchard.Mvc.Filters;
 using Orchard.UI.Resources;
-using Onestop.Seo.Services;
+using System.Web.Mvc;
 
 namespace Onestop.Seo.Filters {
     public class CanoncialUrlFilter : FilterProvider, IResultFilter {

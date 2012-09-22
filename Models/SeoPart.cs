@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Orchard.ContentManagement;
 using Orchard.ContentManagement.Records;
-using Orchard.ContentManagement;
-using System.ComponentModel.DataAnnotations;
-using Orchard.Data.Conventions;
 using Orchard.Core.Common.Utilities;
+using Orchard.Data.Conventions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Onestop.Seo.Models {
     public class SeoPart : ContentPart<SeoPartRecord> {

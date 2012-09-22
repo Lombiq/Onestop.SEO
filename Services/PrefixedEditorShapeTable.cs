@@ -1,9 +1,6 @@
 ﻿using Orchard.DisplayManagement.Descriptors;
 using Orchard.Environment;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Onestop.Seo.Services {
     public class PrefixedEditorShapeTable : IShapeTableProvider {

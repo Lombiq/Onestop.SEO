@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Orchard.ContentManagement.Records;
-using System.ComponentModel.DataAnnotations;
-using Orchard.ContentManagement;
-using Orchard.Data.Conventions;
-using System.Web.Script.Serialization;
-using Orchard.Core.Common.Utilities;
+﻿using Orchard.ContentManagement;
 using Orchard.ContentManagement.MetaData.Models;
+using Orchard.ContentManagement.Records;
+using Orchard.Core.Common.Utilities;
+using Orchard.Data.Conventions;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Script.Serialization;
 
 namespace Onestop.Seo.Models {
     public class SeoGlobalSettingsPart : ContentPart<SeoGlobalSettingsPartRecord>, ISeoGlobalSettings {

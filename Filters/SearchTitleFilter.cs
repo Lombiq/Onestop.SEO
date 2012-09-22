@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Orchard.Mvc.Filters;
-using System.Web.Mvc;
+﻿using Onestop.Seo.Services;
 using Orchard.Environment;
-using Onestop.Seo.Services;
+using Orchard.Mvc.Filters;
 using Orchard.Tokens;
+using System;
+using System.Web.Mvc;
 
 namespace Onestop.Seo.Filters {
     public class SearchTitleFilter : FilterProvider, IActionFilter {

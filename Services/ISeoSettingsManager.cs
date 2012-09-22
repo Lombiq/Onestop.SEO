@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Onestop.Seo.Models;
-using Orchard.ContentManagement;
+﻿using Onestop.Seo.Models;
 using Orchard;
+using Orchard.ContentManagement;
 
 namespace Onestop.Seo.Services {
     public interface ISeoSettingsManager : IDependency {

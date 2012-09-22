@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Orchard.UI.Admin;
-using Orchard;
-using Orchard.Security;
-using Orchard.Localization;
-using Orchard.ContentManagement;
+﻿using Onestop.Seo.Models;
 using Onestop.Seo.Services;
-using Orchard.UI.Notify;
-using Orchard.UI.Navigation;
-using Orchard.Settings;
-using Onestop.Seo.Models;
-using Orchard.DisplayManagement;
-using Orchard.Core.Contents.ViewModels;
+using Orchard;
+using Orchard.ContentManagement;
 using Orchard.Core.Common.Models;
 using Orchard.Core.Contents.Controllers;
-using Orchard.DisplayManagement.Descriptors;
+using Orchard.Core.Contents.ViewModels;
+using Orchard.Localization;
+using Orchard.Security;
+using Orchard.Settings;
+using Orchard.UI.Admin;
+using Orchard.UI.Navigation;
+using Orchard.UI.Notify;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Onestop.Seo.Controllers {
     [Admin]

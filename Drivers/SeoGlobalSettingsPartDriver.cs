@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Orchard.ContentManagement.Drivers;
-using Onestop.Seo.Models;
+﻿using Onestop.Seo.Models;
 using Orchard.ContentManagement;
+using Orchard.ContentManagement.Drivers;
 using Orchard.ContentManagement.Handlers;
-using Orchard.ContentManagement.MetaData;
-using Orchard.ContentManagement.MetaData.Models;
 
 namespace Onestop.Seo.Drivers {
     public class SeoGlobalSettingsPartDriver : ContentPartDriver<SeoGlobalSettingsPart> {

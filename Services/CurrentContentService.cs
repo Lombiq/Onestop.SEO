@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Orchard.ContentManagement;
-using Orchard;
+﻿using Orchard;
 using Orchard.Alias;
+using Orchard.ContentManagement;
+using System;
 
 namespace Onestop.Seo.Services {
     public class CurrentContentService : ICurrentContentService {

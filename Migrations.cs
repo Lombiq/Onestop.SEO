@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Onestop.Seo.Models;
 using Orchard.ContentManagement.MetaData;
-using Orchard.Data.Migration;
-using Onestop.Seo.Models;
 using Orchard.Core.Contents.Extensions;
+using Orchard.Data.Migration;
 
 namespace Onestop.Seo {
     public class Migrations : DataMigrationImpl {

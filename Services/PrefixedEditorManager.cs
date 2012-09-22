@@ -1,10 +1,7 @@
 ﻿using Orchard.ContentManagement;
-using Orchard.DisplayManagement.Descriptors;
 using Orchard.Localization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Onestop.Seo.Services {
     public class PrefixedEditorManager : IPrefixedEditorManager {

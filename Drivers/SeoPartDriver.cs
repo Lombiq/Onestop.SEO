@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Onestop.Seo.Models;
-using Orchard.ContentManagement.Drivers;
+﻿using Onestop.Seo.Models;
 using Orchard.ContentManagement;
+using Orchard.ContentManagement.Drivers;
 using Orchard.ContentManagement.Handlers;
 
 namespace Onestop.Seo.Drivers {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Orchard.UI.PageTitle;
+﻿using Orchard.UI.PageTitle;
 
 namespace Onestop.Seo.Services {
     public interface ISeoPageTitleBuilder : IPageTitleBuilder {

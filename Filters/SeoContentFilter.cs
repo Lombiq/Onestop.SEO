@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using Onestop.Seo.Models;
 using Onestop.Seo.Services;
+using Orchard.ContentManagement;
 using Orchard.Environment;
 using Orchard.Mvc.Filters;
 using Orchard.UI.Resources;
-using Orchard.ContentManagement;
-using Onestop.Seo.Models;
+using System;
+using System.Web.Mvc;
 
 namespace Onestop.Seo.Filters {
     public class SeoContentFilter : FilterProvider, IResultFilter {

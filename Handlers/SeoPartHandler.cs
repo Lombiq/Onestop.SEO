@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
+using Onestop.Seo.Models;
+using Onestop.Seo.Services;
 using Orchard.ContentManagement.Handlers;
 using Orchard.Data;
-using Onestop.Seo.Models;
 using Orchard.Environment;
-using Onestop.Seo.Services;
 
 namespace Onestop.Seo.Handlers {
     [UsedImplicitly]
