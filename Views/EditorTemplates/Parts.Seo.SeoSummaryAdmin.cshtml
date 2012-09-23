@@ -2,6 +2,12 @@
 
 <input type="hidden" name="itemIds" value="@Model.ContentItem.Id" />
 
-<span class="text onestop-seo-character-counter"></span>
+<div class="onestop-seo-override-controls">
+    <div class="onestop-seo-override-indicators">
+        <span class="onestop-seo-override-indicate-default">@T("default")</span>
+        <span class="onestop-seo-override-indicate-overridden">@T("overridden")</span>
+    </div>
+    <span class="text onestop-seo-character-counter"></span>
 
-<button type="submit" name="submit.SaveIndividual" class="button" value="@Model.ContentItem.Id">@T("Save")</button>
+    <button type="submit" name="submit.SaveIndividual" class="button" value="@Model.ContentItem.Id">@T("Save")</button>
+</div>

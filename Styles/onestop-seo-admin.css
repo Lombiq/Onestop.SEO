@@ -3,19 +3,29 @@
     width: 80%;
 }
 
-.onestop-seo-generated-default
-{
-    color: #BDBCBC;
-}
-
 .onestop-seo-too-long
 {
     color: #D84141;
 }
 
-.onestop-seo-generated-default.onestop-seo-too-long
+.onestop-seo-override-controls
 {
-    color: #E68585;
+}
+
+.onestop-seo-override-controls
+{
+    display: inline-block;
+}
+
+.onestop-seo-override-indicators
+{
+    display: inline-block;
+    text-align: right;
+    width: 6em;
+}
+.onestop-seo-override-indicate-default, .onestop-seo-override-indicate-overridden
+{
+    display: none;
 }
 
 .onestop-seo-character-counter
