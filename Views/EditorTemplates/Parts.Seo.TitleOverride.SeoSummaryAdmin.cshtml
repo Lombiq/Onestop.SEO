@@ -1,8 +1,4 @@
 ﻿@model Onestop.Seo.Models.SeoPart
+@using Onestop.Seo;
 
-@{
-    var title = !String.IsNullOrEmpty(Model.TitleOverride) ? Model.TitleOverride : Model.GeneratedTitle;
-}
-
-@Html.TextBox("TitleOverride", title, 
-    new { @class = "text onestop-seo-rewrite-value", data_generated_default = Model.GeneratedTitle, data_max_length = "70" })
+@Html.SeoOverrideTextbox("TitleOverride", Model.TitleOverride, Model.GeneratedTitle, 70)

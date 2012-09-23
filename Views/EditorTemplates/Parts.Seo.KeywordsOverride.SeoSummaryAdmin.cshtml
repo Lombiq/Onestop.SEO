@@ -1,8 +1,4 @@
 ﻿@model Onestop.Seo.Models.SeoPart
-
-@{
-    var keywords = !String.IsNullOrEmpty(Model.KeywordsOverride) ? Model.KeywordsOverride : Model.GeneratedKeywords;
-}
-
-@Html.TextBox("KeywordsOverride", keywords,
-    new { @class = "text onestop-seo-rewrite-value", data_generated_default = Model.GeneratedKeywords, data_max_length = "255" })
+@using Onestop.Seo;
+           
+@Html.SeoOverrideTextbox("KeywordsOverride", Model.KeywordsOverride, Model.GeneratedKeywords, 100)

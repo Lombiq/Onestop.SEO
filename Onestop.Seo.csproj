@@ -111,6 +111,7 @@
     <Compile Include="Filters\SeoContentFilter.cs" />
     <Compile Include="Handlers\SeoGlobalSettingsPartHandler.cs" />
     <Compile Include="Handlers\SeoPartHandler.cs" />
+    <Compile Include="HtmlExtensions.cs" />
     <Compile Include="RequestExtensions.cs" />
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Services\ICurrentContentService.cs" />

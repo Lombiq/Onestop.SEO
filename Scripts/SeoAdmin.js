@@ -7,9 +7,16 @@
                         var textBox = $(this);
                         var defaultValue = textBox.attr("data-generated-default");
                         var maxLength = textBox.attr("data-max-length");
-                        var controls = textBox.parents("li").first().find(".onestop-seo-override-controls");
+                        var parentLi = textBox.parents("li");
+                        var controls = parentLi.find(".onestop-seo-override-controls");
+                        var itemId = parentLi.find('input[name="itemIds"]').val();
                         var form = textBox.parents("form");
-                        var itemId = textBox.parents("li").find('input[name="itemIds"]').val();
+
+                        parentLi.find(".onestop-seo-override-edit").click(function (e) {
+                            $(this).hide();
+                            parentLi.find(".onestop-seo-override-submit").show();
+                            textBox.removeAttr("readonly");
+                        });
 
                         var refreshCounter = function () {
                             var length = textBox.val().length;
