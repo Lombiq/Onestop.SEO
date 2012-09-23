@@ -8,6 +8,8 @@
                         var defaultValue = textBox.attr("data-generated-default");
                         var maxLength = textBox.attr("data-max-length");
                         var controls = textBox.parents("li").first().find(".onestop-seo-override-controls");
+                        var form = textBox.parents("form");
+                        var itemId = textBox.parents("li").find('input[name="itemIds"]').val();
 
                         var refreshCounter = function () {
                             var length = textBox.val().length;
@@ -53,6 +55,14 @@
                         textBox.keyup(function (e) {
                             indicateOverridden();
                             refreshCounter();
+                        });
+                        
+                        form.submit(function (e) {
+                            var submitButton = $(e.originalEvent.explicitOriginalTarget);
+                            if (submitButton.attr("class").indexOf("onestop-seo-override-submit-clear") != -1
+                                && submitButton.val() == itemId) {
+                                textBox.val("");
+                            }
                         });
                     });
                 }

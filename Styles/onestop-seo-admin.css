@@ -1,6 +1,6 @@
 ﻿.onestop-seo-rewrite-value
 {
-    width: 80%;
+    width: 70%;
 }
 
 .onestop-seo-too-long
@@ -34,4 +34,9 @@
     width: 3em;
     text-align: right;
     margin: 0 1em 0 0.2em;
+}
+
+.onestop-seo-override-submit-clear
+{
+    margin-right: 1em;
 }
