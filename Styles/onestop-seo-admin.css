@@ -1,4 +1,10 @@
-﻿.onestop-seo-rewrite-value
+﻿.onestop-seo-search-container
+{
+    display: inline-block;
+    margin-left: 1em;
+}
+
+.onestop-seo-rewrite-value
 {
     width: 70%;
 }
@@ -6,10 +12,6 @@
 .onestop-seo-too-long
 {
     color: #D84141;
-}
-
-.onestop-seo-override-controls
-{
 }
 
 .onestop-seo-override-controls

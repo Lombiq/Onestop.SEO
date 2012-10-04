@@ -15,6 +15,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Orchard.Collections;
+using Orchard.Indexing;
+using Orchard.Search.Services;
+using Orchard.Search.Models;
+using Orchard.Exceptions;
 
 namespace Onestop.Seo.Controllers {
     [Admin]
@@ -23,6 +28,7 @@ namespace Onestop.Seo.Controllers {
         private readonly IAuthorizer _authorizer;
         private readonly IContentManager _contentManager;
         private readonly dynamic _shapeFactory;
+        private readonly ISearchService _searchService;
 
         private readonly IPrefixedEditorManager _prefixedEditorManager;
         private readonly ISiteService _siteService;
@@ -33,6 +39,7 @@ namespace Onestop.Seo.Controllers {
 
         public AdminController(
             IOrchardServices orchardServices,
+            ISearchService searchService,
             ISiteService siteService,
             IPrefixedEditorManager prefixedEditorManager,
             ISeoSettingsManager seoSettingsManager,
@@ -41,6 +48,7 @@ namespace Onestop.Seo.Controllers {
             _authorizer = orchardServices.Authorizer;
             _contentManager = orchardServices.ContentManager;
             _shapeFactory = _orchardServices.New;
+            _searchService = searchService;
 
             _prefixedEditorManager = prefixedEditorManager;
             _siteService = siteService;
@@ -82,7 +90,7 @@ namespace Onestop.Seo.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Rewriter(string rewriterType, ListContentsViewModel listViewModel, PagerParameters pagerParameters) {
+        public ActionResult Rewriter(string rewriterType, ListContentsViewModel listViewModel, PagerParameters pagerParameters, string q = null) {
             // These Authorize() calls are mainly placeholders for future permissions, that's why they're copy-pasted around.
             if (!_authorizer.Authorize(Permissions.ManageSeo, T("You're not allowed to manage SEO settings.")))
                 return new HttpUnauthorizedResult();
@@ -103,10 +111,29 @@ namespace Onestop.Seo.Controllers {
             }
             _orchardServices.WorkContext.Layout.Title = title;
 
-            var pager = new Pager(_siteService.GetSiteSettings(), pagerParameters);
+            var siteSettings = _siteService.GetSiteSettings();
+            var pager = new Pager(siteSettings, pagerParameters);
 
             var seoContentTypes = _seoService.ListSeoContentTypes();
             var query = _contentManager.Query(VersionOptions.Latest, seoContentTypes.Select(type => type.Name).ToArray());
+
+            if (!String.IsNullOrEmpty(q)) {
+                IPageOfItems<ISearchHit> searchHits = new PageOfItems<ISearchHit>(new ISearchHit[] { });
+                try {
+                    searchHits = _searchService.Query(q, pager.Page, pager.PageSize,
+                                                      false,
+                                                      siteSettings.As<SearchSettingsPart>().SearchedFields,
+                                                      searchHit => searchHit);
+                    // Could use this: http://orchard.codeplex.com/workitem/18664
+                    // Converting to List, because the expression should contain an ICollection
+                    var hitIds = searchHits.Select(hit => hit.ContentItemId).ToList();
+                    query.Where<CommonPartRecord>(record => hitIds.Contains(record.Id));
+                }
+                catch (Exception ex) {
+                    if (ex.IsFatal()) throw;
+                    _orchardServices.Notifier.Error(T("Invalid search query: {0}", ex.Message));
+                }
+            }
 
             if (!string.IsNullOrEmpty(listViewModel.TypeName)) {
                 var typeDefinition = seoContentTypes.SingleOrDefault(t => t.Name == listViewModel.TypeName);
@@ -118,14 +145,12 @@ namespace Onestop.Seo.Controllers {
 
             switch (listViewModel.Options.OrderBy) {
                 case ContentsOrder.Modified:
-                    //query = query.OrderByDescending<ContentPartRecord, int>(ci => ci.ContentItemRecord.Versions.Single(civr => civr.Latest).Id);
                     query = query.OrderByDescending<CommonPartRecord>(cr => cr.ModifiedUtc);
                     break;
                 case ContentsOrder.Published:
                     query = query.OrderByDescending<CommonPartRecord>(cr => cr.PublishedUtc);
                     break;
                 case ContentsOrder.Created:
-                    //query = query.OrderByDescending<ContentPartRecord, int>(ci => ci.Id);
                     query = query.OrderByDescending<CommonPartRecord>(cr => cr.CreatedUtc);
                     break;
             }
@@ -157,8 +182,11 @@ namespace Onestop.Seo.Controllers {
 
         [HttpPost, ActionName("Rewriter")]
         [FormValueRequired("submit.Filter")]
-        public ActionResult RewriterFilterPost(string rewriterType, ContentOptions options) {
+        public ActionResult RewriterFilterPost(string rewriterType, ContentOptions options, string q = null) {
             var routeValues = ControllerContext.RouteData.Values;
+
+            // Keeping search query if there's one
+            if (!String.IsNullOrEmpty(q)) routeValues["q"] = q;
 
             if (options != null) {
                 routeValues["Options.OrderBy"] = options.OrderBy; //todo: don't hard-code the key
@@ -268,6 +296,15 @@ namespace Onestop.Seo.Controllers {
             _contentManager.Publish(item);
 
             return RedirectToAction("Rewriter", ControllerContext.RouteData.Values);
+        }
+
+        [HttpPost, ActionName("Rewriter")]
+        [FormValueRequired("submit.Search")]
+        public ActionResult RewriterSearch(string rewriterType, string q) {
+            // With this we clear other filters and order by settings first
+            var routeValues = ControllerContext.RouteData.Values;
+            routeValues["q"] = q;
+            return RedirectToAction("Rewriter", routeValues);
         }
 
         bool IUpdateModel.TryUpdateModel<TModel>(TModel model, string prefix, string[] includeProperties, string[] excludeProperties) {
