@@ -159,7 +159,7 @@ namespace Onestop.Seo.Controllers {
         [FormValueRequired("submit.Filter")]
         public ActionResult RewriterFilterPost(string rewriterType, ContentOptions options) {
             var routeValues = ControllerContext.RouteData.Values;
-            routeValues["rewriterType"] = rewriterType;
+
             if (options != null) {
                 routeValues["Options.OrderBy"] = options.OrderBy; //todo: don't hard-code the key
                 if (_seoService.ListSeoContentTypes().Any(t => t.Name.Equals(options.SelectedFilter, StringComparison.OrdinalIgnoreCase))) {
@@ -176,9 +176,6 @@ namespace Onestop.Seo.Controllers {
         [HttpPost, ActionName("Rewriter")]
         [FormValueRequired("submit.SaveAll")]
         public ActionResult RewriterSaveAllPost(string rewriterType, IEnumerable<int> itemIds) {
-            var routeValues = ControllerContext.RouteData.Values;
-            routeValues["rewriterType"] = rewriterType;
-
             foreach (var id in itemIds) {
                 var item = _contentManager.Get(id, VersionOptions.DraftRequired);
                 _prefixedEditorManager.UpdateEditor(item, this);
@@ -191,15 +188,12 @@ namespace Onestop.Seo.Controllers {
             //    _contentManager.Publish(item.ContentItem);
             //}
 
-            return RedirectToAction("Rewriter", routeValues);
+            return RedirectToAction("Rewriter", ControllerContext.RouteData.Values);
         }
 
         [HttpPost, ActionName("Rewriter")]
         [FormValueRequired("submit.ClearAll")]
         public ActionResult RewriterClearAllPost(string rewriterType) {
-            var routeValues = ControllerContext.RouteData.Values;
-            routeValues["rewriterType"] = rewriterType;
-
             var itemIds = _contentManager
                 .Query(_seoService.ListSeoContentTypes().Select(type => type.Name).ToArray())
                 .List()
@@ -260,15 +254,12 @@ namespace Onestop.Seo.Controllers {
             //        return new HttpNotFoundResult();
             //}
 
-            return RedirectToAction("Rewriter", routeValues);
+            return RedirectToAction("Rewriter", ControllerContext.RouteData.Values);
         }
 
         [HttpPost, ActionName("Rewriter")]
         [FormValueRequired("submit.SaveIndividual")]
         public ActionResult RewriterSaveIndividual(string rewriterType, [Bind(Prefix="submit.SaveIndividual")]int id) {
-            var routeValues = ControllerContext.RouteData.Values;
-            routeValues["rewriterType"] = rewriterType;
-
             var item = _contentManager.Get(id, VersionOptions.DraftRequired);
 
             if (item == null) return new HttpNotFoundResult();
@@ -276,7 +267,7 @@ namespace Onestop.Seo.Controllers {
             _prefixedEditorManager.UpdateEditor(item, this);
             _contentManager.Publish(item);
 
-            return RedirectToAction("Rewriter", routeValues);
+            return RedirectToAction("Rewriter", ControllerContext.RouteData.Values);
         }
 
         bool IUpdateModel.TryUpdateModel<TModel>(TModel model, string prefix, string[] includeProperties, string[] excludeProperties) {

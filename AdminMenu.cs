@@ -19,7 +19,16 @@ namespace Onestop.Seo {
             menu.Action("GlobalSettings", "Admin", new { area = "Onestop.Seo" }).Permission(Permissions.ManageSeo);
 
             menu.Add(T("Title Tag Rewriter"), "1",
-                item => item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "TitleRewriter" }).Permission(Permissions.ManageSeo));
+               item => {
+                   item
+                       .Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "TitleRewriter" }).Permission(Permissions.ManageSeo);
+                        
+                        //Will be needed for tabs
+                        //item
+                        //   .Add(T("Title Tag Rewriter"), "1.0", tab => tab.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "TitleRewriter" }).LocalNav().Permission(Permissions.ManageSeo))
+                        //   .Add(T("Manage menu 2"), "2.0", tab => tab.Action("Test", "Admin", new { area = "Onestop.Seo" }).LocalNav().Permission(Permissions.ManageSeo));
+               });
+
             menu.Add(T("Description Tag Rewriter"), "2",
                 item => item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "DescriptionRewriter" }).Permission(Permissions.ManageSeo));
             menu.Add(T("Keywords Tag Rewriter"), "2",
