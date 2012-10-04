@@ -114,6 +114,7 @@
     <Compile Include="HtmlExtensions.cs" />
     <Compile Include="RequestExtensions.cs" />
     <Compile Include="ResourceManifest.cs" />
+    <Compile Include="Routes.cs" />
     <Compile Include="Services\ICurrentContentService.cs" />
     <Compile Include="Services\IPrefixedEditorManager.cs" />
     <Compile Include="Services\ISeoPageTitleBuilder.cs" />
