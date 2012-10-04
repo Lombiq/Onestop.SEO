@@ -42,6 +42,7 @@ namespace Onestop.Seo.Drivers {
 
             if (part.TitleOverride == part.GeneratedTitle) part.TitleOverride = null;
             if (part.DescriptionOverride == part.GeneratedDescription) part.DescriptionOverride = null;
+            if (part.KeywordsOverride == part.GeneratedKeywords) part.KeywordsOverride = null;
 
             return Editor(part, shapeHelper);
         }
