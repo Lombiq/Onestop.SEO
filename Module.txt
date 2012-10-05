@@ -7,10 +7,4 @@ OrchardVersion: 1.6
 Description: Search Engine Optimization for Orchard content
 FeatureDescription: Search Engine Optimization for Orchard content
 Category: SEO
-Dependencies: Orchard.Tokens, Orchard.Alias, Orchard.jQuery, Contrib.Taxonomies, Title
-Features:
-    Onestop.Seo:
-		Name: Onestop SEO
-        Description: Search Engine Optimization for Orchard content
-		Category: SEO
-		Dependencies: Orchard.Tokens, Orchard.Alias, Orchard.jQuery, Orchard.Search, Contrib.Taxonomies, Title
+Dependencies: Orchard.Tokens, Orchard.Alias, Orchard.jQuery, Orchard.Search, Title
