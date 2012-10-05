@@ -1,12 +1,20 @@
-﻿using Orchard.Localization;
+﻿using Onestop.Seo.Services;
+using Orchard.Localization;
 using Orchard.UI.Navigation;
+using System.Linq;
+using System.Collections.Generic;
+using Orchard.ContentManagement.MetaData.Models;
 
 namespace Onestop.Seo {
     public class AdminMenu : INavigationProvider {
+        private readonly ISeoService _seoService;
+
         public Localizer T { get; set; }
         public string MenuName { get { return "admin"; } }
 
-        public AdminMenu() {
+        public AdminMenu(ISeoService seoService) {
+            _seoService = seoService;
+
             T = NullLocalizer.Instance;
         }
 
@@ -18,21 +26,41 @@ namespace Onestop.Seo {
             menu.LinkToFirstChild(false); // See: http://orchard.codeplex.com/workitem/18807
             menu.Action("GlobalSettings", "Admin", new { area = "Onestop.Seo" }).Permission(Permissions.ManageSeo);
 
-            menu.Add(T("Title Tag Rewriter"), "1",
-               item => {
-                   item
-                       .Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "TitleRewriter" }).Permission(Permissions.ManageSeo);
-                        
-                        //Will be needed for tabs
-                        //item
-                        //   .Add(T("Title Tag Rewriter"), "1.0", tab => tab.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "TitleRewriter" }).LocalNav().Permission(Permissions.ManageSeo))
-                        //   .Add(T("Manage menu 2"), "2.0", tab => tab.Action("Test", "Admin", new { area = "Onestop.Seo" }).LocalNav().Permission(Permissions.ManageSeo));
-               });
 
-            menu.Add(T("Description Tag Rewriter"), "2",
-                item => item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "DescriptionRewriter" }).Permission(Permissions.ManageSeo));
-            menu.Add(T("Keywords Tag Rewriter"), "2",
-                item => item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = "KeywordsRewriter" }).Permission(Permissions.ManageSeo));
+            var seoContentTypes = _seoService.ListSeoContentTypes();
+
+            var rewriters = new List<Rewriter> {
+                new Rewriter { DisplayName = T("Title Tag Rewriter"), Type = "TitleRewriter" },
+                new Rewriter { DisplayName = T("Description Tag Rewriter"), Type = "DescriptionRewriter" },
+                new Rewriter { DisplayName = T("Keywords Tag Rewriter"), Type = "KeywordsRewriter" }
+            };
+
+            int i = 1;
+            foreach (var rewriter in rewriters) {
+                menu.Add(rewriter.DisplayName, i.ToString(),
+                   item => {
+                       int l = 1;
+                       foreach (var contentType in seoContentTypes) {
+                           if (l == 1) {
+                               item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = rewriter.Type, Id = contentType.Name });
+                           }
+
+                           item
+                               .Add(T(contentType.DisplayName), l.ToString(), tab => tab.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = rewriter.Type, Id = contentType.Name })
+                                   .LocalNav()
+                                   .Permission(Permissions.ManageSeo));
+
+                           l++;
+                       }
+                   });
+
+                i++;
+            }
+        }
+
+        private class Rewriter {
+            public string Type { get; set; }
+            public LocalizedString DisplayName { get; set; }
         }
     }
 }

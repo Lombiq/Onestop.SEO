@@ -5,36 +5,31 @@
     Script.Require("OnestopSeo_Admin").AtFoot();
 }
 
-@using (Html.BeginFormAntiForgeryPost()) {
-    <fieldset class="bulk-actions">
-        <label for="filterResults" class="bulk-filter">@T("Show")</label>
-        <select id="filterResults" name="Options.SelectedFilter">
-            @Html.SelectOption((string)Model.Options.SelectedFilter, "", T("any (show all)").ToString())
-            @foreach(var filterOption in Model.Options.FilterOptions) {
-                @Html.SelectOption((string)Model.Options.SelectedFilter, (string)filterOption.Key, (string)filterOption.Value)
-            }
-        </select>
-        <label for="orderResults" class="bulk-order">@T("Ordered by")</label>
-        <select id="orderResults" name="Options.OrderBy">
-            @Html.SelectOption((ContentsOrder)Model.Options.OrderBy, ContentsOrder.Created, T("recently created").ToString())
-            @Html.SelectOption((ContentsOrder)Model.Options.OrderBy, ContentsOrder.Modified, T("recently modified").ToString())
-            @Html.SelectOption((ContentsOrder)Model.Options.OrderBy, ContentsOrder.Published, T("recently published").ToString())
-        </select>
-        <button type="submit" name="submit.Filter" value="yes please">@T("Apply")</button>
-    </fieldset>
-    <fieldset class="bulk-actions">
-        <button type="submit" name="submit.SaveAll" class="button" value="yes please">@T("Save all on this page")</button>
-        <button type="submit" name="submit.ClearAll" class="button" value="yes please">@T("Clear all")</button>
-    </fieldset>
-    <fieldset class="onestop-seo-search-container">
-        @Html.TextBox("q", "", new { @class = "text" })
-        <button type="submit" name="submit.Search" class="button" value="yes please">@T("Search on this tab")</button>
-    </fieldset>
-    <fieldset class="contentItems bulk-items">
-        @Display(Model.ContentItems)
-    </fieldset>
-    @Display(Model.Pager)
-}
+<div id="onestop-seo-rewriter-container">
+    @using (Html.BeginFormAntiForgeryPost()) {
+        <fieldset class="bulk-actions">
+            <label for="orderResults" class="bulk-order">@T("Ordered by")</label>
+            <select id="orderResults" name="Options.OrderBy">
+                @Html.SelectOption((ContentsOrder)Model.Options.OrderBy, ContentsOrder.Created, T("recently created").ToString())
+                @Html.SelectOption((ContentsOrder)Model.Options.OrderBy, ContentsOrder.Modified, T("recently modified").ToString())
+                @Html.SelectOption((ContentsOrder)Model.Options.OrderBy, ContentsOrder.Published, T("recently published").ToString())
+            </select>
+            <button type="submit" name="submit.Filter" value="yes please">@T("Apply")</button>
+        </fieldset>
+        <fieldset class="bulk-actions">
+            <button type="submit" name="submit.SaveAll" class="button" value="yes please">@T("Save all on this page")</button>
+            <button type="submit" name="submit.ClearAll" class="button" value="yes please">@T("Clear all")</button>
+        </fieldset>
+        <fieldset class="onestop-seo-search-container">
+            @Html.TextBox("q", "", new { @class = "text" })
+            <button type="submit" name="submit.Search" class="button" value="yes please">@T("Search on this tab")</button>
+        </fieldset>
+        <fieldset class="contentItems bulk-items">
+            @Display(Model.ContentItems)
+        </fieldset>
+        @Display(Model.Pager)
+    }
+</div>
 
 @using (Script.Foot()) {
     <script type="text/javascript">

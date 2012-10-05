@@ -22,7 +22,7 @@ namespace Onestop.Seo {
                             Priority = 100, 
                             Route =
                                 new Route(
-                                "Onestop.Seo/Rewriter/{rewriterType}", 
+                                "Onestop.Seo/Rewriter/{rewriterType}/{id}", 
                                 new RouteValueDictionary
                                     {
                                         { "area", "Onestop.Seo" }, 

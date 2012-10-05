@@ -135,6 +135,7 @@
     <Compile Include="Services\ISeoService.cs" />
     <Compile Include="Services\SeoService.cs" />
     <Compile Include="Services\SeoSettingsManager.cs" />
+    <Compile Include="ViewModels\RewriterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Admin\GlobalSettings.cshtml" />

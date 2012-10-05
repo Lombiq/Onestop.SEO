@@ -1,4 +1,9 @@
-﻿.onestop-seo-search-container
+﻿#onestop-seo-rewriter-container label.bulk-order
+{
+    text-transform: none;
+}
+
+.onestop-seo-search-container
 {
     display: inline-block;
     margin-left: 1em;

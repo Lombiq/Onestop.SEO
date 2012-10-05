@@ -20,6 +20,7 @@ using Orchard.Indexing;
 using Orchard.Search.Services;
 using Orchard.Search.Models;
 using Orchard.Exceptions;
+using Onestop.Seo.ViewModels;
 
 namespace Onestop.Seo.Controllers {
     [Admin]
@@ -90,13 +91,13 @@ namespace Onestop.Seo.Controllers {
         }
 
         [HttpGet]
-        public ActionResult Rewriter(string rewriterType, ListContentsViewModel listViewModel, PagerParameters pagerParameters, string q = null) {
+        public ActionResult Rewriter(RewriterViewModel rewriterViewModel, PagerParameters pagerParameters) {
             // These Authorize() calls are mainly placeholders for future permissions, that's why they're copy-pasted around.
             if (!_authorizer.Authorize(Permissions.ManageSeo, T("You're not allowed to manage SEO settings.")))
                 return new HttpUnauthorizedResult();
 
             string title;
-            switch (rewriterType) {
+            switch (rewriterViewModel.RewriterType) {
                 case "TitleRewriter":
                     title = T("SEO Title Tag Rewriter").Text;
                     break;
@@ -117,11 +118,10 @@ namespace Onestop.Seo.Controllers {
             var seoContentTypes = _seoService.ListSeoContentTypes();
             var query = _contentManager.Query(VersionOptions.Latest, seoContentTypes.Select(type => type.Name).ToArray());
 
-            if (!String.IsNullOrEmpty(q)) {
+            if (!String.IsNullOrEmpty(rewriterViewModel.Q)) {
                 IPageOfItems<ISearchHit> searchHits = new PageOfItems<ISearchHit>(new ISearchHit[] { });
                 try {
-                    searchHits = _searchService.Query(q, pager.Page, pager.PageSize,
-                                                      false,
+                    searchHits = _searchService.Query(rewriterViewModel.Q, pager.Page, pager.PageSize, false,
                                                       siteSettings.As<SearchSettingsPart>().SearchedFields,
                                                       searchHit => searchHit);
                     // Could use this: http://orchard.codeplex.com/workitem/18664
@@ -135,15 +135,15 @@ namespace Onestop.Seo.Controllers {
                 }
             }
 
-            if (!string.IsNullOrEmpty(listViewModel.TypeName)) {
-                var typeDefinition = seoContentTypes.SingleOrDefault(t => t.Name == listViewModel.TypeName);
+            if (!string.IsNullOrEmpty(rewriterViewModel.TypeName)) {
+                var typeDefinition = seoContentTypes.SingleOrDefault(t => t.Name == rewriterViewModel.TypeName);
                 if (typeDefinition == null) return HttpNotFound();
 
-                listViewModel.TypeDisplayName = typeDefinition.DisplayName;
-                query = query.ForType(listViewModel.TypeName);
+                rewriterViewModel.TypeDisplayName = typeDefinition.DisplayName;
+                query = query.ForType(rewriterViewModel.TypeName);
             }
 
-            switch (listViewModel.Options.OrderBy) {
+            switch (rewriterViewModel.Options.OrderBy) {
                 case ContentsOrder.Modified:
                     query = query.OrderByDescending<CommonPartRecord>(cr => cr.ModifiedUtc);
                     break;
@@ -155,10 +155,7 @@ namespace Onestop.Seo.Controllers {
                     break;
             }
 
-            listViewModel.Options.SelectedFilter = listViewModel.TypeName;
-            listViewModel.Options.FilterOptions = seoContentTypes
-                .Select(ctd => new KeyValuePair<string, string>(ctd.Name, ctd.DisplayName))
-                .ToList().OrderBy(kvp => kvp.Value);
+            rewriterViewModel.Options.SelectedFilter = rewriterViewModel.TypeName;
 
             var pagerShape = _shapeFactory.Pager(pager).TotalItemCount(query.Count());
             var pageOfContentItems = query.Slice(pager.GetStartIndex(), pager.PageSize).ToList();
@@ -166,13 +163,13 @@ namespace Onestop.Seo.Controllers {
             var list = _shapeFactory.List();
             list.AddRange(
                 pageOfContentItems.Select(
-                    item => _prefixedEditorManager.BuildShape(item, (content => _contentManager.BuildDisplay(content, "SeoSummaryAdmin-" + rewriterType)))
+                    item => _prefixedEditorManager.BuildShape(item, (content => _contentManager.BuildDisplay(content, "SeoSummaryAdmin-" + rewriterViewModel.RewriterType)))
                     )
                 );
 
             dynamic viewModel = _shapeFactory.ViewModel()
                 .ContentItems(list)
-                .Options(listViewModel.Options)
+                .Options(rewriterViewModel.Options)
                 .Pager(pagerShape);
 
             // Casting to avoid invalid (under medium trust) reflection over the protected View method and force a static invocation, despite
@@ -182,20 +179,14 @@ namespace Onestop.Seo.Controllers {
 
         [HttpPost, ActionName("Rewriter")]
         [FormValueRequired("submit.Filter")]
-        public ActionResult RewriterFilterPost(string rewriterType, ContentOptions options, string q = null) {
+        public ActionResult RewriterFilterPost(RewriterViewModel rewriterViewModel) {
             var routeValues = ControllerContext.RouteData.Values;
 
             // Keeping search query if there's one
-            if (!String.IsNullOrEmpty(q)) routeValues["q"] = q;
+            if (!String.IsNullOrEmpty(rewriterViewModel.Q)) routeValues["q"] = rewriterViewModel.Q;
 
-            if (options != null) {
-                routeValues["Options.OrderBy"] = options.OrderBy; //todo: don't hard-code the key
-                if (_seoService.ListSeoContentTypes().Any(t => t.Name.Equals(options.SelectedFilter, StringComparison.OrdinalIgnoreCase))) {
-                    routeValues["id"] = options.SelectedFilter;
-                }
-                else {
-                    routeValues.Remove("id");
-                }
+            if (rewriterViewModel.Options != null) {
+                routeValues["Options.OrderBy"] = rewriterViewModel.Options.OrderBy; //todo: don't hard-code the key
             }
 
             return RedirectToAction("Rewriter", routeValues);
@@ -203,9 +194,9 @@ namespace Onestop.Seo.Controllers {
 
         [HttpPost, ActionName("Rewriter")]
         [FormValueRequired("submit.SaveAll")]
-        public ActionResult RewriterSaveAllPost(string rewriterType, IEnumerable<int> itemIds) {
-            foreach (var id in itemIds) {
-                var item = _contentManager.Get(id, VersionOptions.DraftRequired);
+        public ActionResult RewriterSaveAllPost(RewriterViewModel rewriterViewModel, IEnumerable<int> itemIds) {
+            foreach (var itemId in itemIds) {
+                var item = _contentManager.Get(itemId, VersionOptions.DraftRequired);
                 _prefixedEditorManager.UpdateEditor(item, this);
                 _contentManager.Publish(item);
             }
@@ -221,30 +212,30 @@ namespace Onestop.Seo.Controllers {
 
         [HttpPost, ActionName("Rewriter")]
         [FormValueRequired("submit.ClearAll")]
-        public ActionResult RewriterClearAllPost(string rewriterType) {
+        public ActionResult RewriterClearAllPost(RewriterViewModel rewriterViewModel) {
             var itemIds = _contentManager
                 .Query(_seoService.ListSeoContentTypes().Select(type => type.Name).ToArray())
                 .List()
                 .Select(item => item.Id);
 
-            switch (rewriterType) {
+            switch (rewriterViewModel.RewriterType) {
                 case "TitleRewriter":
-                    foreach (var id in itemIds) {
-                        var item = _contentManager.Get<SeoPart>(id, VersionOptions.DraftRequired);
+                    foreach (var itemId in itemIds) {
+                        var item = _contentManager.Get<SeoPart>(itemId, VersionOptions.DraftRequired);
                         item.TitleOverride = null;
                         _contentManager.Publish(item.ContentItem);
                     }
                     break;
                 case "DescriptionRewriter":
-                    foreach (var id in itemIds) {
-                        var item = _contentManager.Get<SeoPart>(id, VersionOptions.DraftRequired);
+                    foreach (var itemId in itemIds) {
+                        var item = _contentManager.Get<SeoPart>(itemId, VersionOptions.DraftRequired);
                         item.DescriptionOverride = null;
                         _contentManager.Publish(item.ContentItem);
                     }
                     break;
                 case "KeywordsRewriter":
-                    foreach (var id in itemIds) {
-                        var item = _contentManager.Get<SeoPart>(id, VersionOptions.DraftRequired);
+                    foreach (var itemId in itemIds) {
+                        var item = _contentManager.Get<SeoPart>(itemId, VersionOptions.DraftRequired);
                         item.KeywordsOverride = null;
                         _contentManager.Publish(item.ContentItem);
                     }
@@ -259,7 +250,7 @@ namespace Onestop.Seo.Controllers {
             //                .Join<SeoPartRecord>()
             //                .List<SeoPart>();
 
-            //switch (rewriterType) {
+            //switch (rewriterViewModel.RewriterType) {
             //    case "TitleRewriter":
             //        foreach (var item in items) {
             //            item.TitleOverride = null;
@@ -287,8 +278,8 @@ namespace Onestop.Seo.Controllers {
 
         [HttpPost, ActionName("Rewriter")]
         [FormValueRequired("submit.SaveIndividual")]
-        public ActionResult RewriterSaveIndividual(string rewriterType, [Bind(Prefix="submit.SaveIndividual")]int id) {
-            var item = _contentManager.Get(id, VersionOptions.DraftRequired);
+        public ActionResult RewriterSaveIndividual(RewriterViewModel rewriterViewModel, [Bind(Prefix = "submit.SaveIndividual")]int itemId) {
+            var item = _contentManager.Get(itemId, VersionOptions.DraftRequired);
 
             if (item == null) return new HttpNotFoundResult();
 
@@ -300,10 +291,10 @@ namespace Onestop.Seo.Controllers {
 
         [HttpPost, ActionName("Rewriter")]
         [FormValueRequired("submit.Search")]
-        public ActionResult RewriterSearch(string rewriterType, string q) {
+        public ActionResult RewriterSearch(RewriterViewModel rewriterViewModel) {
             // With this we clear other filters and order by settings first
             var routeValues = ControllerContext.RouteData.Values;
-            routeValues["q"] = q;
+            routeValues["q"] = rewriterViewModel.Q;
             return RedirectToAction("Rewriter", routeValues);
         }
 
