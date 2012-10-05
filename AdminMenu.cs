@@ -2,6 +2,7 @@
 using Onestop.Seo.Services;
 using Orchard.Localization;
 using Orchard.UI.Navigation;
+using System.Linq;
 
 namespace Onestop.Seo {
     public class AdminMenu : INavigationProvider {
@@ -27,32 +28,34 @@ namespace Onestop.Seo {
 
             var seoContentTypes = _seoService.ListSeoContentTypes();
 
-            var rewriters = new List<Rewriter> {
-                new Rewriter { DisplayName = T("Title Tag Rewriter"), Type = "TitleRewriter" },
-                new Rewriter { DisplayName = T("Description Tag Rewriter"), Type = "DescriptionRewriter" },
-                new Rewriter { DisplayName = T("Keywords Tag Rewriter"), Type = "KeywordsRewriter" }
-            };
+            if (seoContentTypes.Count() != 0) {
+                var rewriters = new List<Rewriter> {
+                    new Rewriter { DisplayName = T("Title Tag Rewriter"), Type = "TitleRewriter" },
+                    new Rewriter { DisplayName = T("Description Tag Rewriter"), Type = "DescriptionRewriter" },
+                    new Rewriter { DisplayName = T("Keywords Tag Rewriter"), Type = "KeywordsRewriter" }
+                };
 
-            int i = 1;
-            foreach (var rewriter in rewriters) {
-                menu.Add(rewriter.DisplayName, i.ToString(),
-                   item => {
-                       int l = 1;
-                       foreach (var contentType in seoContentTypes) {
-                           if (l == 1) {
-                               item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = rewriter.Type, Id = contentType.Name });
+                int i = 1;
+                foreach (var rewriter in rewriters) {
+                    menu.Add(rewriter.DisplayName, i.ToString(),
+                       item => {
+                           int l = 1;
+                           foreach (var contentType in seoContentTypes) {
+                               if (l == 1) {
+                                   item.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = rewriter.Type, Id = contentType.Name });
+                               }
+
+                               item
+                                   .Add(T(contentType.DisplayName), l.ToString(), tab => tab.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = rewriter.Type, Id = contentType.Name })
+                                       .LocalNav()
+                                       .Permission(Permissions.ManageSeo));
+
+                               l++;
                            }
+                       });
 
-                           item
-                               .Add(T(contentType.DisplayName), l.ToString(), tab => tab.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = rewriter.Type, Id = contentType.Name })
-                                   .LocalNav()
-                                   .Permission(Permissions.ManageSeo));
-
-                           l++;
-                       }
-                   });
-
-                i++;
+                    i++;
+                } 
             }
         }
 
