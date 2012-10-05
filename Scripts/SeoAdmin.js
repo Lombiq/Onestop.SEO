@@ -43,7 +43,7 @@
                         else indicateOverridden();
 
                         textBox.focus(function (e) {
-                            if (textBox.val() != defaultValue) return;
+                            if (textBox.val() != defaultValue || textBox.is("[readonly]")) return;
                             textBox.val("");
                             refreshCounter();
                         });
