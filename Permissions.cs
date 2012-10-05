@@ -1,6 +1,6 @@
-﻿using Orchard.Environment.Extensions.Models;
+﻿using System.Collections.Generic;
+using Orchard.Environment.Extensions.Models;
 using Orchard.Security.Permissions;
-using System.Collections.Generic;
 
 namespace Onestop.Seo {
     public class Permissions : IPermissionProvider {

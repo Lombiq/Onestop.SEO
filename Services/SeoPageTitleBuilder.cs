@@ -1,8 +1,8 @@
-﻿using Orchard.Environment.Extensions;
-using Orchard.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Orchard.Environment.Extensions;
+using Orchard.Settings;
 
 namespace Onestop.Seo.Services {
     [OrchardSuppressDependency("Orchard.UI.PageTitle.PageTitleBuilder")]

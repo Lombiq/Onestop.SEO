@@ -1,9 +1,9 @@
-﻿using Onestop.Seo.Services;
+﻿using System;
+using System.Web.Mvc;
+using Onestop.Seo.Services;
 using Orchard.Environment;
 using Orchard.Mvc.Filters;
 using Orchard.Tokens;
-using System;
-using System.Web.Mvc;
 
 namespace Onestop.Seo.Filters {
     public class SearchTitleFilter : FilterProvider, IActionFilter {

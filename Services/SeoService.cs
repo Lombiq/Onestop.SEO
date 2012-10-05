@@ -1,11 +1,11 @@
-﻿using Onestop.Seo.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Onestop.Seo.Models;
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.MetaData;
 using Orchard.ContentManagement.MetaData.Models;
 using Orchard.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Onestop.Seo.Services {
     public class SeoService : ISeoService {

@@ -1,9 +1,7 @@
-﻿using Onestop.Seo.Services;
+﻿using System.Collections.Generic;
+using Onestop.Seo.Services;
 using Orchard.Localization;
 using Orchard.UI.Navigation;
-using System.Linq;
-using System.Collections.Generic;
-using Orchard.ContentManagement.MetaData.Models;
 
 namespace Onestop.Seo {
     public class AdminMenu : INavigationProvider {

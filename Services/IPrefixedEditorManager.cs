@@ -1,7 +1,7 @@
-﻿using Orchard;
-using Orchard.ContentManagement;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Orchard;
+using Orchard.ContentManagement;
 
 namespace Onestop.Seo.Services {
     public interface IPrefixedEditorManager : IDependency {

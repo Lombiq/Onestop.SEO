@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Orchard.Core.Contents.ViewModels;
+﻿using Orchard.Core.Contents.ViewModels;
 
 namespace Onestop.Seo.ViewModels {
     public class RewriterViewModel : ListContentsViewModel {

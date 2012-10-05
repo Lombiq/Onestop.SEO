@@ -1,6 +1,6 @@
-﻿using Onestop.Seo.Models;
+﻿using System.Linq;
+using Onestop.Seo.Models;
 using Orchard.ContentManagement;
-using System.Linq;
 
 namespace Onestop.Seo.Services {
     public class SeoSettingsManager : ISeoSettingsManager {

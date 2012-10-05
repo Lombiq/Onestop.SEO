@@ -1,11 +1,11 @@
-﻿using Onestop.Seo.Services;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
+using Onestop.Seo.Services;
 using Orchard.Environment;
 using Orchard.Mvc.Filters;
 using Orchard.Tokens;
 using Orchard.UI.Resources;
-using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
 
 namespace Onestop.Seo.Filters {
     public class HomePageFilter : FilterProvider, IResultFilter {

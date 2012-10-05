@@ -1,7 +1,7 @@
-﻿using Orchard;
+﻿using System;
+using Orchard;
 using Orchard.Alias;
 using Orchard.ContentManagement;
-using System;
 
 namespace Onestop.Seo.Services {
     public class CurrentContentService : ICurrentContentService {
