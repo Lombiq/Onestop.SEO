@@ -51,6 +51,7 @@ namespace Onestop.Seo.Drivers {
             context.Element(partName).SetAttributeValue("HomeDescription", part.HomeDescription);
             context.Element(partName).SetAttributeValue("HomeKeywords", part.HomeKeywords);
             context.Element(partName).SetAttributeValue("SeoPatternsDefinition", part.SeoPatternsDefinition);
+            context.Element(partName).SetAttributeValue("SearchTitlePattern", part.SearchTitlePattern);
             context.Element(partName).SetAttributeValue("EnableCanonicalUrls", part.EnableCanonicalUrls);
         }
 
@@ -61,6 +62,7 @@ namespace Onestop.Seo.Drivers {
             context.ImportAttribute(partName, "HomeDescription", value => part.HomeDescription = value);
             context.ImportAttribute(partName, "HomeKeywords", value => part.HomeKeywords = value);
             context.ImportAttribute(partName, "SeoPatternsDefinition", value => part.SeoPatternsDefinition = value);
+            context.ImportAttribute(partName, "SearchTitlePattern", value => part.SearchTitlePattern = value);
             context.ImportAttribute(partName, "EnableCanonicalUrls", value => part.EnableCanonicalUrls = bool.Parse(value));
         }
     }
