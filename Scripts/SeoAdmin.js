@@ -24,7 +24,7 @@
                             if (length > maxLength) textBox.addClass("onestop-seo-too-long");
                             else textBox.removeClass("onestop-seo-too-long");
 
-                            controls.find(".onestop-seo-character-counter").text(length);
+                            controls.find(".onestop-seo-character-counter").text(length + "/" + maxLength);
                         };
                         
                         var indicateDefault = function () {
