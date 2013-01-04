@@ -17,6 +17,14 @@ namespace Onestop.Seo {
                     .Column<bool>("EnableCanonicalUrls")
                 );
 
+            // Creating the type in the migration is necessary for CommonPart what in turn is necessary for Audit Trail
+            ContentDefinitionManager.AlterTypeDefinition("SeoSettings",
+                cfg => cfg
+                    .WithPart("CommonPart", p => p
+                        .WithSetting("DateEditorSettings.ShowDateEditor", "false")
+                        .WithSetting("OwnerEditorSettings.ShowOwnerEditor", "false"))
+                    .WithPart(typeof(SeoGlobalSettingsPart).Name));
+
             SchemaBuilder.CreateTable(typeof(SeoPartRecord).Name,
                 table => table
                     .ContentPartVersionRecord()
