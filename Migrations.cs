@@ -36,7 +36,19 @@ namespace Onestop.Seo {
             ContentDefinitionManager.AlterPartDefinition(typeof(SeoPart).Name, builder => builder.Attachable());
 
 
-            return 1;
+            return 2;
+        }
+
+        public int UpdateFrom1() {
+            ContentDefinitionManager.AlterTypeDefinition("SeoSettings",
+                cfg => cfg
+                    .WithPart("CommonPart", p => p
+                        .WithSetting("DateEditorSettings.ShowDateEditor", "false")
+                        .WithSetting("OwnerEditorSettings.ShowOwnerEditor", "false"))
+                    .WithPart(typeof(SeoGlobalSettingsPart).Name));
+
+
+            return 2;
         }
     }
 }
