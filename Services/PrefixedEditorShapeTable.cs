@@ -14,6 +14,9 @@ namespace Onestop.Seo.Services {
             builder.Describe("EditorTemplate")
                 .OnDisplaying(displaying => {
                     var shape = displaying.Shape;
+
+                    if (shape["ContentItem"] == null) return; // This isn't a content item's shape, we can't help you.
+
                     int itemId = shape.ContentItem.Id;
 
                     if (!_prefixedEditorManagerWork.Value.ItemIds.Contains(itemId)) return;
