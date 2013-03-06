@@ -15,5 +15,8 @@ namespace Onestop.Seo.Models {
         string GetSeoPattern(SeoParameterType type, string contentType);
         string SearchTitlePattern { get; }
         bool EnableCanonicalUrls { get; }
+        int TitleOverrideMaxLength { get; }
+        int DescriptionOverrideMaxLength { get; }
+        int KeywordsOverrideMaxLength { get; }
     }
 }

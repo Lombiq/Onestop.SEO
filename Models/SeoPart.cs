@@ -6,6 +6,12 @@ using Orchard.Data.Conventions;
 
 namespace Onestop.Seo.Models {
     public class SeoPart : ContentPart<SeoPartRecord> {
+        private readonly LazyField<ISeoGlobalSettings> _globalSettings = new LazyField<ISeoGlobalSettings>();
+        public LazyField<ISeoGlobalSettings> GlobalSettingsField { get { return _globalSettings; } }
+        public ISeoGlobalSettings GlobalSettings {
+            get { return _globalSettings.Value; }
+        }
+
         private readonly LazyField<string> _generatedTitle = new LazyField<string>();
         public LazyField<string> GeneratedTitleField { get { return _generatedTitle; } }
         public string GeneratedTitle {

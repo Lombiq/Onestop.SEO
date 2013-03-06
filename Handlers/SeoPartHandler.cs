@@ -10,8 +10,13 @@ namespace Onestop.Seo.Handlers {
     public class SeoPartHandler : ContentHandler {
         public SeoPartHandler(
             IRepository<SeoPartRecord> repository,
-            Work<ISeoService> seoServiceWork) {
+            Work<ISeoService> seoServiceWork,
+            Work<ISeoSettingsManager> settingsManagerWork) {
             Filters.Add(StorageFilter.For(repository));
+
+            OnActivated<SeoPart>((context, part) => {
+                part.GlobalSettingsField.Loader(() => settingsManagerWork.Value.GetGlobalSettings());
+            });
 
             OnActivated<SeoPart>((context, part) => {
                 part.GeneratedTitleField.Loader(() => seoServiceWork.Value.GenerateSeoParameter(SeoParameterType.Title, part.ContentItem));

@@ -143,6 +143,21 @@ namespace Onestop.Seo.Models {
             get { return Record.EnableCanonicalUrls; }
             set { Record.EnableCanonicalUrls = value; }
         }
+
+        public int TitleOverrideMaxLength {
+            get { return Record.TitleOverrideMaxLength; }
+            set { Record.TitleOverrideMaxLength = value; }
+        }
+
+        public int DescriptionOverrideMaxLength {
+            get { return Record.DescriptionOverrideMaxLength; }
+            set { Record.DescriptionOverrideMaxLength = value; }
+        }
+
+        public int KeywordsOverrideMaxLength {
+            get { return Record.KeywordsOverrideMaxLength; }
+            set { Record.KeywordsOverrideMaxLength = value; }
+        }
     }
 
     public class SeoGlobalSettingsPartRecord : ContentPartVersionRecord {
@@ -162,5 +177,18 @@ namespace Onestop.Seo.Models {
         public virtual string SearchTitlePattern { get; set; }
 
         public virtual bool EnableCanonicalUrls { get; set; }
+
+        public virtual int TitleOverrideMaxLength { get; set; }
+
+        public virtual int DescriptionOverrideMaxLength { get; set; }
+
+        public virtual int KeywordsOverrideMaxLength { get; set; }
+
+
+        public SeoGlobalSettingsPartRecord() {
+            TitleOverrideMaxLength = 70;
+            DescriptionOverrideMaxLength = 150;
+            KeywordsOverrideMaxLength = 100;
+        }
     }
 }

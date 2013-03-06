@@ -1,4 +1,4 @@
 ﻿@model Onestop.Seo.Models.SeoPart
 @using Onestop.Seo;
 
-@Html.SeoOverrideTextbox("TitleOverride", Model.TitleOverride, Model.GeneratedTitle, 70)
+@Html.SeoOverrideTextbox("TitleOverride", Model.TitleOverride, Model.GeneratedTitle, Model.GlobalSettings.TitleOverrideMaxLength)

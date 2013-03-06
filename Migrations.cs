@@ -15,6 +15,9 @@ namespace Onestop.Seo {
                     .Column<string>("SeoPatternsDefinition", column => column.Unlimited())
                     .Column<string>("SearchTitlePattern", column => column.WithLength(1024))
                     .Column<bool>("EnableCanonicalUrls")
+                    .Column<int>("TitleOverrideMaxLength")
+                    .Column<int>("DescriptionOverrideMaxLength")
+                    .Column<int>("KeywordsOverrideMaxLength")
                 );
 
             // Creating the type in the migration is necessary for CommonPart what in turn is necessary for Audit Trail
@@ -36,7 +39,7 @@ namespace Onestop.Seo {
             ContentDefinitionManager.AlterPartDefinition(typeof(SeoPart).Name, builder => builder.Attachable());
 
 
-            return 2;
+            return 3;
         }
 
         public int UpdateFrom1() {
@@ -49,6 +52,18 @@ namespace Onestop.Seo {
 
 
             return 2;
+        }
+
+        public int UpdateFrom2() {
+            SchemaBuilder.AlterTable(typeof(SeoGlobalSettingsPartRecord).Name,
+                table => {
+                    table.AddColumn<int>("TitleOverrideMaxLength");
+                    table.AddColumn<int>("DescriptionOverrideMaxLength");
+                    table.AddColumn<int>("KeywordsOverrideMaxLength");
+                });
+
+
+            return 3;
         }
     }
 }

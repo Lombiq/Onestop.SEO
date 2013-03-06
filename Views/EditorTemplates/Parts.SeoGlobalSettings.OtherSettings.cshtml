@@ -12,4 +12,25 @@
     </ol>
 </fieldset>
 
+<fieldset>
+    <legend>@T("Maximal lengths")</legend>
+    <ol>
+        <li>
+            @Html.LabelFor(m => m.TitleOverrideMaxLength, T("Maximal length of title overrides"))
+            @Html.TextBoxFor(m => m.TitleOverrideMaxLength, new { @class = "text-small" })
+            @Html.ValidationMessageFor(m => m.TitleOverrideMaxLength)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.DescriptionOverrideMaxLength, T("Maximal length of description overrides"))
+            @Html.TextBoxFor(m => m.DescriptionOverrideMaxLength, new { @class = "text-small" })
+            @Html.ValidationMessageFor(m => m.DescriptionOverrideMaxLength)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.KeywordsOverrideMaxLength, T("Maximal length of keywords overrides"))
+            @Html.TextBoxFor(m => m.KeywordsOverrideMaxLength, new { @class = "text-small" })
+            @Html.ValidationMessageFor(m => m.KeywordsOverrideMaxLength)
+        </li>
+    </ol>
+</fieldset>
+
 @Display.TokenHint()
