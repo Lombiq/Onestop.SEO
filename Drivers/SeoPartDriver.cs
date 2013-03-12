@@ -48,10 +48,11 @@ namespace Onestop.Seo.Drivers {
         }
 
         protected override void Exporting(SeoPart part, ExportContentContext context) {
-            var partName = part.PartDefinition.Name;
+            var element = context.Element(part.PartDefinition.Name);
 
-            context.Element(partName).SetAttributeValue("TitleOverride", part.TitleOverride);
-            context.Element(partName).SetAttributeValue("DescriptionOverride", part.DescriptionOverride);
+            element.SetAttributeValue("TitleOverride", part.TitleOverride);
+            element.SetAttributeValue("DescriptionOverride", part.DescriptionOverride);
+            element.SetAttributeValue("KeywordsOverride", part.KeywordsOverride);
         }
 
         protected override void Importing(SeoPart part, ImportContentContext context) {
@@ -59,6 +60,7 @@ namespace Onestop.Seo.Drivers {
 
             context.ImportAttribute(partName, "TitleOverride", value => part.TitleOverride = value);
             context.ImportAttribute(partName, "DescriptionOverride", value => part.DescriptionOverride = value);
+            context.ImportAttribute(partName, "KeywordsOverride", value => part.KeywordsOverride = value);
         }
     }
 }
