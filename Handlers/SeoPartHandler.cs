@@ -16,17 +16,8 @@ namespace Onestop.Seo.Handlers {
 
             OnActivated<SeoPart>((context, part) => {
                 part.GlobalSettingsField.Loader(() => settingsManagerWork.Value.GetGlobalSettings());
-            });
-
-            OnActivated<SeoPart>((context, part) => {
                 part.GeneratedTitleField.Loader(() => seoServiceWork.Value.GenerateSeoParameter(SeoParameterType.Title, part.ContentItem));
-            });
-
-            OnActivated<SeoPart>((context, part) => {
                 part.GeneratedDescriptionField.Loader(() => seoServiceWork.Value.GenerateSeoParameter(SeoParameterType.Description, part.ContentItem));
-            });
-
-            OnActivated<SeoPart>((context, part) => {
                 part.GeneratedKeywordsField.Loader(() => seoServiceWork.Value.GenerateSeoParameter(SeoParameterType.Keywords, part.ContentItem));
             });
         }
