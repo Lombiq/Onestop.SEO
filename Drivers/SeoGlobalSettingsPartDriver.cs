@@ -45,14 +45,17 @@ namespace Onestop.Seo.Drivers {
         }
 
         protected override void Exporting(SeoGlobalSettingsPart part, ExportContentContext context) {
-            var partName = part.PartDefinition.Name;
+            var element = context.Element(part.PartDefinition.Name);
 
-            context.Element(partName).SetAttributeValue("HomeTitle", part.HomeTitle);
-            context.Element(partName).SetAttributeValue("HomeDescription", part.HomeDescription);
-            context.Element(partName).SetAttributeValue("HomeKeywords", part.HomeKeywords);
-            context.Element(partName).SetAttributeValue("SeoPatternsDefinition", part.SeoPatternsDefinition);
-            context.Element(partName).SetAttributeValue("SearchTitlePattern", part.SearchTitlePattern);
-            context.Element(partName).SetAttributeValue("EnableCanonicalUrls", part.EnableCanonicalUrls);
+            element.SetAttributeValue("HomeTitle", part.HomeTitle);
+            element.SetAttributeValue("HomeDescription", part.HomeDescription);
+            element.SetAttributeValue("HomeKeywords", part.HomeKeywords);
+            element.SetAttributeValue("SeoPatternsDefinition", part.SeoPatternsDefinition);
+            element.SetAttributeValue("SearchTitlePattern", part.SearchTitlePattern);
+            element.SetAttributeValue("EnableCanonicalUrls", part.EnableCanonicalUrls);
+            element.SetAttributeValue("TitleOverrideMaxLength", part.TitleOverrideMaxLength);
+            element.SetAttributeValue("DescriptionOverrideMaxLength", part.DescriptionOverrideMaxLength);
+            element.SetAttributeValue("KeywordsOverrideMaxLength", part.KeywordsOverrideMaxLength);
         }
 
         protected override void Importing(SeoGlobalSettingsPart part, ImportContentContext context) {
@@ -64,6 +67,9 @@ namespace Onestop.Seo.Drivers {
             context.ImportAttribute(partName, "SeoPatternsDefinition", value => part.SeoPatternsDefinition = value);
             context.ImportAttribute(partName, "SearchTitlePattern", value => part.SearchTitlePattern = value);
             context.ImportAttribute(partName, "EnableCanonicalUrls", value => part.EnableCanonicalUrls = bool.Parse(value));
+            context.ImportAttribute(partName, "TitleOverrideMaxLength", value => part.TitleOverrideMaxLength = int.Parse(value));
+            context.ImportAttribute(partName, "DescriptionOverrideMaxLength", value => part.DescriptionOverrideMaxLength = int.Parse(value));
+            context.ImportAttribute(partName, "KeywordsOverrideMaxLength", value => part.KeywordsOverrideMaxLength = int.Parse(value));
         }
     }
 }
