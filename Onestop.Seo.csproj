@@ -76,6 +76,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Scripts\Web.config" />
     <Content Include="Styles\Web.config" />
+    <Compile Include="Drivers\SeoDynamicPagePartDriver.cs" />
+    <Compile Include="Handlers\SeoDynamicPagePartHandler.cs" />
+    <Compile Include="Models\SeoDynamicPagePart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Module.txt" />
   </ItemGroup>
@@ -136,6 +139,7 @@
     <Compile Include="Services\ISeoService.cs" />
     <Compile Include="Services\SeoService.cs" />
     <Compile Include="Services\SeoSettingsManager.cs" />
+    <Compile Include="ViewModels\DynamicPageRewriterViewModel.cs" />
     <Compile Include="ViewModels\RewriterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +170,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\EditorTemplates\Parts.Seo.KeywordsOverride.SeoSummaryAdmin.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\DynamicPageRewriter.Lookup.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SeoNonContent.Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\DynamicPageRewriter.Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EditorTemplates\Parts.Seo.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

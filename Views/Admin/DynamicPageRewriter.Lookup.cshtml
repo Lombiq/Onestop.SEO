@@ -1,0 +1,16 @@
+﻿@model Onestop.Seo.ViewModels.DynamicPageRewriterViewModel
+
+@{
+    Layout.Title = "SEO rewriter for dynamic pages";
+}
+
+@using (Html.BeginForm("DynamicPageRewriter", "Admin", FormMethod.Get)) {
+    <fieldset>
+        <legend>@T("Look up a dynamic page")</legend>
+        @Html.LabelFor(m => m.Url, T("Url of page"))
+        @Html.TextBoxFor(m => m.Url, new { @class = "textMedium" })
+        <span class="hint">@T("Enter the full url of the page here of which you'd like to modifiy SEO properties (just copy its url from the browser's address bar).")</span>
+    </fieldset>
+    
+    <button type="submit" class="button">@T("OK")</button>
+}

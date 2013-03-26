@@ -34,6 +34,11 @@ namespace Onestop.Seo.Drivers {
                     () => shapeHelper.EditorTemplate(
                             TemplateName: "Parts.Seo.KeywordsOverride.SeoSummaryAdmin",
                             Model: part,
+                            Prefix: Prefix)),
+                ContentShape("Parts_Seo_Edit", // Generic editor, not shown by default for any content types
+                    () => shapeHelper.EditorTemplate(
+                            TemplateName: "Parts.Seo",
+                            Model: part,
                             Prefix: Prefix)));
         }
 
