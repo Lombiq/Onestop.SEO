@@ -33,7 +33,7 @@ namespace Onestop.Seo.Filters {
         }
 
         public void OnResultExecuting(ResultExecutingContext filterContext) {
-            if (!filterContext.HttpContext.Request.IsHomePage()) return;
+            if (!filterContext.HttpContext.Request.IsHomePage() || !(filterContext.Result is ViewResult)) return;
 
             var globalSettings = _seoSettingsManagerWork.Value.GetGlobalSettings();
 

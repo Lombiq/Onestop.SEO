@@ -37,9 +37,10 @@ namespace Onestop.Seo.Filters {
 
         public void OnResultExecuting(ResultExecutingContext filterContext) {
             // Don't run on admin
-            if (Orchard.UI.Admin.AdminFilter.IsApplied(filterContext.RequestContext)) return;
-
-            if (filterContext.HttpContext.Request.IsHomePage()) return;
+            if (Orchard.UI.Admin.AdminFilter.IsApplied(filterContext.RequestContext)
+                // Should only run on a full view rendering result
+                || !(filterContext.Result is ViewResult)
+                || filterContext.HttpContext.Request.IsHomePage()) return;
 
 
             string title, description, keywords;
