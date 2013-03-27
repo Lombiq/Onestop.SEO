@@ -27,8 +27,8 @@ namespace Onestop.Seo.Filters {
         }
 
         public void OnResultExecuting(ResultExecutingContext filterContext) {
-            // Don't run on admin
-            if (Orchard.UI.Admin.AdminFilter.IsApplied(filterContext.RequestContext)) return;
+            // Don't run on admin  or in non-full views
+            if (Orchard.UI.Admin.AdminFilter.IsApplied(filterContext.RequestContext) || !(filterContext.Result is ViewResult)) return;
 
             if (!_seoSettingsManagerWork.Value.GetGlobalSettings().EnableCanonicalUrls) return;
 

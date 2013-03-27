@@ -29,9 +29,10 @@ namespace Onestop.Seo {
 
             var seoContentTypes = _seoService.ListSeoContentTypes();
 
-            if (seoContentTypes.Count() != 0) {
-                RunThroughRewriters(menu, (rewriter, builder) => {
-                    int l = 1;
+
+            RunThroughRewriters(menu, (rewriter, builder) => {
+                int l = 1;
+                if (seoContentTypes.Any()) {
                     foreach (var contentType in seoContentTypes) {
                         if (l == 1) {
                             builder.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = rewriter.Type, Id = contentType.Name });
@@ -44,8 +45,13 @@ namespace Onestop.Seo {
 
                         l++;
                     }
-                });
-            }
+                }
+
+                builder
+                    .Add(T("Dynamic pages"), l.ToString(), tab => tab.Action("Rewriter", "Admin", new { area = "Onestop.Seo", rewriterType = rewriter.Type, Id = "Dynamic" })
+                        .LocalNav()
+                        .Permission(Permissions.ManageSeo));
+            });
         }
 
 

@@ -112,6 +112,8 @@ namespace Onestop.Seo.Controllers {
             }
             _orchardServices.WorkContext.Layout.Title = title;
 
+            if (rewriterViewModel.TypeName == "Dynamic") return DynamicPageRewriter(new DynamicPageRewriterViewModel());
+
             var siteSettings = _siteService.GetSiteSettings();
             var pager = new Pager(siteSettings, pagerParameters);
 
@@ -298,12 +300,73 @@ namespace Onestop.Seo.Controllers {
             return RedirectToAction("Rewriter", routeValues);
         }
 
+        public ActionResult DynamicPageRewriter(DynamicPageRewriterViewModel viewModel) {
+            if (string.IsNullOrEmpty(viewModel.Url)) {
+                return View("DynamicPageRewriter.Lookup", viewModel);
+            }
+            else if (!Uri.IsWellFormedUriString(viewModel.Url, UriKind.Absolute)) {
+                _orchardServices.Notifier.Error(T("The url you entered was not a valid full url."));
+                return View("DynamicPageRewriter.Lookup", viewModel);
+            }
+
+            var item = GetDynamicPageItem(viewModel.Url);
+
+            if (item == null) item = _contentManager.New("SeoDynamicPage");
+
+            viewModel.EditorShape = _contentManager.BuildEditor(item);
+
+            return View("DynamicPageRewriter.Edit", viewModel);
+        }
+
+        [HttpPost, ActionName("DynamicPageRewriter")]
+        public ActionResult DynamicPageRewriterPost(DynamicPageRewriterViewModel viewModel) {
+            var item = GetDynamicPageItem(viewModel.Url);
+
+            if (item == null) {
+                item = _contentManager.New("SeoDynamicPage");
+                if (!Uri.IsWellFormedUriString(viewModel.Url, UriKind.Absolute)) {
+                    ModelState.AddModelError("UriMalformed", T("The url you entered was not a valid full url.").Text);
+                }
+                else item.As<SeoDynamicPagePart>().Path = new Uri(viewModel.Url).AbsolutePath;
+                
+                _contentManager.Create(item);
+            }
+            else {
+                item = _contentManager.Get(item.Id, VersionOptions.DraftRequired);
+            }
+
+            viewModel.EditorShape = _contentManager.UpdateEditor(item, this);
+            _contentManager.Publish(item);
+
+            if (!ModelState.IsValid) {
+                _orchardServices.TransactionManager.Cancel();
+                return View("DynamicPageRewriter.Edit", viewModel);
+            }
+
+            _orchardServices.Notifier.Information(T("Overrides for the dynamic page saved."));
+
+            return this.RedirectToAction("DynamicPageRewriter");
+        }
+
         bool IUpdateModel.TryUpdateModel<TModel>(TModel model, string prefix, string[] includeProperties, string[] excludeProperties) {
             return TryUpdateModel(model, prefix, includeProperties, excludeProperties);
         }
 
         void IUpdateModel.AddModelError(string key, LocalizedString errorMessage) {
             ModelState.AddModelError(key, errorMessage.ToString());
+        }
+
+
+        private ContentItem GetDynamicPageItem(string url) {
+            if (!Uri.IsWellFormedUriString(url, UriKind.Absolute)) return null;
+
+            var uri = new Uri(url);
+
+            return _contentManager
+                        .Query("SeoDynamicPage")
+                        .Where<SeoDynamicPagePartRecord>(record => record.Path == uri.AbsolutePath)
+                        .List()
+                        .SingleOrDefault();
         }
     }
 }

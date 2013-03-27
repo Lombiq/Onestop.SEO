@@ -26,6 +26,9 @@ namespace Onestop.Seo.Filters {
                 || (string)routeValues["controller"] != "search" 
                 || (string)routeValues["action"] != "index") return;
 
+            // Should only run on a full view rendering result
+            if (!(filterContext.Result is ViewResult)) return;
+
             var titlePattern = _seoSettingsManagerWork.Value.GetGlobalSettings().SearchTitlePattern;
             if (String.IsNullOrEmpty(titlePattern)) return;
 

@@ -7,4 +7,4 @@ OrchardVersion: 1.6
 Description: Search Engine Optimization for Orchard content
 FeatureDescription: Search Engine Optimization for Orchard content
 Category: SEO
-Dependencies: Orchard.Tokens, Orchard.Alias, Orchard.jQuery, Orchard.Search, Title
+Dependencies: Orchard.Alias, Orchard.Caching, Orchard.jQuery, Orchard.Search, Orchard.Tokens, Title

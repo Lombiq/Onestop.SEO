@@ -1,0 +1,9 @@
+﻿@model Onestop.Seo.ViewModels.DynamicPageRewriterViewModel
+
+@T("Editing SEO overrides for the page under the url {0}.", Model.Url)
+
+@using (Html.BeginFormAntiForgeryPost()) {
+    @Display(Model.EditorShape)
+    
+    <button type="submit" class="button">@T("Save")</button>
+}

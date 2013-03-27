@@ -38,8 +38,26 @@ namespace Onestop.Seo {
 
             ContentDefinitionManager.AlterPartDefinition(typeof(SeoPart).Name, builder => builder.Attachable());
 
+            SchemaBuilder.CreateTable(typeof(SeoDynamicPagePartRecord).Name,
+                table => table
+                    .ContentPartRecord()
+                    .Column<string>("Path", column => column.WithLength(1024).Unique())
+                ).AlterTable(typeof(SeoDynamicPagePartRecord).Name,
+                table => table.CreateIndex("Path", new string[] { "Path" })
+            );
 
-            return 3;
+            ContentDefinitionManager.AlterTypeDefinition("SeoDynamicPage",
+                cfg => cfg
+                    .WithPart("CommonPart", p => p
+                        .WithSetting("DateEditorSettings.ShowDateEditor", "false")
+                        .WithSetting("OwnerEditorSettings.ShowOwnerEditor", "false"))
+                    .WithPart(typeof(SeoDynamicPagePart).Name)
+                    .WithPart(typeof(SeoPart).Name)
+                    .WithSetting("Stereotype", "SeoNonContent")
+                    .Draftable());
+
+
+            return 4;
         }
 
         public int UpdateFrom1() {
@@ -64,6 +82,29 @@ namespace Onestop.Seo {
 
 
             return 3;
+        }
+
+        public int UpdateFrom3() {
+            SchemaBuilder.CreateTable(typeof(SeoDynamicPagePartRecord).Name,
+                table => table
+                    .ContentPartRecord()
+                    .Column<string>("Path", column => column.WithLength(1024).Unique())
+                ).AlterTable(typeof(SeoDynamicPagePartRecord).Name,
+                table =>  table.CreateIndex("Path", new string[] { "Path" })
+            );
+
+            ContentDefinitionManager.AlterTypeDefinition("SeoDynamicPage",
+                cfg => cfg
+                    .WithPart("CommonPart", p => p
+                        .WithSetting("DateEditorSettings.ShowDateEditor", "false")
+                        .WithSetting("OwnerEditorSettings.ShowOwnerEditor", "false"))
+                    .WithPart(typeof(SeoDynamicPagePart).Name)
+                    .WithPart(typeof(SeoPart).Name)
+                    .WithSetting("Stereotype", "SeoNonContent")
+                    .Draftable());
+
+
+            return 4;
         }
     }
 }
