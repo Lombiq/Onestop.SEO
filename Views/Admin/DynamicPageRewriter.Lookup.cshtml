@@ -5,6 +5,7 @@
 }
 
 @using (Html.BeginForm("DynamicPageRewriter", "Admin", FormMethod.Get)) {
+    @Html.HiddenFor(m => m.RewriterType)
     <fieldset>
         <legend>@T("Look up a dynamic page")</legend>
         @Html.LabelFor(m => m.Url, T("Url of page"))

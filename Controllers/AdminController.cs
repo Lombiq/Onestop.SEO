@@ -112,7 +112,7 @@ namespace Onestop.Seo.Controllers {
             }
             _orchardServices.WorkContext.Layout.Title = title;
 
-            if (rewriterViewModel.TypeName == "Dynamic") return DynamicPageRewriter(new DynamicPageRewriterViewModel());
+            if (rewriterViewModel.TypeName == "Dynamic") return DynamicPageRewriter(new DynamicPageRewriterViewModel { RewriterType = rewriterViewModel.RewriterType });
 
             var siteSettings = _siteService.GetSiteSettings();
             var pager = new Pager(siteSettings, pagerParameters);
@@ -345,7 +345,7 @@ namespace Onestop.Seo.Controllers {
 
             _orchardServices.Notifier.Information(T("Overrides for the dynamic page saved."));
 
-            return this.RedirectToAction("DynamicPageRewriter");
+            return this.RedirectToAction("Rewriter", new { Id = "Dynamic", RewriterType = viewModel.RewriterType });
         }
 
         bool IUpdateModel.TryUpdateModel<TModel>(TModel model, string prefix, string[] includeProperties, string[] excludeProperties) {

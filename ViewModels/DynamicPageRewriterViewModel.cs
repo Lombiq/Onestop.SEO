@@ -5,6 +5,7 @@ using System.Web;
 
 namespace Onestop.Seo.ViewModels {
     public class DynamicPageRewriterViewModel {
+        public string RewriterType { get; set; }
         public string Url { get; set; }
         public dynamic EditorShape { get; set; }
     }
