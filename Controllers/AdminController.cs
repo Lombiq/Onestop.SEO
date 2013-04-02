@@ -8,6 +8,7 @@ using Onestop.Seo.ViewModels;
 using Orchard;
 using Orchard.Collections;
 using Orchard.ContentManagement;
+using Orchard.ContentManagement.MetaData;
 using Orchard.Core.Common.Models;
 using Orchard.Core.Contents.Controllers;
 using Orchard.Core.Contents.ViewModels;
@@ -29,12 +30,13 @@ namespace Onestop.Seo.Controllers {
         private readonly IAuthorizer _authorizer;
         private readonly IContentManager _contentManager;
         private readonly dynamic _shapeFactory;
-        private readonly ISearchService _searchService;
 
+        private readonly ISearchService _searchService;
         private readonly IPrefixedEditorManager _prefixedEditorManager;
         private readonly ISiteService _siteService;
         private readonly ISeoSettingsManager _seoSettingsManager;
         private readonly ISeoService _seoService;
+        private readonly IContentDefinitionManager _contentDefinitionManager;
 
         public Localizer T { get; set; }
 
@@ -44,7 +46,8 @@ namespace Onestop.Seo.Controllers {
             ISiteService siteService,
             IPrefixedEditorManager prefixedEditorManager,
             ISeoSettingsManager seoSettingsManager,
-            ISeoService seoService) {
+            ISeoService seoService,
+            IContentDefinitionManager contentDefinitionManager) {
             _orchardServices = orchardServices;
             _authorizer = orchardServices.Authorizer;
             _contentManager = orchardServices.ContentManager;
@@ -55,6 +58,7 @@ namespace Onestop.Seo.Controllers {
             _siteService = siteService;
             _seoSettingsManager = seoSettingsManager;
             _seoService = seoService;
+            _contentDefinitionManager = contentDefinitionManager;
 
             T = NullLocalizer.Instance;
         }
@@ -96,29 +100,19 @@ namespace Onestop.Seo.Controllers {
             if (!_authorizer.Authorize(Permissions.ManageSeo, T("You're not allowed to manage SEO settings.")))
                 return new HttpUnauthorizedResult();
 
-            string title;
-            switch (rewriterViewModel.RewriterType) {
-                case "TitleRewriter":
-                    title = T("SEO Title Tag Rewriter").Text;
-                    break;
-                case "DescriptionRewriter":
-                    title = T("SEO Description Tag Rewriter").Text;
-                    break;
-                case "KeywordsRewriter":
-                    title = T("SEO Keywords Tag Rewriter").Text;
-                    break;
-                default:
-                    return new HttpNotFoundResult();
-            }
-            _orchardServices.WorkContext.Layout.Title = title;
-
             if (rewriterViewModel.TypeName == "Dynamic") return DynamicPageRewriter(new DynamicPageRewriterViewModel { RewriterType = rewriterViewModel.RewriterType });
 
             var siteSettings = _siteService.GetSiteSettings();
             var pager = new Pager(siteSettings, pagerParameters);
 
             var seoContentTypes = _seoService.ListSeoContentTypes();
-            var query = _contentManager.Query(VersionOptions.Latest, seoContentTypes.Select(type => type.Name).ToArray());
+            if (string.IsNullOrEmpty(rewriterViewModel.TypeName)) return HttpNotFound();
+            var typeDefinition = seoContentTypes.SingleOrDefault(t => t.Name == rewriterViewModel.TypeName);
+            if (typeDefinition == null) return HttpNotFound();
+            rewriterViewModel.TypeDisplayName = typeDefinition.DisplayName;
+            _orchardServices.WorkContext.Layout.Title = TitleForRewriter(T, rewriterViewModel.RewriterType, typeDefinition.DisplayName);
+
+            var query = _contentManager.Query(VersionOptions.Latest, rewriterViewModel.TypeName);
 
             if (!String.IsNullOrEmpty(rewriterViewModel.Q)) {
                 IPageOfItems<ISearchHit> searchHits = new PageOfItems<ISearchHit>(new ISearchHit[] { });
@@ -135,14 +129,6 @@ namespace Onestop.Seo.Controllers {
                     if (ex.IsFatal()) throw;
                     _orchardServices.Notifier.Error(T("Invalid search query: {0}", ex.Message));
                 }
-            }
-
-            if (!string.IsNullOrEmpty(rewriterViewModel.TypeName)) {
-                var typeDefinition = seoContentTypes.SingleOrDefault(t => t.Name == rewriterViewModel.TypeName);
-                if (typeDefinition == null) return HttpNotFound();
-
-                rewriterViewModel.TypeDisplayName = typeDefinition.DisplayName;
-                query = query.ForType(rewriterViewModel.TypeName);
             }
 
             switch (rewriterViewModel.Options.OrderBy) {
@@ -328,7 +314,7 @@ namespace Onestop.Seo.Controllers {
                     ModelState.AddModelError("UriMalformed", T("The url you entered was not a valid full url.").Text);
                 }
                 else item.As<SeoDynamicPagePart>().Path = new Uri(viewModel.Url).AbsolutePath;
-                
+
                 _contentManager.Create(item);
             }
             else {
@@ -354,6 +340,18 @@ namespace Onestop.Seo.Controllers {
 
         void IUpdateModel.AddModelError(string key, LocalizedString errorMessage) {
             ModelState.AddModelError(key, errorMessage.ToString());
+        }
+
+
+        public static LocalizedString TitleForRewriter(Localizer localizer, string rewriterType, string tabName) {
+            switch (rewriterType) {
+                case "TitleRewriter":
+                    return localizer("SEO Title Tag Rewriter: {0}", tabName);
+                case "DescriptionRewriter":
+                    return localizer("SEO Description Tag Rewriter: {0}", tabName);
+                default: //case "KeywordsRewriter"
+                    return localizer("SEO Keywords Tag Rewriter: {0}", tabName);
+            }
         }
 
 
