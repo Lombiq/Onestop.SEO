@@ -4,15 +4,15 @@
     <legend>@T("SEO overrides")</legend>
     <ol>
         <li>
-            @Html.LabelFor(m => m.TitleOverride, T("Title override"))
+            @Html.LabelFor(m => m.TitleOverride, T("Page title override"))
             @Html.TextBoxFor(m => m.TitleOverride, new { @class = "text large" })
         </li>
         <li>
-            @Html.LabelFor(m => m.DescriptionOverride, T("Description override"))
+            @Html.LabelFor(m => m.DescriptionOverride, T("Meta description override"))
             @Html.TextBoxFor(m => m.DescriptionOverride, new { @class = "text large" })
         </li>
         <li>
-            @Html.LabelFor(m => m.KeywordsOverride, T("Keywords override"))
+            @Html.LabelFor(m => m.KeywordsOverride, T("Meta keywords override"))
             @Html.TextBoxFor(m => m.KeywordsOverride, new { @class = "text large" })
         </li>
     </ol>
