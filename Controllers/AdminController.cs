@@ -79,7 +79,9 @@ namespace Onestop.Seo.Controllers {
             if (!_authorizer.Authorize(Permissions.ManageSeo, T("You're not allowed to manage SEO settings.")))
                 return new HttpUnauthorizedResult();
 
-            var editor = _seoSettingsManager.UpdateSettings(this);
+            var settings = _seoSettingsManager.GetGlobalSettingsDraftRequired();
+            var editor = _contentManager.UpdateEditor(settings, this);
+            _contentManager.Publish(settings.ContentItem);
 
             if (!ModelState.IsValid) {
                 _orchardServices.TransactionManager.Cancel();
@@ -92,6 +94,29 @@ namespace Onestop.Seo.Controllers {
             _orchardServices.Notifier.Information(T("Settings updated"));
 
             return RedirectToAction("GlobalSettings");
+        }
+
+        [HttpPost]
+        public ActionResult RestoreGlobalDefault(string config) {
+            var settings = _seoSettingsManager.GetGlobalSettingsDraftRequired();
+
+            switch (config) {
+                case "TitleOverrideMaxLength":
+                    settings.TitleOverrideMaxLength = Defaults.TitleOverrideMaxLength;
+                    break;
+                case "DescriptionOverrideMaxLength":
+                    settings.DescriptionOverrideMaxLength = Defaults.DescriptionOverrideMaxLength;
+                    break;
+                case "KeywordsOverrideMaxLength":
+                    settings.KeywordsOverrideMaxLength = Defaults.KeywordsOverrideMaxLength;
+                    break;
+                default:
+                    return HttpNotFound();
+            }
+
+            _contentManager.Publish(settings.ContentItem);
+
+            return this.RedirectToAction("GlobalSettings");
         }
 
         [HttpGet]

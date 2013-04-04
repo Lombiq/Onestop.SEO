@@ -186,9 +186,9 @@ namespace Onestop.Seo.Models {
 
 
         public SeoGlobalSettingsPartRecord() {
-            TitleOverrideMaxLength = 70;
-            DescriptionOverrideMaxLength = 150;
-            KeywordsOverrideMaxLength = 100;
+            TitleOverrideMaxLength = Defaults.TitleOverrideMaxLength;
+            DescriptionOverrideMaxLength = Defaults.DescriptionOverrideMaxLength;
+            KeywordsOverrideMaxLength = Defaults.KeywordsOverrideMaxLength;
         }
     }
 }

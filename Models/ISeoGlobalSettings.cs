@@ -8,15 +8,15 @@ namespace Onestop.Seo.Models {
     }
 
     public interface ISeoGlobalSettings : IContent {
-        string HomeTitle { get; }
-        string HomeDescription { get; }
-        string HomeKeywords { get; }
+        string HomeTitle { get; set; }
+        string HomeDescription { get; set; }
+        string HomeKeywords { get; set; }
         void SetSeoPattern(SeoParameterType type, string contentType, string pattern);
         string GetSeoPattern(SeoParameterType type, string contentType);
-        string SearchTitlePattern { get; }
-        bool EnableCanonicalUrls { get; }
-        int TitleOverrideMaxLength { get; }
-        int DescriptionOverrideMaxLength { get; }
-        int KeywordsOverrideMaxLength { get; }
+        string SearchTitlePattern { get; set; }
+        bool EnableCanonicalUrls { get; set; }
+        int TitleOverrideMaxLength { get; set; }
+        int DescriptionOverrideMaxLength { get; set; }
+        int KeywordsOverrideMaxLength { get; set; }
     }
 }

@@ -13,21 +13,24 @@
 </fieldset>
 
 <fieldset>
-    <legend>@T("Maximal lengths")</legend>
-    <ol>
+    <legend>@T("Maximum Characters")</legend>
+    <ol id="onestop-seo-override-max-lengths">
         <li>
-            @Html.LabelFor(m => m.TitleOverrideMaxLength, T("Maximal length of title overrides"))
+            @Html.LabelFor(m => m.TitleOverrideMaxLength, T("Maximum Page Title Characters"))
             @Html.TextBoxFor(m => m.TitleOverrideMaxLength, new { @class = "text-small" })
+            @Html.ActionLink(T("Default").Text, "RestoreGlobalDefault", new { Controller = "Admin", Config = "TitleOverrideMaxLength" }, new { @class = "button", itemprop = "UnsafeUrl" })
             @Html.ValidationMessageFor(m => m.TitleOverrideMaxLength)
         </li>
         <li>
-            @Html.LabelFor(m => m.DescriptionOverrideMaxLength, T("Maximal length of description overrides"))
+            @Html.LabelFor(m => m.DescriptionOverrideMaxLength, T("Maximum Meta Description Characters"))
             @Html.TextBoxFor(m => m.DescriptionOverrideMaxLength, new { @class = "text-small" })
+            @Html.ActionLink(T("Default").Text, "RestoreGlobalDefault", new { Controller = "Admin", Config = "DescriptionOverrideMaxLength" }, new { @class = "button", itemprop = "UnsafeUrl" })
             @Html.ValidationMessageFor(m => m.DescriptionOverrideMaxLength)
         </li>
         <li>
-            @Html.LabelFor(m => m.KeywordsOverrideMaxLength, T("Maximal length of keywords overrides"))
+            @Html.LabelFor(m => m.KeywordsOverrideMaxLength, T("Maximum Meta Keywords Characters"))
             @Html.TextBoxFor(m => m.KeywordsOverrideMaxLength, new { @class = "text-small" })
+            @Html.ActionLink(T("Default").Text, "RestoreGlobalDefault", new { Controller = "Admin", Config = "KeywordsOverrideMaxLength" }, new { @class = "button", itemprop = "UnsafeUrl" })
             @Html.ValidationMessageFor(m => m.KeywordsOverrideMaxLength)
         </li>
     </ol>

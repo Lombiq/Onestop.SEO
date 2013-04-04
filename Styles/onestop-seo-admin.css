@@ -1,4 +1,18 @@
-﻿#onestop-seo-rewriter-container label.bulk-order
+﻿/*
+    Global settings
+ */
+
+ #onestop-seo-override-max-lengths .button
+ {
+     margin-left: 8px;
+ }
+
+
+/*
+    Rewriters
+ */
+
+#onestop-seo-rewriter-container label.bulk-order
 {
     text-transform: none;
 }

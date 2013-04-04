@@ -31,12 +31,5 @@ namespace Onestop.Seo.Services {
 
             return _contentManager.Get(id, VersionOptions.AllVersions, new QueryHints().ExpandRecords<SeoGlobalSettingsPartRecord>()).As<SeoGlobalSettingsPart>();
         }
-
-        public dynamic UpdateSettings(IUpdateModel updater) {
-            var settings = _contentManager.Get<SeoGlobalSettingsPart>(GetGlobalSettings().ContentItem.Id, VersionOptions.DraftRequired);
-            var editor = _contentManager.UpdateEditor(settings, updater);
-            _contentManager.Publish(settings.ContentItem);
-            return editor;
-        }
     }
 }
