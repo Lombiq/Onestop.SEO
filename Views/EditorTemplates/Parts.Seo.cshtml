@@ -1,19 +1,37 @@
 ﻿@model Onestop.Seo.Models.SeoPart
+@using Onestop.Seo;
+
+@{
+    Style.Require("OnestopSeo_Admin");
+    Script.Require("OnestopSeo_Admin").AtFoot();
+}
+
 
 <fieldset>
     <legend>@T("SEO overrides")</legend>
     <ol>
         <li>
             @Html.LabelFor(m => m.TitleOverride, T("Page title override"))
-            @Html.TextBoxFor(m => m.TitleOverride, new { @class = "text large" })
+            @Html.SeoOverrideTextbox("TitleOverride", Model.TitleOverride, Model.GeneratedTitle, Model.GlobalSettings.TitleOverrideMaxLength)
+            @Display.Seo_OverrideControls(Id: Model.ContentItem.Id)
         </li>
         <li>
             @Html.LabelFor(m => m.DescriptionOverride, T("Meta description override"))
-            @Html.TextBoxFor(m => m.DescriptionOverride, new { @class = "text large" })
+            @Html.SeoOverrideTextbox("DescriptionOverride", Model.DescriptionOverride, Model.GeneratedDescription, Model.GlobalSettings.DescriptionOverrideMaxLength)
+            @Display.Seo_OverrideControls(Id: Model.ContentItem.Id)
         </li>
         <li>
             @Html.LabelFor(m => m.KeywordsOverride, T("Meta keywords override"))
-            @Html.TextBoxFor(m => m.KeywordsOverride, new { @class = "text large" })
+            @Html.SeoOverrideTextbox("KeywordsOverride", Model.KeywordsOverride, Model.GeneratedKeywords, Model.GlobalSettings.KeywordsOverrideMaxLength)
+            @Display.Seo_OverrideControls(Id: Model.ContentItem.Id)
         </li>
     </ol>
 </fieldset>
+
+@using (Script.Foot()) {
+    <script type="text/javascript">
+        $(function () {
+            $.onestopSeo.admin.init();
+        });
+    </script>
+}
