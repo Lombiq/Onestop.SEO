@@ -29,7 +29,7 @@ namespace Onestop.Seo.Services {
                 return settings.Id;
             });
 
-            return _contentManager.Get(id, VersionOptions.AllVersions, new QueryHints().ExpandRecords<SeoGlobalSettingsPartRecord>()).As<SeoGlobalSettingsPart>();
+            return _contentManager.Get(id, VersionOptions.Latest, new QueryHints().ExpandRecords<SeoGlobalSettingsPartRecord>()).As<SeoGlobalSettingsPart>();
         }
     }
 }
