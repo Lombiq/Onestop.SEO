@@ -25,49 +25,25 @@ using Orchard.UI.Notify;
 
 namespace Onestop.Seo.Controllers {
     [Admin]
-    public class AdminController : Controller, IUpdateModel {
-        private readonly IOrchardServices _orchardServices;
-        private readonly IAuthorizer _authorizer;
-        private readonly IContentManager _contentManager;
-        private readonly dynamic _shapeFactory;
-
+    public class AdminController : AdminControllerBase {
         private readonly ISearchService _searchService;
-        private readonly IPrefixedEditorManager _prefixedEditorManager;
-        private readonly ISiteService _siteService;
-        private readonly ISeoSettingsManager _seoSettingsManager;
-        private readonly ISeoService _seoService;
-        private readonly IContentDefinitionManager _contentDefinitionManager;
 
-        public Localizer T { get; set; }
 
         public AdminController(
             IOrchardServices orchardServices,
             ISearchService searchService,
-            ISiteService siteService,
             IPrefixedEditorManager prefixedEditorManager,
             ISeoSettingsManager seoSettingsManager,
-            ISeoService seoService,
-            IContentDefinitionManager contentDefinitionManager) {
-            _orchardServices = orchardServices;
-            _authorizer = orchardServices.Authorizer;
-            _contentManager = orchardServices.ContentManager;
-            _shapeFactory = _orchardServices.New;
+            ISeoService seoService)
+            : base(orchardServices, prefixedEditorManager, seoSettingsManager, seoService) {
             _searchService = searchService;
-
-            _prefixedEditorManager = prefixedEditorManager;
-            _siteService = siteService;
-            _seoSettingsManager = seoSettingsManager;
-            _seoService = seoService;
-            _contentDefinitionManager = contentDefinitionManager;
-
-            T = NullLocalizer.Instance;
         }
+
 
         // If there will be a need for extending global SEO settings it would perhaps also need the usage of separate settings into groups.
         // See site settings (Orchard.Core.Settings.Controllers.AdminController and friends for how it is done.
         public ActionResult GlobalSettings() {
-            if (!_authorizer.Authorize(Permissions.ManageSeo, T("You're not allowed to manage SEO settings.")))
-                return new HttpUnauthorizedResult();
+            if (!IsAuthorized()) return new HttpUnauthorizedResult();
 
             // Casting to avoid invalid (under medium trust) reflection over the protected View method and force a static invocation, despite
             // being it highly unlikely with Onestop, just in case...
@@ -76,8 +52,7 @@ namespace Onestop.Seo.Controllers {
 
         [HttpPost, ActionName("GlobalSettings")]
         public ActionResult GlobalSettingsPost() {
-            if (!_authorizer.Authorize(Permissions.ManageSeo, T("You're not allowed to manage SEO settings.")))
-                return new HttpUnauthorizedResult();
+            if (!IsAuthorized()) return new HttpUnauthorizedResult();
 
             var settings = _seoSettingsManager.GetGlobalSettingsDraftRequired();
             var editor = _contentManager.UpdateEditor(settings, this);
@@ -98,6 +73,8 @@ namespace Onestop.Seo.Controllers {
 
         [HttpPost]
         public ActionResult RestoreGlobalDefault(string config) {
+            if (!IsAuthorized()) return new HttpUnauthorizedResult();
+
             var settings = _seoSettingsManager.GetGlobalSettingsDraftRequired();
 
             switch (config) {
@@ -121,13 +98,11 @@ namespace Onestop.Seo.Controllers {
 
         [HttpGet]
         public ActionResult Rewriter(RewriterViewModel rewriterViewModel, PagerParameters pagerParameters) {
-            // These Authorize() calls are mainly placeholders for future permissions, that's why they're copy-pasted around.
-            if (!_authorizer.Authorize(Permissions.ManageSeo, T("You're not allowed to manage SEO settings.")))
-                return new HttpUnauthorizedResult();
+            if (!IsAuthorized()) return new HttpUnauthorizedResult();
 
             if (rewriterViewModel.TypeName == "Dynamic") return DynamicPageRewriter(new DynamicPageRewriterViewModel { RewriterType = rewriterViewModel.RewriterType });
 
-            var siteSettings = _siteService.GetSiteSettings();
+            var siteSettings = _workContext.CurrentSite;
             var pager = new Pager(siteSettings, pagerParameters);
 
             var seoContentTypes = _seoService.ListSeoContentTypes();
@@ -135,7 +110,7 @@ namespace Onestop.Seo.Controllers {
             var typeDefinition = seoContentTypes.SingleOrDefault(t => t.Name == rewriterViewModel.TypeName);
             if (typeDefinition == null) return HttpNotFound();
             rewriterViewModel.TypeDisplayName = typeDefinition.DisplayName;
-            _orchardServices.WorkContext.Layout.Title = TitleForRewriter(T, rewriterViewModel.RewriterType, typeDefinition.DisplayName);
+            _orchardServices.WorkContext.Layout.Title = TitleForRewriter(rewriterViewModel.RewriterType, typeDefinition.DisplayName);
 
             var query = _contentManager.Query(VersionOptions.Latest, rewriterViewModel.TypeName);
 
@@ -191,120 +166,10 @@ namespace Onestop.Seo.Controllers {
         }
 
         [HttpPost, ActionName("Rewriter")]
-        [FormValueRequired("submit.Filter")]
-        public ActionResult RewriterFilterPost(RewriterViewModel rewriterViewModel) {
-            var routeValues = ControllerContext.RouteData.Values;
-
-            // Keeping search query if there's one
-            if (!String.IsNullOrEmpty(rewriterViewModel.Q)) routeValues["q"] = rewriterViewModel.Q;
-
-            if (rewriterViewModel.Options != null) {
-                routeValues["Options.OrderBy"] = rewriterViewModel.Options.OrderBy; //todo: don't hard-code the key
-            }
-
-            return RedirectToAction("Rewriter", routeValues);
-        }
-
-        [HttpPost, ActionName("Rewriter")]
-        [FormValueRequired("submit.SaveAll")]
-        public ActionResult RewriterSaveAllPost(RewriterViewModel rewriterViewModel, IEnumerable<int> itemIds) {
-            foreach (var itemId in itemIds) {
-                var item = _contentManager.Get(itemId, VersionOptions.DraftRequired);
-                _prefixedEditorManager.UpdateEditor(item, this);
-                _contentManager.Publish(item);
-            }
-
-            // This would be better, but: http://orchard.codeplex.com/workitem/18979
-            //foreach (var item in _contentManager.GetMany<IContent>(itemIds, VersionOptions.DraftRequired, QueryHints.Empty)) {
-            //    _prefixedEditorManager.UpdateEditor(item, this);
-            //    _contentManager.Publish(item.ContentItem);
-            //}
-
-            return RedirectToAction("Rewriter", ControllerContext.RouteData.Values);
-        }
-
-        [HttpPost, ActionName("Rewriter")]
-        [FormValueRequired("submit.ClearAll")]
-        public ActionResult RewriterClearAllPost(RewriterViewModel rewriterViewModel) {
-            var itemIds = _contentManager
-                .Query(_seoService.ListSeoContentTypes().Select(type => type.Name).ToArray())
-                .List()
-                .Select(item => item.Id);
-
-            switch (rewriterViewModel.RewriterType) {
-                case "TitleRewriter":
-                    foreach (var itemId in itemIds) {
-                        var item = _contentManager.Get<SeoPart>(itemId, VersionOptions.DraftRequired);
-                        item.TitleOverride = null;
-                        _contentManager.Publish(item.ContentItem);
-                    }
-                    break;
-                case "DescriptionRewriter":
-                    foreach (var itemId in itemIds) {
-                        var item = _contentManager.Get<SeoPart>(itemId, VersionOptions.DraftRequired);
-                        item.DescriptionOverride = null;
-                        _contentManager.Publish(item.ContentItem);
-                    }
-                    break;
-                case "KeywordsRewriter":
-                    foreach (var itemId in itemIds) {
-                        var item = _contentManager.Get<SeoPart>(itemId, VersionOptions.DraftRequired);
-                        item.KeywordsOverride = null;
-                        _contentManager.Publish(item.ContentItem);
-                    }
-                    break;
-                default:
-                    return new HttpNotFoundResult();
-            }
-
-            // This would be better, but: http://orchard.codeplex.com/workitem/18979
-            //var items = _contentManager
-            //                .Query(VersionOptions.DraftRequired, _seoService.ListSeoContentTypes().Select(type => type.Name).ToArray())
-            //                .Join<SeoPartRecord>()
-            //                .List<SeoPart>();
-
-            //switch (rewriterViewModel.RewriterType) {
-            //    case "TitleRewriter":
-            //        foreach (var item in items) {
-            //            item.TitleOverride = null;
-            //            _contentManager.Publish(item.ContentItem);
-            //        }
-            //        break;
-            //    case "DescriptionRewriter":
-            //        foreach (var item in items) {
-            //            item.DescriptionOverride = null;
-            //            _contentManager.Publish(item.ContentItem);
-            //        }
-            //        break;
-            //    case "KeywordsRewriter":
-            //        foreach (var item in items) {
-            //            item.KeywordsOverride = null;
-            //            _contentManager.Publish(item.ContentItem);
-            //        }
-            //        break;
-            //    default:
-            //        return new HttpNotFoundResult();
-            //}
-
-            return RedirectToAction("Rewriter", ControllerContext.RouteData.Values);
-        }
-
-        [HttpPost, ActionName("Rewriter")]
-        [FormValueRequired("submit.SaveIndividual")]
-        public ActionResult RewriterSaveIndividual(RewriterViewModel rewriterViewModel, [Bind(Prefix = "submit.SaveIndividual")]int itemId) {
-            var item = _contentManager.Get(itemId, VersionOptions.DraftRequired);
-
-            if (item == null) return new HttpNotFoundResult();
-
-            _prefixedEditorManager.UpdateEditor(item, this);
-            _contentManager.Publish(item);
-
-            return RedirectToAction("Rewriter", ControllerContext.RouteData.Values);
-        }
-
-        [HttpPost, ActionName("Rewriter")]
         [FormValueRequired("submit.Search")]
         public ActionResult RewriterSearch(RewriterViewModel rewriterViewModel) {
+            if (!IsAuthorized()) return new HttpUnauthorizedResult();
+
             // With this we clear other filters and order by settings first
             var routeValues = ControllerContext.RouteData.Values;
             routeValues["q"] = rewriterViewModel.Q;
@@ -312,6 +177,8 @@ namespace Onestop.Seo.Controllers {
         }
 
         public ActionResult DynamicPageRewriter(DynamicPageRewriterViewModel viewModel) {
+            if (!IsAuthorized()) return new HttpUnauthorizedResult();
+
             if (string.IsNullOrEmpty(viewModel.Url)) {
                 return View("DynamicPageRewriter.Lookup", viewModel);
             }
@@ -331,6 +198,8 @@ namespace Onestop.Seo.Controllers {
 
         [HttpPost, ActionName("DynamicPageRewriter")]
         public ActionResult DynamicPageRewriterPost(DynamicPageRewriterViewModel viewModel) {
+            if (!IsAuthorized()) return new HttpUnauthorizedResult();
+
             var item = GetDynamicPageItem(viewModel.Url);
 
             if (item == null) {
@@ -357,26 +226,6 @@ namespace Onestop.Seo.Controllers {
             _orchardServices.Notifier.Information(T("Overrides for the dynamic page saved."));
 
             return this.RedirectToAction("Rewriter", new { Id = "Dynamic", RewriterType = viewModel.RewriterType });
-        }
-
-        bool IUpdateModel.TryUpdateModel<TModel>(TModel model, string prefix, string[] includeProperties, string[] excludeProperties) {
-            return TryUpdateModel(model, prefix, includeProperties, excludeProperties);
-        }
-
-        void IUpdateModel.AddModelError(string key, LocalizedString errorMessage) {
-            ModelState.AddModelError(key, errorMessage.ToString());
-        }
-
-
-        public static LocalizedString TitleForRewriter(Localizer localizer, string rewriterType, string tabName) {
-            switch (rewriterType) {
-                case "TitleRewriter":
-                    return localizer("SEO Title Tag Rewriter: {0}", tabName);
-                case "DescriptionRewriter":
-                    return localizer("SEO Description Tag Rewriter: {0}", tabName);
-                default: //case "KeywordsRewriter"
-                    return localizer("SEO Keywords Tag Rewriter: {0}", tabName);
-            }
         }
 
 
