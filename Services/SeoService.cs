@@ -23,7 +23,11 @@ namespace Onestop.Seo.Services {
         }
 
         public IEnumerable<ContentTypeDefinition> ListSeoContentTypes() {
-            return _contentDefinitionManager.ListTypeDefinitions().Where(t => (!t.Settings.ContainsKey("Stereotype") || t.Settings["Stereotype"] == "Content") && t.Parts.Any(p => p.PartDefinition.Name == typeof(SeoPart).Name));
+            return _contentDefinitionManager
+                .ListTypeDefinitions()
+                .Where(t => 
+                    (!t.Settings.ContainsKey("Stereotype") || t.Settings["Stereotype"] == "Content")
+                    && t.Parts.Any(p => p.PartDefinition.Name == typeof(SeoPart).Name));
         }
 
         public string GenerateSeoParameter(SeoParameterType type, IContent content) {
