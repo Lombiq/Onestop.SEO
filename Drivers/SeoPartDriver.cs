@@ -2,18 +2,30 @@
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.Drivers;
 using Orchard.ContentManagement.Handlers;
+using Orchard.Security;
 
 namespace Onestop.Seo.Drivers {
     public class SeoPartDriver : ContentPartDriver<SeoPart> {
+        private readonly IAuthorizer _authorizer;
+
         protected override string Prefix {
             get { return "Onestop.Seo.SeoPart"; }
         }
+
+
+        public SeoPartDriver(IAuthorizer authorizer)
+        {
+            _authorizer = authorizer;
+        }
+
 
         protected override DriverResult Display(SeoPart part, string displayType, dynamic shapeHelper) {
             return Editor(part, shapeHelper);
         }
 
         protected override DriverResult Editor(SeoPart part, dynamic shapeHelper) {
+            if (!_authorizer.Authorize(Permissions.ManageSeo, part)) return null;
+
             return Combined(
                 ContentShape("Parts_Seo_SeoSummaryAdmin_Edit",
                     () => shapeHelper.EditorTemplate(
@@ -43,6 +55,8 @@ namespace Onestop.Seo.Drivers {
         }
 
         protected override DriverResult Editor(SeoPart part, IUpdateModel updater, dynamic shapeHelper) {
+            if (!_authorizer.Authorize(Permissions.ManageSeo, part)) return null;
+
             updater.TryUpdateModel(part, Prefix, null, null);
 
             if (part.TitleOverride == part.GeneratedTitle) part.TitleOverride = null;
