@@ -57,6 +57,7 @@ namespace Onestop.Seo.Filters {
                 item = _contentManager
                             .Query("SeoDynamicPage")
                             .Where<SeoDynamicPagePartRecord>(record => record.Path == filterContext.HttpContext.Request.Url.AbsolutePath)
+                            .WithQueryHints(new QueryHints().ExpandParts<SeoPart>())
                             .List()
                             .SingleOrDefault();
 
