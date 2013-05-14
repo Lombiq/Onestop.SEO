@@ -28,7 +28,7 @@ namespace Onestop.Seo.Services {
             _contentWasChecked = true;
 
             // Checking if the page we're currently on is a content item
-            var itemRoute = _aliasService.Get(_workContextAccessor.GetContext().HttpContext.Request.AppRelativeCurrentExecutionFilePath.Substring(1).Trim('/'));
+            var itemRoute = _aliasService.Get(_workContextAccessor.GetContext().HttpContext.Request.AppRelativeCurrentExecutionFilePath.Substring(1).TrimStart('/'));
             if (itemRoute == null) return null;
 
             var itemId = Convert.ToInt32(itemRoute["Id"]);
