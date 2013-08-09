@@ -45,6 +45,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
