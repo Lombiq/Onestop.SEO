@@ -10,7 +10,7 @@ using Orchard.Collections;
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.MetaData;
 using Orchard.Core.Common.Models;
-using Orchard.Core.Contents.Controllers;
+using Orchard.Mvc;
 using Orchard.Core.Contents.ViewModels;
 using Orchard.Exceptions;
 using Orchard.Indexing;
@@ -116,9 +116,11 @@ namespace Onestop.Seo.Controllers {
 
             if (!String.IsNullOrEmpty(rewriterViewModel.Q)) {
                 IPageOfItems<ISearchHit> searchHits = new PageOfItems<ISearchHit>(new ISearchHit[] { });
-                try {
+                try
+                {
+                    var searchSettings = siteSettings.As<SearchSettingsPart>();
                     searchHits = _searchService.Query(rewriterViewModel.Q, pager.Page, pager.PageSize, false,
-                                                      siteSettings.As<SearchSettingsPart>().SearchedFields,
+                                                      searchSettings.SearchIndex, searchSettings.SearchedFields,
                                                       searchHit => searchHit);
                     // Could use this: http://orchard.codeplex.com/workitem/18664
                     // Converting to List, because the expression should contain an ICollection

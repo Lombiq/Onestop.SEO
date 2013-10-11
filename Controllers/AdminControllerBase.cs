@@ -8,7 +8,7 @@ using Onestop.Seo.Services;
 using Onestop.Seo.ViewModels;
 using Orchard;
 using Orchard.ContentManagement;
-using Orchard.Core.Contents.Controllers;
+using Orchard.Mvc;
 using Orchard.Data;
 using Orchard.Localization;
 using Orchard.Security;
