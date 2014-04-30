@@ -167,7 +167,15 @@ namespace Onestop.Seo.Controllers {
 
             if (item == null) return new HttpNotFoundResult();
 
-            _prefixedEditorManager.UpdateEditor(item, this);
+            var part = item.As<SeoPart>();
+
+            /* You cannot update a single part without hiding everything else in placement... so you cannoy call updateeditro here */
+            UpdateModel(part, PrefixedEditorManager.AttachPrefixToPrefix(itemId, "Onestop.Seo.SeoPart"));
+
+            if (part.TitleOverride == part.GeneratedTitle) part.TitleOverride = null;
+            if (part.DescriptionOverride == part.GeneratedDescription) part.DescriptionOverride = null;
+            if (part.KeywordsOverride == part.GeneratedKeywords) part.KeywordsOverride = null;
+            
             _contentManager.Publish(item);
 
             return RedirectToAction("Rewriter", ControllerContext.RouteData.Values);
