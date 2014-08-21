@@ -142,6 +142,7 @@
     <Compile Include="Services\ISeoService.cs" />
     <Compile Include="Services\SeoService.cs" />
     <Compile Include="Services\SeoSettingsManager.cs" />
+    <Compile Include="Shapes\PaginationShapes.cs" />
     <Compile Include="ViewModels\DynamicPageRewriterViewModel.cs" />
     <Compile Include="ViewModels\RewriterViewModel.cs" />
   </ItemGroup>
