@@ -94,6 +94,10 @@
       <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
       <Name>Orchard.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Onestop.Common\Onestop.Common.csproj">
+      <Project>{bc9f541e-fed9-4212-b153-d6e96155aea1}</Project>
+      <Name>Onestop.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orchard.Alias\Orchard.Alias.csproj">
       <Project>{475B6C45-B27C-438B-8966-908B9D6D1077}</Project>
       <Name>Orchard.Alias</Name>
@@ -128,7 +132,6 @@
     <Compile Include="Routes.cs" />
     <Compile Include="Services\ICurrentContentService.cs" />
     <Compile Include="Services\IPrefixedEditorManager.cs" />
-    <Compile Include="Services\ISeoPageTitleBuilder.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ISeoGlobalSettings.cs" />
     <Compile Include="Models\SeoGlobalSettingsPart.cs" />
@@ -136,7 +139,6 @@
     <Compile Include="Services\ISeoSettingsManager.cs" />
     <Compile Include="Services\PrefixedEditorManager.cs" />
     <Compile Include="Services\PrefixedEditorShapeTable.cs" />
-    <Compile Include="Services\SeoPageTitleBuilder.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Services\CurrentContentService.cs" />
     <Compile Include="Services\ISeoService.cs" />
