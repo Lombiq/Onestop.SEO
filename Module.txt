@@ -13,3 +13,4 @@ Features:
         Name: Onestop Sitemap
         Description: Enable XML and HTML sitemaps from published content and navigation
         Category: SEO
+		Dependencies: Onestop.Seo
