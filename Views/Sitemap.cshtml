@@ -1,0 +1,15 @@
+﻿@using Onestop.Seo.Models
+@{
+    Html.AddPageClassNames("Sitemap");
+    Html.AddTitleParts("Sitemap");
+    
+    var entries = Enumerable.Cast<SitemapEntry>(Model.Entries);
+}
+
+<h1>@T("Sitemap")</h1>
+
+<ul>
+    @foreach (var entry in entries) {
+        <li><a href="@entry.Url">@T(entry.Name ?? entry.Url)</a></li>
+    }
+</ul>

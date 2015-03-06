@@ -78,10 +78,12 @@
     <Content Include="Scripts\Web.config" />
     <Content Include="Styles\Web.config" />
     <Compile Include="Controllers\AdminControllerBase.cs" />
+    <Compile Include="Controllers\SitemapController.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="Drivers\SeoDynamicPagePartDriver.cs" />
     <Compile Include="Handlers\SeoDynamicPagePartHandler.cs" />
     <Compile Include="Models\SeoDynamicPagePart.cs" />
+    <Compile Include="Models\SitemapEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Module.txt" />
   </ItemGroup>
@@ -127,6 +129,9 @@
     <Compile Include="Handlers\SeoGlobalSettingsPartHandler.cs" />
     <Compile Include="Handlers\SeoPartHandler.cs" />
     <Compile Include="HtmlExtensions.cs" />
+    <Compile Include="Providers\ContentSitemapProvider.cs" />
+    <Compile Include="Providers\ISitemapProvider.cs" />
+    <Compile Include="Providers\NavigationSitemapProvider.cs" />
     <Compile Include="RequestExtensions.cs" />
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Routes.cs" />
@@ -144,6 +149,7 @@
     <Compile Include="Services\ISeoService.cs" />
     <Compile Include="Services\SeoService.cs" />
     <Compile Include="Services\SeoSettingsManager.cs" />
+    <Compile Include="Services\SitemapService.cs" />
     <Compile Include="Shapes\PaginationShapes.cs" />
     <Compile Include="ViewModels\DynamicPageRewriterViewModel.cs" />
     <Compile Include="ViewModels\RewriterViewModel.cs" />
@@ -191,6 +197,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Seo.OverrideControls.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Sitemap.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

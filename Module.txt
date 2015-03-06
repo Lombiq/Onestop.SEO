@@ -8,3 +8,8 @@ Description: Search Engine Optimization for Orchard content
 FeatureDescription: Search Engine Optimization for Orchard content
 Category: SEO
 Dependencies: Orchard.Alias, Orchard.Caching, Orchard.jQuery, Orchard.Search, Orchard.Tokens, Title
+Features:
+    Onestop.Seo.Sitemap:
+        Name: Onestop Sitemap
+        Description: Enable XML and HTML sitemaps from published content and navigation
+        Category: SEO
