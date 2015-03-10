@@ -10,7 +10,7 @@ Category: SEO
 Dependencies: Orchard.Alias, Orchard.Caching, Orchard.jQuery, Orchard.Search, Orchard.Tokens, Title
 Features:
     Onestop.Seo.Sitemap:
-        Name: Onestop Sitemap
-        Description: Enable XML and HTML sitemaps from published content and navigation
+        Name: Onestop Sitemap (BETA)
+        Description: BETA FEATURE Enable XML and HTML sitemaps from published content and navigation
         Category: SEO
 		Dependencies: Onestop.Seo
