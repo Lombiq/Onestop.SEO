@@ -80,10 +80,12 @@
     <Content Include="Scripts\Web.config" />
     <Content Include="Styles\Web.config" />
     <Compile Include="Controllers\AdminControllerBase.cs" />
+    <Compile Include="Controllers\SitemapController.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="Drivers\SeoDynamicPagePartDriver.cs" />
     <Compile Include="Handlers\SeoDynamicPagePartHandler.cs" />
     <Compile Include="Models\SeoDynamicPagePart.cs" />
+    <Compile Include="Models\SitemapEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Module.txt" />
   </ItemGroup>
@@ -95,6 +97,10 @@
     <ProjectReference Include="..\..\Core\Orchard.Core.csproj">
       <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
       <Name>Orchard.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Onestop.Common\Onestop.Common.csproj">
+      <Project>{bc9f541e-fed9-4212-b153-d6e96155aea1}</Project>
+      <Name>Onestop.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orchard.Alias\Orchard.Alias.csproj">
       <Project>{475B6C45-B27C-438B-8966-908B9D6D1077}</Project>
@@ -129,12 +135,14 @@
     <Compile Include="Handlers\SeoGlobalSettingsPartHandler.cs" />
     <Compile Include="Handlers\SeoPartHandler.cs" />
     <Compile Include="HtmlExtensions.cs" />
+    <Compile Include="Providers\ContentSitemapProvider.cs" />
+    <Compile Include="Providers\ISitemapProvider.cs" />
+    <Compile Include="Providers\NavigationSitemapProvider.cs" />
     <Compile Include="RequestExtensions.cs" />
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="Services\ICurrentContentService.cs" />
     <Compile Include="Services\IPrefixedEditorManager.cs" />
-    <Compile Include="Services\ISeoPageTitleBuilder.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ISeoGlobalSettings.cs" />
     <Compile Include="Models\SeoGlobalSettingsPart.cs" />
@@ -142,12 +150,13 @@
     <Compile Include="Services\ISeoSettingsManager.cs" />
     <Compile Include="Services\PrefixedEditorManager.cs" />
     <Compile Include="Services\PrefixedEditorShapeTable.cs" />
-    <Compile Include="Services\SeoPageTitleBuilder.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Services\CurrentContentService.cs" />
     <Compile Include="Services\ISeoService.cs" />
     <Compile Include="Services\SeoService.cs" />
     <Compile Include="Services\SeoSettingsManager.cs" />
+    <Compile Include="Services\SitemapService.cs" />
+    <Compile Include="Shapes\PaginationShapes.cs" />
     <Compile Include="UpgradeMigrations.cs" />
     <Compile Include="ViewModels\DynamicPageRewriterViewModel.cs" />
     <Compile Include="ViewModels\RewriterViewModel.cs" />
@@ -195,6 +204,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Seo.OverrideControls.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Sitemap.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

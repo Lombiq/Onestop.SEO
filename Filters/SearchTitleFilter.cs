@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using Onestop.Common.Services;
 using Onestop.Seo.Services;
 using Orchard.Environment;
 using Orchard.Mvc.Filters;
@@ -9,12 +10,12 @@ namespace Onestop.Seo.Filters {
     public class SearchTitleFilter : FilterProvider, IActionFilter {
         private readonly Work<ISeoSettingsManager> _seoSettingsManagerWork;
         private readonly Work<ITokenizer> _tokenizerWork;
-        private readonly Work<ISeoPageTitleBuilder> _pageTitleBuilderWork;
+        private readonly Work<IPageTitleBuilder> _pageTitleBuilderWork;
 
         public SearchTitleFilter(
             Work<ISeoSettingsManager> seoSettingsManagerWork,
             Work<ITokenizer> tokenizerWork,
-            Work<ISeoPageTitleBuilder> pageTitleBuilderWork) {
+            Work<IPageTitleBuilder> pageTitleBuilderWork) {
             _seoSettingsManagerWork = seoSettingsManagerWork;
             _tokenizerWork = tokenizerWork;
             _pageTitleBuilderWork = pageTitleBuilderWork;

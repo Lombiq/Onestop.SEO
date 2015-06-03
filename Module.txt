@@ -16,3 +16,8 @@ Features:
 		Description: Migrates Onestop SEO settings to a new and more efficient storage mechanism (dubbed The Shift). WARNING: when enabling your current settings will be overwritten with the old ones. Enabling this feature will migrate the global settings, so after enabling it, this feature can be disabled again.
 		Category: SEO
 		Dependencies: Onestop.Seo, Upgrade
+	Onestop.Seo.Sitemap:
+		Name: Onestop Sitemap (BETA)
+		Description: BETA FEATURE Enable XML and HTML sitemaps from published content and navigation
+		Category: SEO
+		Dependencies: Onestop.Seo

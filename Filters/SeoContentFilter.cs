@@ -1,4 +1,5 @@
-﻿using Onestop.Seo.Models;
+﻿using Onestop.Common.Services;
+using Onestop.Seo.Models;
 using Onestop.Seo.Services;
 using Orchard.ContentManagement;
 using Orchard.Environment;
@@ -13,7 +14,7 @@ namespace Onestop.Seo.Filters {
         private readonly Work<ISeoSettingsManager> _seoSettingsManagerWork;
         private readonly Work<ICurrentContentService> _currentContentServiceWork;
         private readonly Work<ISeoService> _seoServiceWork;
-        private readonly Work<ISeoPageTitleBuilder> _pageTitleBuilderWork;
+        private readonly Work<IPageTitleBuilder> _pageTitleBuilderWork;
         private readonly Work<IResourceManager> _resourceManagerWork;
         private readonly IContentManager _contentManager;
 
@@ -21,7 +22,7 @@ namespace Onestop.Seo.Filters {
             Work<ISeoSettingsManager> seoSettingsManagerWork,
             Work<ICurrentContentService> currentContentServiceWork,
             Work<ISeoService> seoServiceWork,
-            Work<ISeoPageTitleBuilder> pageTitleBuilderWork,
+            Work<IPageTitleBuilder> pageTitleBuilderWork,
             Work<IResourceManager> resourceManagerWork,
             IContentManager contentManager) {
             _seoSettingsManagerWork = seoSettingsManagerWork;
