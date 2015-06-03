@@ -1,9 +1,9 @@
 ﻿Name: Onestop SEO
 AntiForgery: enabled
 Author: Zoltán Lehóczky / Onestop Internet
-Website: http://onestopseo.codeplex.com
+Website: https://bitbucket.org/onestop/module_onestop_seo
 Version: 1.0
-OrchardVersion: 1.6
+OrchardVersion: 1.8
 Description: Search Engine Optimization for Orchard content
 Features:
 	Onestop.Seo:
