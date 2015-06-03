@@ -6,20 +6,6 @@ using Orchard.Data.Migration;
 namespace Onestop.Seo {
     public class Migrations : DataMigrationImpl {
         public int Create() {
-            SchemaBuilder.CreateTable(typeof(SeoGlobalSettingsPartRecord).Name,
-                table => table
-                    .ContentPartVersionRecord()
-                    .Column<string>("HomeTitle", column => column.WithLength(1024))
-                    .Column<string>("HomeDescription", column => column.Unlimited())
-                    .Column<string>("HomeKeywords", column => column.Unlimited())
-                    .Column<string>("SeoPatternsDefinition", column => column.Unlimited())
-                    .Column<string>("SearchTitlePattern", column => column.WithLength(1024))
-                    .Column<bool>("EnableCanonicalUrls")
-                    .Column<int>("TitleOverrideMaxLength")
-                    .Column<int>("DescriptionOverrideMaxLength")
-                    .Column<int>("KeywordsOverrideMaxLength")
-                );
-
             // Creating the type in the migration is necessary for CommonPart what in turn is necessary for Audit Trail
             ContentDefinitionManager.AlterTypeDefinition("SeoSettings",
                 cfg => cfg
@@ -77,12 +63,7 @@ namespace Onestop.Seo {
         }
 
         public int UpdateFrom2() {
-            SchemaBuilder.AlterTable(typeof(SeoGlobalSettingsPartRecord).Name,
-                table => {
-                    table.AddColumn<int>("TitleOverrideMaxLength");
-                    table.AddColumn<int>("DescriptionOverrideMaxLength");
-                    table.AddColumn<int>("KeywordsOverrideMaxLength");
-                });
+            // Deprecated code removed due to infoset migration.
 
 
             return 3;

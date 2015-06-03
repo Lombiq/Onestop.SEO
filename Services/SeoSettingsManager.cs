@@ -19,7 +19,7 @@ namespace Onestop.Seo.Services {
 
         public ISeoGlobalSettings GetGlobalSettings() {
             var id = _cacheService.Get(CacheKey, () => {
-                var settings = _contentManager.Query(VersionOptions.Latest, "SeoSettings").Join<SeoGlobalSettingsPartRecord>().Slice(0, 1).FirstOrDefault();
+                var settings = _contentManager.Query(VersionOptions.Latest, "SeoSettings").Slice(0, 1).FirstOrDefault();
                 
                 if (settings == null) {
                     settings = _contentManager.New("SeoSettings");
@@ -29,7 +29,7 @@ namespace Onestop.Seo.Services {
                 return settings.Id;
             });
 
-            return _contentManager.Get(id, VersionOptions.Latest, new QueryHints().ExpandRecords<SeoGlobalSettingsPartRecord>()).As<SeoGlobalSettingsPart>();
+            return _contentManager.Get(id, VersionOptions.Latest).As<SeoGlobalSettingsPart>();
         }
     }
 }
