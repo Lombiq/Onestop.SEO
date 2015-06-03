@@ -36,7 +36,11 @@ namespace Onestop.Seo {
                     .Column<string>("KeywordsOverride", column => column.Unlimited())
                 );
 
-            ContentDefinitionManager.AlterPartDefinition(typeof(SeoPart).Name, builder => builder.Attachable());
+            ContentDefinitionManager.AlterPartDefinition(typeof(SeoPart).Name,
+                builder => builder
+                    .Attachable()
+                    .WithDescription("Provides settings for search engine optimization.")
+                );
 
             SchemaBuilder.CreateTable(typeof(SeoDynamicPagePartRecord).Name,
                 table => table
@@ -57,7 +61,7 @@ namespace Onestop.Seo {
                     .Draftable());
 
 
-            return 4;
+            return 5;
         }
 
         public int UpdateFrom1() {
@@ -90,7 +94,7 @@ namespace Onestop.Seo {
                     .ContentPartRecord()
                     .Column<string>("Path", column => column.WithLength(1024).Unique())
                 ).AlterTable(typeof(SeoDynamicPagePartRecord).Name,
-                table =>  table.CreateIndex("Path", new string[] { "Path" })
+                table => table.CreateIndex("Path", new string[] { "Path" })
             );
 
             ContentDefinitionManager.AlterTypeDefinition("SeoDynamicPage",
@@ -105,6 +109,15 @@ namespace Onestop.Seo {
 
 
             return 4;
+        }
+
+        public int UpdateFrom4() {
+            ContentDefinitionManager.AlterPartDefinition(typeof(SeoPart).Name,
+                builder => builder
+                    .WithDescription("Provides settings for search engine optimization.")
+                );
+
+            return 5;
         }
     }
 }
