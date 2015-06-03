@@ -26,28 +26,30 @@ namespace Onestop.Seo {
 
             IEnumerable<ContentItem> allVersions = null;
 
-            _upgradeService.ExecuteReader(string.Format("SELECT * FROM {0}", tableName),
-                (reader, connection) => {
-                    if (allVersions == null) allVersions = _contentManager.GetAllVersions((int)reader["ContentItemRecord_id"]);
+            if (_upgradeService.TableExists(tableName)) {
+                _upgradeService.ExecuteReader(string.Format("SELECT * FROM {0}", tableName),
+                    (reader, connection) => {
+                        if (allVersions == null) allVersions = _contentManager.GetAllVersions((int)reader["ContentItemRecord_id"]);
 
-                    var item = allVersions.FirstOrDefault(p => p.VersionRecord.Id == ConvertFromDBValue<int>(reader["Id"]));
+                        var item = allVersions.FirstOrDefault(p => p.VersionRecord.Id == ConvertFromDBValue<int>(reader["Id"]));
 
-                    if (item != null && item.Has<SeoGlobalSettingsPart>()) {
-                        var part = item.As<SeoGlobalSettingsPart>();
+                        if (item != null && item.Has<SeoGlobalSettingsPart>()) {
+                            var part = item.As<SeoGlobalSettingsPart>();
 
-                        part.HomeTitle = ConvertFromDBValue<string>(reader["HomeTitle"]);
-                        part.HomeDescription = ConvertFromDBValue<string>(reader["HomeDescription"]);
-                        part.HomeKeywords = ConvertFromDBValue<string>(reader["HomeKeywords"]);
-                        part.SeoPatternsDefinition = ConvertFromDBValue<string>(reader["SeoPatternsDefinition"]);
-                        part.SearchTitlePattern = ConvertFromDBValue<string>(reader["SearchTitlePattern"]);
-                        part.EnableCanonicalUrls = ConvertFromDBValue<bool>(reader["EnableCanonicalUrls"]);
-                        part.TitleOverrideMaxLength = ConvertFromDBValue<int>(reader["TitleOverrideMaxLength"]);
-                        part.DescriptionOverrideMaxLength = ConvertFromDBValue<int>(reader["DescriptionOverrideMaxLength"]);
-                        part.KeywordsOverrideMaxLength = ConvertFromDBValue<int>(reader["KeywordsOverrideMaxLength"]); 
-                    }
-                });
+                            part.HomeTitle = ConvertFromDBValue<string>(reader["HomeTitle"]);
+                            part.HomeDescription = ConvertFromDBValue<string>(reader["HomeDescription"]);
+                            part.HomeKeywords = ConvertFromDBValue<string>(reader["HomeKeywords"]);
+                            part.SeoPatternsDefinition = ConvertFromDBValue<string>(reader["SeoPatternsDefinition"]);
+                            part.SearchTitlePattern = ConvertFromDBValue<string>(reader["SearchTitlePattern"]);
+                            part.EnableCanonicalUrls = ConvertFromDBValue<bool>(reader["EnableCanonicalUrls"]);
+                            part.TitleOverrideMaxLength = ConvertFromDBValue<int>(reader["TitleOverrideMaxLength"]);
+                            part.DescriptionOverrideMaxLength = ConvertFromDBValue<int>(reader["DescriptionOverrideMaxLength"]);
+                            part.KeywordsOverrideMaxLength = ConvertFromDBValue<int>(reader["KeywordsOverrideMaxLength"]);
+                        }
+                    });
 
-            _upgradeService.ExecuteReader(string.Format("DROP TABLE {0}", tableName), null);
+                _upgradeService.ExecuteReader(string.Format("DROP TABLE {0}", tableName), null);
+            }
 
 
             return 1;
