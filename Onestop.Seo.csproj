@@ -115,6 +115,10 @@
       <Project>{6F759635-13D7-4E94-BCC9-80445D63F117}</Project>
       <Name>Orchard.Tokens</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Upgrade\Upgrade.csproj">
+      <Project>{8a9fdb57-342d-49c2-bafc-d885aae5cc7c}</Project>
+      <Name>Upgrade</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
@@ -147,6 +151,7 @@
     <Compile Include="Services\ISeoService.cs" />
     <Compile Include="Services\SeoService.cs" />
     <Compile Include="Services\SeoSettingsManager.cs" />
+    <Compile Include="UpgradeMigrations.cs" />
     <Compile Include="ViewModels\DynamicPageRewriterViewModel.cs" />
     <Compile Include="ViewModels\RewriterViewModel.cs" />
   </ItemGroup>
