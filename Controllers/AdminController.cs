@@ -118,9 +118,10 @@ namespace Onestop.Seo.Controllers {
                 IPageOfItems<ISearchHit> searchHits = new PageOfItems<ISearchHit>(new ISearchHit[] { });
                 try
                 {
+                    ///TODO 1.9: make sure this to array function actually works
                     var searchSettings = siteSettings.As<SearchSettingsPart>();
                     searchHits = _searchService.Query(rewriterViewModel.Q, pager.Page, pager.PageSize, false,
-                                                      searchSettings.SearchIndex, searchSettings.SearchedFields,
+                                                      searchSettings.SearchIndex, searchSettings.SearchFields.Keys.ToArray<string>(),
                                                       searchHit => searchHit);
                     // Could use this: http://orchard.codeplex.com/workitem/18664
                     // Converting to List, because the expression should contain an ICollection

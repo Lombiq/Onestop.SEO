@@ -6,7 +6,7 @@ using System.Web.Script.Serialization;
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.MetaData.Models;
 using Orchard.ContentManagement.Records;
-using Orchard.Core.Common.Utilities;
+using Orchard.ContentManagement.Utilities;
 using Orchard.Data.Conventions;
 
 namespace Onestop.Seo.Models {
