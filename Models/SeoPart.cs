@@ -31,18 +31,18 @@ namespace Onestop.Seo.Models {
         }
 
         public string TitleOverride {
-            get { return Record.TitleOverride; }
-            set { Record.TitleOverride = value; }
+            get { return Retrieve(p => p.TitleOverride); }
+            set { Store(p => p.TitleOverride, value); }
         }
 
         public string DescriptionOverride {
-            get { return Record.DescriptionOverride; }
-            set { Record.DescriptionOverride = value; }
+            get { return Retrieve(p => p.DescriptionOverride); }
+            set { Store(p => p.DescriptionOverride, value); }
         }
 
         public string KeywordsOverride {
-            get { return Record.KeywordsOverride; }
-            set { Record.KeywordsOverride = value; }
+            get { return Retrieve(p => p.KeywordsOverride); }
+            set { Store(p => p.KeywordsOverride, value); }
         }
     }
 

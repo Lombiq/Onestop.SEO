@@ -15,6 +15,7 @@ using Orchard.Core.Contents.ViewModels;
 using Orchard.Exceptions;
 using Orchard.Indexing;
 using Orchard.Localization;
+using Orchard.Search.Helpers;
 using Orchard.Search.Models;
 using Orchard.Search.Services;
 using Orchard.Security;
@@ -122,6 +123,7 @@ namespace Onestop.Seo.Controllers {
                     var searchSettings = siteSettings.As<SearchSettingsPart>();
                     searchHits = _searchService.Query(rewriterViewModel.Q, pager.Page, pager.PageSize, false,
                                                       searchSettings.SearchIndex, searchSettings.SearchFields.Keys.ToArray<string>(),
+                                                      //searchSettings.SearchIndex, SearchSettingsHelper.GetSearchFields(searchSettings),
                                                       searchHit => searchHit);
                     // Could use this: http://orchard.codeplex.com/workitem/18664
                     // Converting to List, because the expression should contain an ICollection

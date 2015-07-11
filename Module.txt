@@ -1,16 +1,23 @@
-﻿Name: Onestop SEO
+Name: Onestop SEO
 AntiForgery: enabled
 Author: Zoltán Lehóczky / Onestop Internet
-Website: http://onestopseo.codeplex.com
+Website: https://bitbucket.org/onestop/module_onestop_seo
 Version: 1.0
-OrchardVersion: 1.6
+OrchardVersion: 1.9.0
 Description: Search Engine Optimization for Orchard content
-FeatureDescription: Search Engine Optimization for Orchard content
-Category: SEO
-Dependencies: Orchard.Alias, Orchard.Caching, Orchard.jQuery, Orchard.Search, Orchard.Tokens, Title
 Features:
-    Onestop.Seo.Sitemap:
-        Name: Onestop Sitemap (BETA)
-        Description: BETA FEATURE Enable XML and HTML sitemaps from published content and navigation
-        Category: SEO
+	Onestop.Seo:
+		Name: Onestop SEO
+		FeatureDescription: Search Engine Optimization for Orchard content
+		Category: SEO
+		Dependencies: Orchard.Alias, Orchard.Caching, Orchard.jQuery, Orchard.Search, Orchard.Tokens, Title
+	Onestop.Seo.Upgrade:
+		Name: Onestop SEO Upgrade
+		Description: Migrates Onestop SEO settings to a new and more efficient storage mechanism (dubbed The Shift). WARNING: when enabling your current settings will be overwritten with the old ones. Enabling this feature will migrate the global settings, so after enabling it, this feature can be disabled again.
+		Category: SEO
+		Dependencies: Onestop.Seo, Upgrade
+	Onestop.Seo.Sitemap:
+		Name: Onestop Sitemap (BETA)
+		Description: BETA FEATURE Enable XML and HTML sitemaps from published content and navigation
+		Category: SEO
 		Dependencies: Onestop.Seo
