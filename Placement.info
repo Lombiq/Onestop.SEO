@@ -11,27 +11,49 @@
     <Place Parts_Seo_SeoSummaryAdmin_Edit="Content:9"
            Parts_Seo_TitleOverride_SeoSummaryAdmin_Edit="Content:1"
            Parts_Common_Body_Summary="-"
-           Parts_Title_SummaryAdmin="Header:5;Shape=Parts_Title_SeoSummaryAdmin" />
+           Parts_Title_SummaryAdmin="Header:5;Shape=Parts_Title_SeoSummaryAdmin"/>
   </Match>
   <Match DisplayType="SeoSummaryAdmin-DescriptionRewriter">
     <Place Parts_Seo_SeoSummaryAdmin_Edit="Content:9"
            Parts_Seo_DescriptionOverride_SeoSummaryAdmin_Edit="Content:1"
            Parts_Common_Body_Summary="-"
-           Parts_Title_SummaryAdmin="Header:5;Shape=Parts_Title_SeoSummaryAdmin" />
+           Parts_Title_SummaryAdmin="Header:5;Shape=Parts_Title_SeoSummaryAdmin"/>
   </Match>
   <Match DisplayType="SeoSummaryAdmin-KeywordsRewriter">
     <Place Parts_Seo_SeoSummaryAdmin_Edit="Content:9"
            Parts_Seo_KeywordsOverride_SeoSummaryAdmin_Edit="Content:1"
            Parts_Common_Body_Summary="-"
-           Parts_Title_SummaryAdmin="Header:5;Shape=Parts_Title_SeoSummaryAdmin" />
+           Parts_Title_SummaryAdmin="Header:5;Shape=Parts_Title_SeoSummaryAdmin"    /> 
+  </Match>
+  <Match DisplayType="SeoSummaryAdmin-CanonicalRewriter">
+    <Place Parts_Seo_SeoSummaryAdmin_Edit="Content:9"
+           Parts_Seo_CanonicalOverride_SeoSummaryAdmin_Edit="Content:1"
+           Parts_Common_Body_Summary="-"
+           Parts_Title_SummaryAdmin="Header:5;Shape=Parts_Title_SeoSummaryAdmin"/>
+  </Match>
+  <Match DisplayType="SeoSummaryAdmin-HTMLCardRewriter">
+    <Place Parts_Seo_SeoSummaryAdmin_Edit="Content:9"
+           Parts_Seo_HTMLCardOverride_SeoSummaryAdmin_Edit="Content:1"
+           Parts_Common_Body_Summary="-"
+           Parts_Title_SummaryAdmin="Header:5;Shape=Parts_Title_SeoSummaryAdmin"/>
   </Match>
 
   <!--Everything else-->
   <Match ContentType="SeoNonContent">
-    <!--Parts_Seo_Edit is not placed by default for any other content type.-->
-    <Place Parts_Seo_Edit="Content:1"
+    <!--Parts_Seo_Edit is not placed by default for any other content type.   EDIT not true anymore se below-->
+     <Place Parts_Seo_Edit="Content:1"
            Content_PublishButton="-"
            Content_SaveButton="-"
            Content_PreviewButton="-" />
   </Match>
+  
+  <!-- hide the parts in summary admin mode-->
+  
+  <Match DisplayType="SummaryAdmin">
+    <Place Parts_Seo_Edit="-"  />
+  </Match>
+
+  <!--show the editors for all types now -->
+  <Place Parts_Seo_Edit="Content:last"  />
+
 </Placement>
