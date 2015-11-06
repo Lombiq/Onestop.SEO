@@ -54,6 +54,6 @@
   </Match>
 
   <!--show the editors for all types now -->
-  <Place Parts_Seo_Edit="Content:last"  />
+  <Place Parts_Seo_Edit="Content:19.9"  />
 
 </Placement>
