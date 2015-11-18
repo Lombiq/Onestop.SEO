@@ -122,6 +122,7 @@ namespace Onestop.Seo.Controllers {
                         _contentManager.Publish(item.ContentItem);
                     }
                     break;
+               
                 default:
                     return new HttpNotFoundResult();
             }
@@ -188,6 +189,10 @@ namespace Onestop.Seo.Controllers {
                     return T("SEO Title Tag Rewriter: {0}", tabName);
                 case "DescriptionRewriter":
                     return T("SEO Description Tag Rewriter: {0}", tabName);
+                case "CanonicalRewriter":
+                    return T("Canonical Tag Rewriter: {0}", tabName);
+                case "HTMLCardRewriter":
+                    return T("HTML Card Tag Rewriter: {0}", tabName);
                 default: //case "KeywordsRewriter"
                     return T("SEO Keywords Tag Rewriter: {0}", tabName);
             }

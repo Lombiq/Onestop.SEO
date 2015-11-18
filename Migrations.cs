@@ -2,9 +2,13 @@
 using Orchard.ContentManagement.MetaData;
 using Orchard.Core.Contents.Extensions;
 using Orchard.Data.Migration;
+using Orchard.Environment.Extensions;
+
 
 namespace Onestop.Seo {
-    public class Migrations : DataMigrationImpl {
+    [OrchardFeature("Onestop.Seo")]
+    public class Migrations : DataMigrationImpl
+    {
         public int Create() {
             SchemaBuilder.CreateTable(typeof(SeoGlobalSettingsPartRecord).Name,
                 table => table
@@ -105,6 +109,18 @@ namespace Onestop.Seo {
 
 
             return 4;
+        }
+
+        public int UpdateFrom4()
+        {
+            SchemaBuilder.AlterTable(typeof(SeoPartRecord).Name,
+                table =>
+                {
+                    table.AddColumn<string>("CanonicalUrlOverride", column => column.WithLength(1024));
+                    table.AddColumn<string>("HTMLCardOverride", column => column.WithLength(2048));
+                });
+
+            return 5;
         }
     }
 }

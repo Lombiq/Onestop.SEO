@@ -1,6 +1,7 @@
 ﻿using Onestop.Common.Services;
 using Onestop.Seo.Models;
 using Onestop.Seo.Services;
+using Orchard;
 using Orchard.ContentManagement;
 using Orchard.Environment;
 using Orchard.Mvc.Filters;
@@ -8,6 +9,8 @@ using Orchard.UI.Resources;
 using System;
 using System.Web.Mvc;
 using System.Linq;
+using Orchard.DisplayManagement.Shapes;
+using Orchard.DisplayManagement;
 
 namespace Onestop.Seo.Filters {
     public class SeoContentFilter : FilterProvider, IResultFilter {
@@ -17,26 +20,33 @@ namespace Onestop.Seo.Filters {
         private readonly Work<IPageTitleBuilder> _pageTitleBuilderWork;
         private readonly Work<IResourceManager> _resourceManagerWork;
         private readonly IContentManager _contentManager;
-
+        private readonly dynamic _shapeFactory;
+        dynamic Shape { get; set; }
         public SeoContentFilter(
             Work<ISeoSettingsManager> seoSettingsManagerWork,
             Work<ICurrentContentService> currentContentServiceWork,
             Work<ISeoService> seoServiceWork,
             Work<IPageTitleBuilder> pageTitleBuilderWork,
             Work<IResourceManager> resourceManagerWork,
-            IContentManager contentManager) {
+            IContentManager contentManager,
+            IShapeFactory shapeFactory) {
             _seoSettingsManagerWork = seoSettingsManagerWork;
             _currentContentServiceWork = currentContentServiceWork;
             _seoServiceWork = seoServiceWork;
             _pageTitleBuilderWork = pageTitleBuilderWork;
             _resourceManagerWork = resourceManagerWork;
             _contentManager = contentManager;
+            _shapeFactory = shapeFactory;
+           
         }
 
         public void OnResultExecuted(ResultExecutedContext filterContext) {
         }
 
-        public void OnResultExecuting(ResultExecutingContext filterContext) {
+        public void OnResultExecuting(ResultExecutingContext filterContext)
+        {
+
+
             // Don't run on admin
             if (Orchard.UI.Admin.AdminFilter.IsApplied(filterContext.RequestContext)
                 // Should only run on a full view rendering result
@@ -45,6 +55,7 @@ namespace Onestop.Seo.Filters {
 
 
             string title, description, keywords;
+            string HTMLCard ="";
 
             var item = _currentContentServiceWork.Value.GetContentForRequest();
             if (item != null) {
@@ -53,6 +64,7 @@ namespace Onestop.Seo.Filters {
                 title = !String.IsNullOrEmpty(seoPart.TitleOverride) ? seoPart.TitleOverride : seoPart.GeneratedTitle;
                 description = !String.IsNullOrEmpty(seoPart.DescriptionOverride) ? seoPart.DescriptionOverride : seoPart.GeneratedDescription;
                 keywords = !String.IsNullOrEmpty(seoPart.KeywordsOverride) ? seoPart.KeywordsOverride : seoPart.GeneratedKeywords;
+                HTMLCard = seoPart.HTMLCardOverride;
             }
             else {
                 item = _contentManager
@@ -68,8 +80,19 @@ namespace Onestop.Seo.Filters {
                 title = seoPart.TitleOverride;
                 description = seoPart.DescriptionOverride;
                 keywords = seoPart.KeywordsOverride;
+                HTMLCard = seoPart.HTMLCardOverride;
+
             }
 
+            if (!String.IsNullOrEmpty(HTMLCard))
+            {
+                var workContext = filterContext.GetWorkContext();
+
+                var head = workContext.Layout.Head;
+                var HC = _shapeFactory.HTMLCard()
+                .HTMLCard(HTMLCard);
+                head.Add(HC, ":after");
+            }
 
             if (!String.IsNullOrEmpty(title)) _pageTitleBuilderWork.Value.OverrideTitle(title);
 
@@ -86,6 +109,8 @@ namespace Onestop.Seo.Filters {
                     Content = keywords
                 });
             }
+
+           
         }
     }
 }
