@@ -20,53 +20,38 @@ namespace Onestop.Seo.Drivers {
 
 
         protected override DriverResult Display(SeoPart part, string displayType, dynamic shapeHelper) {
-            //return Editor(part, shapeHelper);
-            return Combined(
-           ContentShape("Parts_Seo_SeoSummaryAdmin_Edit",
-               () => shapeHelper.EditorTemplate(
-                       TemplateName: "Parts.Seo.SeoSummaryAdmin",
-                       Model: part,
-                       Prefix: Prefix)),
-           ContentShape("Parts_Seo_TitleOverride_SeoSummaryAdmin_Edit",
-               () => shapeHelper.EditorTemplate(
-                       TemplateName: "Parts.Seo.TitleOverride.SeoSummaryAdmin",
-                       Model: part,
-                       Prefix: Prefix)),
-           ContentShape("Parts_Seo_DescriptionOverride_SeoSummaryAdmin_Edit",
-               () => shapeHelper.EditorTemplate(
-                       TemplateName: "Parts.Seo.DescriptionOverride.SeoSummaryAdmin",
-                       Model: part,
-                       Prefix: Prefix)),
-           ContentShape("Parts_Seo_KeywordsOverride_SeoSummaryAdmin_Edit",
-               () => shapeHelper.EditorTemplate(
-                       TemplateName: "Parts.Seo.KeywordsOverride.SeoSummaryAdmin",
-                       Model: part,
-                       Prefix: Prefix))
-                       ,
-           ContentShape("Parts_Seo_CanonicalOverride_SeoSummaryAdmin_Edit",
-               () => shapeHelper.EditorTemplate(
-                       TemplateName: "Parts.Seo.CanonicalOverride.SeoSummaryAdmin",
-                       Model: part,
-                       Prefix: Prefix))
-                       ,
-           ContentShape("Parts_Seo_HTMLCardOverride_SeoSummaryAdmin_Edit",
-               () => shapeHelper.EditorTemplate(
-                       TemplateName: "Parts.Seo.HTMLCardOverride.SeoSummaryAdmin",
-                       Model: part,
-                       Prefix: Prefix)));
+            return Editor(part, shapeHelper);
         }
 
         protected override DriverResult Editor(SeoPart part, dynamic shapeHelper) {
             if (!_authorizer.Authorize(Permissions.ManageSeo, part)) return null;
 
-        
-
-            return ContentShape("Parts_Seo_Edit", // Generic editor, not shown by default for any content types
+            return Combined(
+                ContentShape("Parts_Seo_SeoSummaryAdmin_Edit",
+                    () => shapeHelper.EditorTemplate(
+                            TemplateName: "Parts.Seo.SeoSummaryAdmin",
+                            Model: part,
+                            Prefix: Prefix)),
+                ContentShape("Parts_Seo_TitleOverride_SeoSummaryAdmin_Edit",
+                    () => shapeHelper.EditorTemplate(
+                            TemplateName: "Parts.Seo.TitleOverride.SeoSummaryAdmin",
+                            Model: part,
+                            Prefix: Prefix)),
+                ContentShape("Parts_Seo_DescriptionOverride_SeoSummaryAdmin_Edit",
+                    () => shapeHelper.EditorTemplate(
+                            TemplateName: "Parts.Seo.DescriptionOverride.SeoSummaryAdmin",
+                            Model: part,
+                            Prefix: Prefix)),
+                ContentShape("Parts_Seo_KeywordsOverride_SeoSummaryAdmin_Edit",
+                    () => shapeHelper.EditorTemplate(
+                            TemplateName: "Parts.Seo.KeywordsOverride.SeoSummaryAdmin",
+                            Model: part,
+                            Prefix: Prefix)),
+                ContentShape("Parts_Seo_Edit", // Generic editor, not shown by default for any content types
                     () => shapeHelper.EditorTemplate(
                             TemplateName: "Parts.Seo",
                             Model: part,
-                            Prefix: Prefix));
-               
+                            Prefix: Prefix)));
         }
 
         protected override DriverResult Editor(SeoPart part, IUpdateModel updater, dynamic shapeHelper) {

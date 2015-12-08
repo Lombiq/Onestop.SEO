@@ -2,13 +2,9 @@
 using Orchard.ContentManagement.MetaData;
 using Orchard.Core.Contents.Extensions;
 using Orchard.Data.Migration;
-using Orchard.Environment.Extensions;
-
 
 namespace Onestop.Seo {
-    [OrchardFeature("Onestop.Seo")]
-    public class Migrations : DataMigrationImpl
-    {
+    public class Migrations : DataMigrationImpl {
         public int Create() {
             // Creating the type in the migration is necessary for CommonPart what in turn is necessary for Audit Trail
             ContentDefinitionManager.AlterTypeDefinition("SeoSettings",
@@ -101,9 +97,6 @@ namespace Onestop.Seo {
                 builder => builder
                     .WithDescription("Provides settings for search engine optimization.")
                 );
-
-            return 5;
-                });
 
             return 5;
         }

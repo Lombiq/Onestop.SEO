@@ -59,10 +59,7 @@ namespace Onestop.Seo {
             var rewriters = new List<Rewriter> {
                     new Rewriter { DisplayName = new LocalizedString("Title Tag Rewriter"), Type = "TitleRewriter" },
                     new Rewriter { DisplayName = new LocalizedString("Description Tag Rewriter"), Type = "DescriptionRewriter" },
-                    new Rewriter { DisplayName = new LocalizedString("Keywords Tag Rewriter"), Type = "KeywordsRewriter" },
-                    new Rewriter { DisplayName = new LocalizedString("Canonical Tag Rewriter"), Type = "CanonicalRewriter" },
-                    new Rewriter { DisplayName = new LocalizedString("HTMLCard Rewriter"), Type = "HTMLCardRewriter" }
-
+                    new Rewriter { DisplayName = new LocalizedString("Keywords Tag Rewriter"), Type = "KeywordsRewriter" }
                 };
 
             int i = 1;
