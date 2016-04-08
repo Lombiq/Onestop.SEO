@@ -44,6 +44,20 @@ namespace Onestop.Seo.Models {
             get { return Retrieve(p => p.KeywordsOverride); }
             set { Store(p => p.KeywordsOverride, value); }
         }
+
+        public string CanonicalUrlOverride
+        {
+            get { return Retrieve(p => p.CanonicalUrlOverride); }
+            set { Store(p => p.CanonicalUrlOverride, value); }
+        }
+
+        public string HTMLCardOverride
+        {
+            get { return Retrieve(p => p.HTMLCardOverride); }
+            set { Store(p => p.HTMLCardOverride, value); }
+        }
+
+
     }
 
     public class SeoPartRecord : ContentPartVersionRecord {
@@ -55,5 +69,11 @@ namespace Onestop.Seo.Models {
 
         [StringLengthMax]
         public virtual string KeywordsOverride { get; set; }
+
+        [StringLength(1024)]
+        public virtual string CanonicalUrlOverride { get; set; }
+        [StringLength(2048)]
+        public virtual string HTMLCardOverride { get; set; }
+
     }
 }

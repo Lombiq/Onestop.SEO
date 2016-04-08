@@ -4,6 +4,9 @@ using Orchard.ContentManagement;
 using Orchard.Environment;
 using Orchard.Mvc.Filters;
 using Orchard.UI.Resources;
+using Orchard.Core.Settings.Models;
+using Orchard;
+using Onestop.Seo.Models;
 
 namespace Onestop.Seo.Filters {
     public class CanoncialUrlFilter : FilterProvider, IResultFilter {
@@ -33,6 +36,26 @@ namespace Onestop.Seo.Filters {
                 || filterContext.RequestContext.HttpContext.Request.IsAjaxRequest()
                 || !_seoSettingsManagerWork.Value.GetGlobalSettings().EnableCanonicalUrls)
                 return;
+
+            var SEOItemPart = _currentContentServiceWork.Value.GetContentForRequest().As<SeoPart>();
+
+            if (SEOItemPart != null && !string.IsNullOrEmpty(SEOItemPart.CanonicalUrlOverride))
+            {
+                var workContext = filterContext.GetWorkContext();
+                var siteSettings = workContext.CurrentSite.As<SiteSettingsPart>();
+                var cUrl = SEOItemPart.CanonicalUrlOverride;
+
+                if (cUrl.ToString().Substring(0, 1) != "/")
+                {
+                    cUrl = "/" + cUrl;
+                }
+                _resourceManagerWork.Value.RegisterLink(new LinkEntry
+                {
+                    Rel = "canonical",
+                    Href = siteSettings.BaseUrl + cUrl
+                });
+                return;
+            }
 
             // If the page we're currently on is a content item, produce a canonical url for it
             var item = _currentContentServiceWork.Value.GetContentForRequest();

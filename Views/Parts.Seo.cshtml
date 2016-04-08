@@ -1,0 +1,36 @@
+﻿@model Onestop.Seo.Models.SeoPart
+@using Onestop.Seo;
+
+@{
+    Style.Require("OnestopSeo_Admin");
+    Script.Require("OnestopSeo_Admin").AtFoot();
+}
+
+<a name="SEOEdit"></a> 
+<fieldset>
+    <legend>@T("SEO overrides")</legend>
+    <ol>
+        <li>
+            @Html.LabelFor(m => m.TitleOverride, T("Page title override"))
+            @Html.TextBoxFor(m => m.TitleOverride, new { @class = "large text" })
+
+        </li>
+        <li>
+            @Html.LabelFor(m => m.DescriptionOverride, T("Meta description override"))
+            @Html.TextBoxFor(m => m.DescriptionOverride, new { @class = "large text" })
+        </li>
+        <li>
+            @Html.LabelFor(m => m.KeywordsOverride, T("Meta keywords override"))
+            @Html.TextBoxFor(m => m.KeywordsOverride, new { @class = "large text" })
+        </li>
+        <li>
+            @Html.LabelFor(m => m.CanonicalUrlOverride, T("Canonical URL override"))
+            @Html.TextBoxFor(m => m.CanonicalUrlOverride, new { @class = "large text" })
+        </li>
+        <li>
+            @Html.LabelFor(m => m.HTMLCardOverride, T("HTML Card Data. NOTE: this is not validated; use at your own risk"))
+            @Html.TextAreaFor(m => m.HTMLCardOverride)
+        </li>
+
+    </ol>
+</fieldset>

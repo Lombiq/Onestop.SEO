@@ -92,13 +92,27 @@ namespace Onestop.Seo {
             return 4;
         }
 
-        public int UpdateFrom4() {
+        public int UpdateFrom4()
+        {
+            SchemaBuilder.AlterTable(typeof(SeoPartRecord).Name,
+                table =>
+                {
+                    table.AddColumn<string>("CanonicalUrlOverride", column => column.WithLength(1024));
+                    table.AddColumn<string>("HTMLCardOverride", column => column.WithLength(2048));
+                });
+
+            return 5;
+        }
+
+        public int UpdateFrom5()
+        {
             ContentDefinitionManager.AlterPartDefinition(typeof(SeoPart).Name,
                 builder => builder
                     .WithDescription("Provides settings for search engine optimization.")
                 );
 
-            return 5;
+            return 6;
         }
+
     }
 }
