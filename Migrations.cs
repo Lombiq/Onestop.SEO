@@ -20,6 +20,8 @@ namespace Onestop.Seo {
                     .Column<string>("TitleOverride", column => column.WithLength(1024))
                     .Column<string>("DescriptionOverride", column => column.Unlimited())
                     .Column<string>("KeywordsOverride", column => column.Unlimited())
+                    .Column<string>("CanonicalUrlOverride", column => column.WithLength(1024))
+                    .Column<string>("HTMLCardOverride", column => column.WithLength(2048))
                 );
 
             ContentDefinitionManager.AlterPartDefinition(typeof(SeoPart).Name,
@@ -47,7 +49,7 @@ namespace Onestop.Seo {
                     .Draftable());
 
 
-            return 5;
+            return 6;
         }
 
         public int UpdateFrom1() {
