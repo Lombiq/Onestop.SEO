@@ -84,6 +84,8 @@ namespace Onestop.Seo.Filters {
                 title = seoPart.TitleOverride;
                 description = seoPart.DescriptionOverride;
                 keywords = seoPart.KeywordsOverride;
+                HTMLCard = seoPart.HTMLCardOverride;
+
             }
 
             if (!String.IsNullOrEmpty(HTMLCard))
