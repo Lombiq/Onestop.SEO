@@ -121,7 +121,7 @@ namespace Onestop.Seo.Controllers {
                 {
                     var searchSettings = siteSettings.As<SearchSettingsPart>();
                     searchHits = _searchService.Query(rewriterViewModel.Q, pager.Page, pager.PageSize, false,
-                                                      searchSettings.SearchIndex, SearchSettingsHelper.GetSearchFields(searchSettings),
+                                                      searchSettings.SearchIndex, SearchSettingsHelper.GetSearchFields(searchSettings, searchSettings.SearchIndex),
                                                       searchHit => searchHit);
                     // Could use this: http://orchard.codeplex.com/workitem/18664
                     // Converting to List, because the expression should contain an ICollection
