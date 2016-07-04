@@ -1,29 +1,26 @@
-﻿using System;
+﻿using Orchard.ContentManagement;
+using Orchard.ContentManagement.MetaData.Models;
+using Orchard.ContentManagement.Utilities;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Script.Serialization;
-using Orchard.ContentManagement;
-using Orchard.ContentManagement.MetaData.Models;
-using Orchard.ContentManagement.Records;
-using Orchard.Core.Common.Utilities;
-using Orchard.Data.Conventions;
 
 namespace Onestop.Seo.Models {
-    public class SeoGlobalSettingsPart : ContentPart<SeoGlobalSettingsPartRecord>, ISeoGlobalSettings {
+    public class SeoGlobalSettingsPart : ContentPart, ISeoGlobalSettings {
         public string HomeTitle {
-            get { return Record.HomeTitle; }
-            set { Record.HomeTitle = value; }
+            get { return this.Retrieve(x => x.HomeTitle, default(string), true); }
+            set { this.Store(x => x.HomeTitle, value, true); }
         }
 
         public string HomeDescription {
-            get { return Record.HomeDescription; }
-            set { Record.HomeDescription = value; }
+            get { return this.Retrieve(x => x.HomeDescription, default(string), true); }
+            set { this.Store(x => x.HomeDescription, value, true); }
         }
 
         public string HomeKeywords {
-            get { return Record.HomeKeywords; }
-            set { Record.HomeKeywords = value; }
+            get { return this.Retrieve(x => x.HomeKeywords, default(string), true); }
+            set { this.Store(x => x.HomeKeywords, value, true); }
         }
 
         private readonly LazyField<IEnumerable<ContentTypeDefinition>> _seoContentTypes = new LazyField<IEnumerable<ContentTypeDefinition>>();
@@ -124,71 +121,39 @@ namespace Onestop.Seo.Models {
             var tempDictionary = SeoPatternsDictionary.Keys.ToDictionary(key => key.ToString(), key => SeoPatternsDictionary[key]);
             SeoPatternsDefinition = new JavaScriptSerializer().Serialize(tempDictionary);
         }
+        #endregion
 
         /// <summary>
         /// Serialized title patterns
         /// </summary>
         public string SeoPatternsDefinition {
-            get { return Record.SeoPatternsDefinition; }
-            set { Record.SeoPatternsDefinition = value; }
+            get { return this.Retrieve(x => x.SeoPatternsDefinition, default(string), true); }
+            set { this.Store(x => x.SeoPatternsDefinition, value, true); }
         }
-        #endregion
 
         public string SearchTitlePattern {
-            get { return Record.SearchTitlePattern; }
-            set { Record.SearchTitlePattern = value; }
+            get { return this.Retrieve(x => x.SearchTitlePattern, default(string), true); }
+            set { this.Store(x => x.SearchTitlePattern, value, true); }
         }
 
         public bool EnableCanonicalUrls {
-            get { return Record.EnableCanonicalUrls; }
-            set { Record.EnableCanonicalUrls = value; }
+            get { return this.Retrieve(x => x.EnableCanonicalUrls, default(bool), true); }
+            set { this.Store(x => x.EnableCanonicalUrls, value, true); }
         }
 
         public int TitleOverrideMaxLength {
-            get { return Record.TitleOverrideMaxLength; }
-            set { Record.TitleOverrideMaxLength = value; }
+            get { return this.Retrieve(x => x.TitleOverrideMaxLength, default(int), true); }
+            set { this.Store(x => x.TitleOverrideMaxLength, value, true); }
         }
 
         public int DescriptionOverrideMaxLength {
-            get { return Record.DescriptionOverrideMaxLength; }
-            set { Record.DescriptionOverrideMaxLength = value; }
+            get { return this.Retrieve(x => x.DescriptionOverrideMaxLength, default(int), true); }
+            set { this.Store(x => x.DescriptionOverrideMaxLength, value, true); }
         }
 
         public int KeywordsOverrideMaxLength {
-            get { return Record.KeywordsOverrideMaxLength; }
-            set { Record.KeywordsOverrideMaxLength = value; }
-        }
-    }
-
-    public class SeoGlobalSettingsPartRecord : ContentPartVersionRecord {
-        [StringLength(1024)]
-        public virtual string HomeTitle { get; set; }
-
-        [StringLengthMax]
-        public virtual string HomeDescription { get; set; }
-
-        [StringLengthMax]
-        public virtual string HomeKeywords { get; set; }
-
-        [StringLengthMax]
-        public virtual string SeoPatternsDefinition { get; set; }
-
-        [StringLength(1024)]
-        public virtual string SearchTitlePattern { get; set; }
-
-        public virtual bool EnableCanonicalUrls { get; set; }
-
-        public virtual int TitleOverrideMaxLength { get; set; }
-
-        public virtual int DescriptionOverrideMaxLength { get; set; }
-
-        public virtual int KeywordsOverrideMaxLength { get; set; }
-
-
-        public SeoGlobalSettingsPartRecord() {
-            TitleOverrideMaxLength = Defaults.TitleOverrideMaxLength;
-            DescriptionOverrideMaxLength = Defaults.DescriptionOverrideMaxLength;
-            KeywordsOverrideMaxLength = Defaults.KeywordsOverrideMaxLength;
+            get { return this.Retrieve(x => x.KeywordsOverrideMaxLength, default(int), true); }
+            set { this.Store(x => x.KeywordsOverrideMaxLength, value, true); }
         }
     }
 }

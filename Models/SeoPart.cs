@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.Records;
-using Orchard.Core.Common.Utilities;
+using Orchard.ContentManagement.Utilities;
 using Orchard.Data.Conventions;
 
 namespace Onestop.Seo.Models {
@@ -31,19 +31,33 @@ namespace Onestop.Seo.Models {
         }
 
         public string TitleOverride {
-            get { return Record.TitleOverride; }
-            set { Record.TitleOverride = value; }
+            get { return Retrieve(p => p.TitleOverride); }
+            set { Store(p => p.TitleOverride, value); }
         }
 
         public string DescriptionOverride {
-            get { return Record.DescriptionOverride; }
-            set { Record.DescriptionOverride = value; }
+            get { return Retrieve(p => p.DescriptionOverride); }
+            set { Store(p => p.DescriptionOverride, value); }
         }
 
         public string KeywordsOverride {
-            get { return Record.KeywordsOverride; }
-            set { Record.KeywordsOverride = value; }
+            get { return Retrieve(p => p.KeywordsOverride); }
+            set { Store(p => p.KeywordsOverride, value); }
         }
+
+        public string CanonicalUrlOverride
+        {
+            get { return Retrieve(p => p.CanonicalUrlOverride); }
+            set { Store(p => p.CanonicalUrlOverride, value); }
+        }
+
+        public string HTMLCardOverride
+        {
+            get { return Retrieve(p => p.HTMLCardOverride); }
+            set { Store(p => p.HTMLCardOverride, value); }
+        }
+
+
     }
 
     public class SeoPartRecord : ContentPartVersionRecord {
@@ -55,5 +69,11 @@ namespace Onestop.Seo.Models {
 
         [StringLengthMax]
         public virtual string KeywordsOverride { get; set; }
+
+        [StringLength(1024)]
+        public virtual string CanonicalUrlOverride { get; set; }
+        [StringLength(2048)]
+        public virtual string HTMLCardOverride { get; set; }
+
     }
 }

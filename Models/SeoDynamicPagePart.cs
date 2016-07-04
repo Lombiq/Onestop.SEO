@@ -13,8 +13,8 @@ namespace Onestop.Seo.Models {
     /// </summary>
     public class SeoDynamicPagePart : ContentPart<SeoDynamicPagePartRecord> {
         public string Path {
-            get { return Record.Path; }
-            set { Record.Path = value; }
+            get { return Retrieve(p => p.Path); }
+            set { Store(p => p.Path, value); }
         }
     }
 
