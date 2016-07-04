@@ -1,12 +1,10 @@
-﻿
-using Onestop.Seo.Models;
+﻿using Onestop.Seo.Models;
 using Onestop.Seo.Services;
 using Orchard.ContentManagement.Handlers;
 using Orchard.Data;
 using Orchard.Environment;
 
 namespace Onestop.Seo.Handlers {
-    
     public class SeoPartHandler : ContentHandler {
         public SeoPartHandler(
             IRepository<SeoPartRecord> repository,
