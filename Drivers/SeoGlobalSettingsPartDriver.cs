@@ -35,7 +35,12 @@ namespace Onestop.Seo.Drivers {
                              () => shapeHelper.EditorTemplate(
                                  TemplateName: "Parts.SeoGlobalSettings.OtherSettings",
                                  Model: part,
-                                 Prefix: Prefix))
+                                 Prefix: Prefix)),
+                ContentShape("Parts_SeoGlobalSettings_RobotsTxt_Edit",
+                            () => shapeHelper.EditorTemplate(
+                                TemplateName: "Parts.SeoGlobalSettings.RobotsTxt",
+                                Model: part,
+                                Prefix: Prefix))
                 );
         }
 

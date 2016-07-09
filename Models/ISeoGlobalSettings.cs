@@ -18,5 +18,6 @@ namespace Onestop.Seo.Models {
         int TitleOverrideMaxLength { get; set; }
         int DescriptionOverrideMaxLength { get; set; }
         int KeywordsOverrideMaxLength { get; set; }
+        string RobotsTxtText { get; set; }
     }
 }
