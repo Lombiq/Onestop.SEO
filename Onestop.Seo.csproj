@@ -81,6 +81,7 @@
     <Content Include="Scripts\Web.config" />
     <Content Include="Styles\Web.config" />
     <Compile Include="Controllers\AdminControllerBase.cs" />
+    <Compile Include="Controllers\RobotsTxtController.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="Drivers\SeoDynamicPagePartDriver.cs" />
     <Compile Include="Handlers\SeoDynamicPagePartHandler.cs" />
