@@ -45,7 +45,6 @@ namespace Onestop.Seo {
                             part.TitleOverrideMaxLength = ConvertFromDBValue<int>(reader["TitleOverrideMaxLength"]);
                             part.DescriptionOverrideMaxLength = ConvertFromDBValue<int>(reader["DescriptionOverrideMaxLength"]);
                             part.KeywordsOverrideMaxLength = ConvertFromDBValue<int>(reader["KeywordsOverrideMaxLength"]);
-                            part.RobotsTxtText = ConvertFromDBValue<string>(reader["RobotsTxtText"]);
                         }
                     });
 

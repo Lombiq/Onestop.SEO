@@ -11,7 +11,7 @@ namespace Onestop.Seo.Controllers {
         }
 
 
-        public string RobotsTxtText() {
+        public string Index() {
             var globalSettingsPart = _seoSettingsManager.GetGlobalSettings();
 
             return globalSettingsPart.RobotsTxtText;

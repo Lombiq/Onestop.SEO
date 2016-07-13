@@ -39,7 +39,7 @@ namespace Onestop.Seo {
                                     {
                                         { "area", "Onestop.Seo" },
                                         { "controller", "RobotsTxt" },
-                                        { "action", "RobotsTxtText"}
+                                        { "action", "Index"}
                                     },
                                 new RouteValueDictionary(),
                                 new RouteValueDictionary { { "area", "Onestop.Seo" } },
