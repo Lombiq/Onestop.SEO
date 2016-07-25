@@ -29,6 +29,21 @@ namespace Onestop.Seo {
                                 new RouteValueDictionary(), 
                                 new RouteValueDictionary { { "area", "Onestop.Seo" } }, 
                                 new MvcRouteHandler())
+                        },
+                    new RouteDescriptor
+                        {
+                            Route = 
+                                new Route(
+                                "robots.txt",
+                                new RouteValueDictionary
+                                    {
+                                        { "area", "Onestop.Seo" },
+                                        { "controller", "RobotsTxt" },
+                                        { "action", "Index"}
+                                    },
+                                new RouteValueDictionary(),
+                                new RouteValueDictionary { { "area", "Onestop.Seo" } },
+                                new MvcRouteHandler())
                         }
                 };
         }
