@@ -31,11 +31,6 @@ namespace Onestop.Seo.Filters {
 
         public void OnResultExecuting(ResultExecutingContext filterContext) {
             // Don't run on admin  or in non-full views
-            if (Orchard.UI.Admin.AdminFilter.IsApplied(filterContext.RequestContext) 
-                || !(filterContext.Result is ViewResult)
-                || filterContext.RequestContext.HttpContext.Request.IsAjaxRequest()
-                || !_seoSettingsManagerWork.Value.GetGlobalSettings().EnableCanonicalUrls)
-                return;
 
             var SEOItemPart = _currentContentServiceWork.Value.GetContentForRequest().As<SeoPart>();
 
@@ -57,7 +52,14 @@ namespace Onestop.Seo.Filters {
                 return;
             }
 
-            // If the page we're currently on is a content item, produce a canonical url for it
+
+            if (Orchard.UI.Admin.AdminFilter.IsApplied(filterContext.RequestContext) 
+                || !(filterContext.Result is ViewResult)
+                || filterContext.RequestContext.HttpContext.Request.IsAjaxRequest()
+                || !_seoSettingsManagerWork.Value.GetGlobalSettings().EnableCanonicalUrls)
+                return;
+
+            // If the page we're currently on does not have a canonical URL set; or the auto generate is on but there are no canonical urls set for it use the automatic option.
             var item = _currentContentServiceWork.Value.GetContentForRequest();
             if (item == null) return;
             _resourceManagerWork.Value.RegisterLink(new LinkEntry {
