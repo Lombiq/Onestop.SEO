@@ -1,26 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using Onestop.Common.Services;
-using Onestop.Seo.Services;
+﻿using Onestop.Seo.Services;
 using Orchard.Environment;
 using Orchard.Mvc.Filters;
 using Orchard.Tokens;
 using Orchard.UI.Resources;
+using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
-namespace Onestop.Seo.Filters {
+namespace Onestop.Seo.Filters
+{
     public class HomePageFilter : FilterProvider, IResultFilter {
         private readonly Work<ISeoSettingsManager> _seoSettingsManagerWork;
         private readonly Work<ICurrentContentService> _currentContentServiceWork;
         private readonly Work<ITokenizer> _tokenizerWork;
-        private readonly Work<IPageTitleBuilder> _pageTitleBuilderWork;
+        private readonly Work<ISeoPageTitleBuilder> _pageTitleBuilderWork;
         private readonly Work<IResourceManager> _resourceManagerWork;
 
         public HomePageFilter(
             Work<ISeoSettingsManager> seoSettingsManagerWork,
             Work<ICurrentContentService> currentContentServiceWork,
             Work<ITokenizer> tokenizerWork,
-            Work<IPageTitleBuilder> pageTitleBuilderWork,
+            Work<ISeoPageTitleBuilder> pageTitleBuilderWork,
             Work<IResourceManager> resourceManagerWork) {
             _seoSettingsManagerWork = seoSettingsManagerWork;
             _currentContentServiceWork = currentContentServiceWork;

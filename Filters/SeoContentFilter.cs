@@ -1,25 +1,24 @@
-﻿using Onestop.Common.Services;
-using Onestop.Seo.Models;
+﻿using Onestop.Seo.Models;
 using Onestop.Seo.Services;
+using Orchard;
 using Orchard.ContentManagement;
+using Orchard.DisplayManagement;
 using Orchard.Environment;
 using Orchard.Mvc.Filters;
 using Orchard.UI.Resources;
 using System;
-using System.Web.Mvc;
 using System.Linq;
-using Orchard.DisplayManagement;
-using Orchard;
-using Orchard.DisplayManagement.Shapes;
- 
+using System.Web.Mvc;
 
 
-namespace Onestop.Seo.Filters {
+
+namespace Onestop.Seo.Filters
+{
     public class SeoContentFilter : FilterProvider, IResultFilter {
         private readonly Work<ISeoSettingsManager> _seoSettingsManagerWork;
         private readonly Work<ICurrentContentService> _currentContentServiceWork;
         private readonly Work<ISeoService> _seoServiceWork;
-        private readonly Work<IPageTitleBuilder> _pageTitleBuilderWork;
+        private readonly Work<ISeoPageTitleBuilder> _pageTitleBuilderWork;
         private readonly Work<IResourceManager> _resourceManagerWork;
         private readonly IContentManager _contentManager;
         private readonly dynamic _shapeFactory;
@@ -30,7 +29,7 @@ namespace Onestop.Seo.Filters {
             Work<ISeoSettingsManager> seoSettingsManagerWork,
             Work<ICurrentContentService> currentContentServiceWork,
             Work<ISeoService> seoServiceWork,
-            Work<IPageTitleBuilder> pageTitleBuilderWork,
+            Work<ISeoPageTitleBuilder> pageTitleBuilderWork,
             Work<IResourceManager> resourceManagerWork,
             IContentManager contentManager,
             IShapeFactory shapeFactory)

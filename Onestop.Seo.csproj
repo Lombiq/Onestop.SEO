@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -132,10 +132,6 @@
       <Name>Orchard.Core</Name>
       <Private>false</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Onestop.Common\Onestop.Common.csproj">
-      <Project>{bc9f541e-fed9-4212-b153-d6e96155aea1}</Project>
-      <Name>Onestop.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orchard.Alias\Orchard.Alias.csproj">
       <Project>{475B6C45-B27C-438B-8966-908B9D6D1077}</Project>
       <Name>Orchard.Alias</Name>
@@ -181,12 +177,14 @@
     <Compile Include="Models\ISeoGlobalSettings.cs" />
     <Compile Include="Models\SeoGlobalSettingsPart.cs" />
     <Compile Include="Models\SeoPart.cs" />
+    <Compile Include="Services\ISeoPageTitleBuilder.cs" />
     <Compile Include="Services\ISeoSettingsManager.cs" />
     <Compile Include="Services\PrefixedEditorManager.cs" />
     <Compile Include="Services\PrefixedEditorShapeTable.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Services\CurrentContentService.cs" />
     <Compile Include="Services\ISeoService.cs" />
+    <Compile Include="Services\SeoPageTitleBuilder.cs" />
     <Compile Include="Services\SeoService.cs" />
     <Compile Include="Services\SeoSettingsManager.cs" />
     <Compile Include="Services\SitemapService.cs" />

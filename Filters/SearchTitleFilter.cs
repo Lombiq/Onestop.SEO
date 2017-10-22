@@ -1,21 +1,21 @@
-﻿using System;
-using System.Web.Mvc;
-using Onestop.Common.Services;
-using Onestop.Seo.Services;
+﻿using Onestop.Seo.Services;
 using Orchard.Environment;
 using Orchard.Mvc.Filters;
 using Orchard.Tokens;
+using System;
+using System.Web.Mvc;
 
-namespace Onestop.Seo.Filters {
+namespace Onestop.Seo.Filters
+{
     public class SearchTitleFilter : FilterProvider, IActionFilter {
         private readonly Work<ISeoSettingsManager> _seoSettingsManagerWork;
         private readonly Work<ITokenizer> _tokenizerWork;
-        private readonly Work<IPageTitleBuilder> _pageTitleBuilderWork;
+        private readonly Work<ISeoPageTitleBuilder> _pageTitleBuilderWork;
 
         public SearchTitleFilter(
             Work<ISeoSettingsManager> seoSettingsManagerWork,
             Work<ITokenizer> tokenizerWork,
-            Work<IPageTitleBuilder> pageTitleBuilderWork) {
+            Work<ISeoPageTitleBuilder> pageTitleBuilderWork) {
             _seoSettingsManagerWork = seoSettingsManagerWork;
             _tokenizerWork = tokenizerWork;
             _pageTitleBuilderWork = pageTitleBuilderWork;
