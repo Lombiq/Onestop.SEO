@@ -30,8 +30,24 @@ namespace Onestop.Seo {
                                 new RouteValueDictionary { { "area", "Onestop.Seo" } }, 
                                 new MvcRouteHandler())
                         },
-                        new RouteDescriptor {
-                    Route = new Route("sitemap.xml",
+                    new RouteDescriptor
+                        {
+                            Route = 
+                                new Route(
+                                "robots.txt",
+                                new RouteValueDictionary
+                                    {
+                                        { "area", "Onestop.Seo" },
+                                        { "controller", "RobotsTxt" },
+                                        { "action", "Index"}
+                                    },
+                                new RouteValueDictionary(),
+                                new RouteValueDictionary { { "area", "Onestop.Seo" } },
+                                new MvcRouteHandler())
+                        }
+                    new RouteDescriptor
+                        {
+                            Route = new Route("sitemap.xml",
                                       new RouteValueDictionary {
                                           {"area", "Onestop.Seo"},
                                           {"controller", "Sitemap"},
@@ -42,7 +58,7 @@ namespace Onestop.Seo {
                                           {"area", "Onestop.Seo"}
                                       },
                                       new MvcRouteHandler())
-                },
+                        },
                 new RouteDescriptor {
                     Route = new Route("sitemap",
                                       new RouteValueDictionary {

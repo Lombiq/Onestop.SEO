@@ -1,0 +1,13 @@
+﻿@model Onestop.Seo.Models.SeoGlobalSettingsPart
+
+<fieldset>
+    <ol>
+        <li>
+            @Html.LabelFor(m => m.RobotsTxtText, T("Robots.txt Text"))
+            @Html.TextAreaFor(m => m.RobotsTxtText, new { @class = "text large tokenized" })
+            @Html.ValidationMessageFor(m => m.RobotsTxtText)
+        </li>
+    </ol>
+</fieldset>
+
+@Display.TokenHint()

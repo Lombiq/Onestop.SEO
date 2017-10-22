@@ -155,5 +155,10 @@ namespace Onestop.Seo.Models {
             get { return this.Retrieve(x => x.KeywordsOverrideMaxLength, default(int), true); }
             set { this.Store(x => x.KeywordsOverrideMaxLength, value, true); }
         }
+
+        public string RobotsTxtText {
+            get { return this.Retrieve(x => x.RobotsTxtText, default(string), true); }
+            set { this.Store(x => x.RobotsTxtText, value, true); }
+        }
     }
 }

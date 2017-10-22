@@ -35,7 +35,12 @@ namespace Onestop.Seo.Drivers {
                              () => shapeHelper.EditorTemplate(
                                  TemplateName: "Parts.SeoGlobalSettings.OtherSettings",
                                  Model: part,
-                                 Prefix: Prefix))
+                                 Prefix: Prefix)),
+                ContentShape("Parts_SeoGlobalSettings_RobotsTxt_Edit",
+                            () => shapeHelper.EditorTemplate(
+                                TemplateName: "Parts.SeoGlobalSettings.RobotsTxt",
+                                Model: part,
+                                Prefix: Prefix))
                 );
         }
 
@@ -56,6 +61,7 @@ namespace Onestop.Seo.Drivers {
             element.SetAttributeValue("TitleOverrideMaxLength", part.TitleOverrideMaxLength);
             element.SetAttributeValue("DescriptionOverrideMaxLength", part.DescriptionOverrideMaxLength);
             element.SetAttributeValue("KeywordsOverrideMaxLength", part.KeywordsOverrideMaxLength);
+            element.SetAttributeValue("RobotsTxtText", part.RobotsTxtText);
         }
 
         protected override void Importing(SeoGlobalSettingsPart part, ImportContentContext context) {
@@ -70,6 +76,7 @@ namespace Onestop.Seo.Drivers {
             context.ImportAttribute(partName, "TitleOverrideMaxLength", value => part.TitleOverrideMaxLength = int.Parse(value));
             context.ImportAttribute(partName, "DescriptionOverrideMaxLength", value => part.DescriptionOverrideMaxLength = int.Parse(value));
             context.ImportAttribute(partName, "KeywordsOverrideMaxLength", value => part.KeywordsOverrideMaxLength = int.Parse(value));
+            context.ImportAttribute(partName, "RobotsTxtText", value => part.RobotsTxtText = value);
         }
     }
 }

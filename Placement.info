@@ -4,7 +4,8 @@
          Parts_SeoGlobalSettings_TitlePatterns_Edit="Content:2"
          Parts_SeoGlobalSettings_DescriptionPatterns_Edit="Content:3"
          Parts_SeoGlobalSettings_KeywordsPatterns_Edit="Content:4"
-         Parts_SeoGlobalSettings_OtherSettings_Edit="Content:5"/>
+         Parts_SeoGlobalSettings_OtherSettings_Edit="Content:5"
+         Parts_SeoGlobalSettings_RobotsTxt_Edit="Content:6" />
 
   <!--Rewriters-->
   <Match DisplayType="SeoSummaryAdmin-TitleRewriter">
