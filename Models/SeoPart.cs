@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Orchard.ContentManagement;
+﻿using Orchard.ContentManagement;
 using Orchard.ContentManagement.Records;
 using Orchard.ContentManagement.Utilities;
 using Orchard.Data.Conventions;
-using Orchard.ContentManagement.Utilities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Onestop.Seo.Models {
+namespace Onestop.Seo.Models
+{
     public class SeoPart : ContentPart<SeoPartRecord> {
         private readonly LazyField<ISeoGlobalSettings> _globalSettings = new LazyField<ISeoGlobalSettings>();
         public LazyField<ISeoGlobalSettings> GlobalSettingsField { get { return _globalSettings; } }
