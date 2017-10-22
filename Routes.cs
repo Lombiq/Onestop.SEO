@@ -44,7 +44,7 @@ namespace Onestop.Seo {
                                 new RouteValueDictionary(),
                                 new RouteValueDictionary { { "area", "Onestop.Seo" } },
                                 new MvcRouteHandler())
-                        }
+                        },
                     new RouteDescriptor
                         {
                             Route = new Route("sitemap.xml",
