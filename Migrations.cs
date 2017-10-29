@@ -96,6 +96,16 @@ namespace Onestop.Seo {
 
         public int UpdateFrom4()
         {
+            ContentDefinitionManager.AlterPartDefinition(typeof(SeoPart).Name,
+                builder => builder
+                    .WithDescription("Provides settings for search engine optimization.")
+                );
+
+            return 5;
+        }
+
+        public int UpdateFrom5()
+        {
             SchemaBuilder.AlterTable(typeof(SeoPartRecord).Name,
                 table =>
                 {
@@ -103,18 +113,7 @@ namespace Onestop.Seo {
                     table.AddColumn<string>("HTMLCardOverride", column => column.WithLength(2048));
                 });
 
-            return 5;
-        }
-
-        public int UpdateFrom5()
-        {
-            ContentDefinitionManager.AlterPartDefinition(typeof(SeoPart).Name,
-                builder => builder
-                    .WithDescription("Provides settings for search engine optimization.")
-                );
-
             return 6;
         }
-
     }
 }
