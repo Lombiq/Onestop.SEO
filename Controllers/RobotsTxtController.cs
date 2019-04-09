@@ -2,6 +2,7 @@
 using Orchard.Environment;
 using Orchard.Tokens;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Web.Mvc;
 
 namespace Onestop.Seo.Controllers {
@@ -16,11 +17,6 @@ namespace Onestop.Seo.Controllers {
             _tokenizer = tokenizer;
         }
 
-        public string Index() {
-            return _tokenizer.Replace(
-                _seoSettingsManager.GetGlobalSettings().RobotsTxtText,
-                new Dictionary<string, object>(),
-                new ReplaceOptions { Encoding = ReplaceOptions.NoEncode });
-        }
+        public ActionResult Index() => Content(_seoSettingsManager.GetGlobalSettings().RobotsTxtText, MediaTypeNames.Text.Plain);
     }
 }
