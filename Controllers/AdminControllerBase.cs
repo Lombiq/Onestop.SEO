@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Onestop.Seo.Models;
 using Onestop.Seo.Services;
 using Onestop.Seo.ViewModels;
 using Orchard;
 using Orchard.ContentManagement;
-using Orchard.Mvc;
 using Orchard.Data;
 using Orchard.Localization;
+using Orchard.Mvc;
 using Orchard.Security;
-using Orchard.Settings;
 using Orchard.UI.Admin;
 
 namespace Onestop.Seo.Controllers {
