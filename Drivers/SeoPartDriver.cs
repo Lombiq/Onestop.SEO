@@ -20,38 +20,52 @@ namespace Onestop.Seo.Drivers {
 
 
         protected override DriverResult Display(SeoPart part, string displayType, dynamic shapeHelper) {
-            return Editor(part, shapeHelper);
+            return Editor(part, displayType, shapeHelper);
         }
 
-        protected override DriverResult Editor(SeoPart part, dynamic shapeHelper) {
+        protected DriverResult Editor(SeoPart part, string displayType, dynamic shapeHelper) {
             if (!_authorizer.Authorize(Permissions.ManageSeo, part)) return null;
 
-            return Combined(
+            var shapes = Combined(
                 ContentShape("Parts_Seo_SeoSummaryAdmin_Edit",
                     () => shapeHelper.EditorTemplate(
-                            TemplateName: "Parts.Seo.SeoSummaryAdmin",
-                            Model: part,
-                            Prefix: Prefix)),
-                ContentShape("Parts_Seo_TitleOverride_SeoSummaryAdmin_Edit",
-                    () => shapeHelper.EditorTemplate(
-                            TemplateName: "Parts.Seo.TitleOverride.SeoSummaryAdmin",
-                            Model: part,
-                            Prefix: Prefix)),
-                ContentShape("Parts_Seo_DescriptionOverride_SeoSummaryAdmin_Edit",
-                    () => shapeHelper.EditorTemplate(
-                            TemplateName: "Parts.Seo.DescriptionOverride.SeoSummaryAdmin",
-                            Model: part,
-                            Prefix: Prefix)),
-                ContentShape("Parts_Seo_KeywordsOverride_SeoSummaryAdmin_Edit",
-                    () => shapeHelper.EditorTemplate(
-                            TemplateName: "Parts.Seo.KeywordsOverride.SeoSummaryAdmin",
-                            Model: part,
-                            Prefix: Prefix)),
+                        TemplateName: "Parts.Seo.SeoSummaryAdmin",
+                        Model: part,
+                        Prefix: Prefix)),
                 ContentShape("Parts_Seo_Edit", // Generic editor, not shown by default for any content types
                     () => shapeHelper.EditorTemplate(
-                            TemplateName: "Parts.Seo",
-                            Model: part,
-                            Prefix: Prefix)));
+                        TemplateName: "Parts.Seo",
+                        Model: part,
+                        Prefix: Prefix)));
+
+            switch (displayType) {
+                case "SeoSummaryAdmin-TitleRewriter":
+                    shapes = Combined(shapes,
+                        ContentShape("Parts_Seo_TitleOverride_SeoSummaryAdmin_Edit",
+                            () => shapeHelper.EditorTemplate(
+                                TemplateName: "Parts.Seo.TitleOverride.SeoSummaryAdmin",
+                                Model: part,
+                                Prefix: Prefix).Location("Content:1")));
+                    break;
+                case "SeoSummaryAdmin-DescriptionRewriter":
+                    shapes = Combined(shapes,
+                        ContentShape("Parts_Seo_DescriptionOverride_SeoSummaryAdmin_Edit",
+                            () => shapeHelper.EditorTemplate(
+                                TemplateName: "Parts.Seo.DescriptionOverride.SeoSummaryAdmin",
+                                Model: part,
+                                Prefix: Prefix).Location("Content:1")));
+                    break;
+                case "SeoSummaryAdmin-KeywordsRewriter":
+                    shapes = Combined(shapes,
+                        ContentShape("Parts_Seo_KeywordsOverride_SeoSummaryAdmin_Edit",
+                            () => shapeHelper.EditorTemplate(
+                                TemplateName: "Parts.Seo.KeywordsOverride.SeoSummaryAdmin",
+                                Model: part,
+                                Prefix: Prefix).Location("Content:1")));
+                    break;
+            }
+
+            return shapes;
         }
 
         protected override DriverResult Editor(SeoPart part, IUpdateModel updater, dynamic shapeHelper) {
