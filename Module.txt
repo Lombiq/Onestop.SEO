@@ -3,7 +3,7 @@ AntiForgery: enabled
 Author: Zoltán Lehóczky / Onestop Internet / Lombiq Technologies
 Website: https://github.com/Lombiq/Onestop.SEO
 Version: 1.0
-OrchardVersion: 1.10.4
+OrchardVersion: 1.11
 Description: Search Engine Optimization for Orchard content
 Features:
 	Onestop.Seo:
